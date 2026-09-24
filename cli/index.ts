@@ -9,12 +9,12 @@ import { add, init, type CopyResult } from "./commands.ts";
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here.endsWith(join("dist", "cli")) ? join(here, "../../registry") : join(here, "../registry");
 
-const HELP = `fronty: copy-paste components with era themes
+const HELP = `mitame: copy-paste components with era themes
 
 Usage
-  npx fronty init [--dir src/components/fronty] [--theme aqua|liquid]
-  npx fronty add <item...> [--overwrite]      e.g. add button select dialog
-  npx fronty list
+  npx mitame init [--dir src/components/mitame] [--theme aqua|liquid]
+  npx mitame add <item...> [--overwrite]      e.g. add button select dialog
+  npx mitame list
 
 Files land in your project and are yours to edit. Existing files are
 skipped unless you pass --overwrite.`;
@@ -40,7 +40,7 @@ function main() {
   if (values.help || !command) return console.log(HELP);
   if (command === "init") {
     const r = init(root, cwd, { dir: values.dir, theme: values.theme, overwrite: values.overwrite });
-    console.log(`fronty ready in ${r.config.dir} (theme: ${r.config.theme})`);
+    console.log(`mitame ready in ${r.config.dir} (theme: ${r.config.theme})`);
     report(r);
     console.log(`
 Next:
@@ -49,7 +49,7 @@ Next:
        @import "./${r.config.dir.replace(/^src\//, "")}/themes/${THEMES[r.config.theme]}.css";
      (Tailwind users: also @import ".../themes/tailwind.css" after tailwindcss.)
   2. Set the theme: <html data-theme="${r.config.theme}">
-  3. Add components: npx fronty add button card`);
+  3. Add components: npx mitame add button card`);
     return;
   }
   if (command === "add") {
@@ -67,6 +67,6 @@ Next:
 try {
   main();
 } catch (e) {
-  console.error(`fronty: ${(e as Error).message}`);
+  console.error(`mitame: ${(e as Error).message}`);
   process.exitCode = 1;
 }

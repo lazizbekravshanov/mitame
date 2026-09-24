@@ -1,5 +1,5 @@
 /*
- * fronty theme: Now / liquid (2025+)
+ * mitame theme: Now / liquid (2025+)
  * Liquid glass: translucent tinted surfaces, heavy backdrop blur, bright rim light
  * on the top edge and soft, deep shadows. Tokens come from Figma (liquid.tokens.css).
  */
@@ -7,12 +7,12 @@
 
 @layer components {
   :where([data-theme="liquid"]) {
-    --fy-ring: 0 0 0 3px color-mix(in oklab, var(--fy-accent) 38%, transparent);
-    --fy-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 55%);
-    --fy-rim: inset 0 1px 0 0 var(--fy-glass-highlight), inset 0 -1px 0 0 rgb(255 255 255 / 0.1),
-      inset 0 0 0 0.5px var(--fy-glass-edge);
-    --fy-lift: 0 1px 2px rgb(0 0 0 / 0.06), 0 16px 48px -12px var(--fy-glass-shadow);
-    --fy-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --mi-ring: 0 0 0 3px color-mix(in oklab, var(--mi-accent) 38%, transparent);
+    --mi-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 55%);
+    --mi-rim: inset 0 1px 0 0 var(--mi-glass-highlight), inset 0 -1px 0 0 rgb(255 255 255 / 0.1),
+      inset 0 0 0 0.5px var(--mi-glass-edge);
+    --mi-lift: 0 1px 2px rgb(0 0 0 / 0.06), 0 16px 48px -12px var(--mi-glass-shadow);
+    --mi-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
 
   /* ---------- the glass material ---------- */
@@ -25,30 +25,30 @@
       [data-slot="popover-content"],
       [data-slot="toast"]
     ) {
-    background: var(--fy-sheen), var(--fy-glass-tint);
-    backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-    border: 1px solid var(--fy-glass-edge);
-    box-shadow: var(--fy-rim), var(--fy-lift);
+    background: var(--mi-sheen), var(--mi-glass-tint);
+    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    border: 1px solid var(--mi-glass-edge);
+    box-shadow: var(--mi-rim), var(--mi-lift);
   }
-  :where([data-theme="liquid"]) [data-slot="card"] { border-radius: var(--fy-radius-lg); }
+  :where([data-theme="liquid"]) [data-slot="card"] { border-radius: var(--mi-radius-lg); }
   :where([data-theme="liquid"]) [data-slot="dialog-panel"] {
     border-radius: 28px;
-    background: var(--fy-sheen), var(--fy-glass-tint-strong);
+    background: var(--mi-sheen), var(--mi-glass-tint-strong);
   }
   :where([data-theme="liquid"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"]) {
-    border-radius: var(--fy-radius-md);
-    background: var(--fy-sheen), var(--fy-glass-tint-strong);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-sheen), var(--mi-glass-tint-strong);
   }
   :where([data-theme="liquid"]) [data-slot="toast"] {
-    border-radius: var(--fy-radius-md);
-    background: var(--fy-sheen), var(--fy-glass-tint-strong);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-sheen), var(--mi-glass-tint-strong);
   }
 
   /* Surfaces grow in from the anchor side */
   :where([data-theme="liquid"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
-    transition: opacity var(--fy-duration-fast) var(--fy-ease), scale var(--fy-duration) var(--fy-ease),
-      display var(--fy-duration) allow-discrete, overlay var(--fy-duration) allow-discrete;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), scale var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
     opacity: 0;
     scale: 0.96;
   }
@@ -59,153 +59,153 @@
   }
 
   /* ---------- Button ---------- */
-  :where([data-theme="liquid"]) .fy-button {
-    border-radius: var(--fy-radius-full);
+  :where([data-theme="liquid"]) .mi-button {
+    border-radius: var(--mi-radius-full);
     border: 1px solid transparent;
-    color: var(--fy-fg);
-    transition: background-color var(--fy-duration-fast) var(--fy-ease), box-shadow var(--fy-duration-fast) var(--fy-ease),
-      scale var(--fy-duration-fast) var(--fy-ease);
+    color: var(--mi-fg);
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), box-shadow var(--mi-duration-fast) var(--mi-ease),
+      scale var(--mi-duration-fast) var(--mi-ease);
   }
-  :where([data-theme="liquid"]) .fy-button:active:not(:disabled) { scale: 0.97; }
-  :where([data-theme="liquid"]) .fy-button:focus-visible { outline: none; box-shadow: var(--fy-rim), var(--fy-ring); }
+  :where([data-theme="liquid"]) .mi-button:active:not(:disabled) { scale: 0.97; }
+  :where([data-theme="liquid"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-rim), var(--mi-ring); }
 
-  :where([data-theme="liquid"]) .fy-button[data-variant="secondary"] {
-    background: var(--fy-sheen), var(--fy-glass-tint);
-    backdrop-filter: blur(12px) saturate(var(--fy-glass-saturate));
-    -webkit-backdrop-filter: blur(12px) saturate(var(--fy-glass-saturate));
-    border-color: var(--fy-glass-edge);
-    box-shadow: var(--fy-rim), 0 1px 3px rgb(0 0 0 / 0.08);
+  :where([data-theme="liquid"]) .mi-button[data-variant="secondary"] {
+    background: var(--mi-sheen), var(--mi-glass-tint);
+    backdrop-filter: blur(12px) saturate(var(--mi-glass-saturate));
+    -webkit-backdrop-filter: blur(12px) saturate(var(--mi-glass-saturate));
+    border-color: var(--mi-glass-edge);
+    box-shadow: var(--mi-rim), 0 1px 3px rgb(0 0 0 / 0.08);
   }
   /* Primary: a colored gel with the Aqua shine on top. */
-  :where([data-theme="liquid"]) .fy-button:is([data-variant="primary"], [data-variant="danger"]) {
-    --fy-tone: var(--fy-accent);
-    color: var(--fy-accent-fg);
+  :where([data-theme="liquid"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]) {
+    --mi-tone: var(--mi-accent);
+    color: var(--mi-accent-fg);
     background: linear-gradient(180deg, rgb(255 255 255 / 0.38), rgb(255 255 255 / 0.06) 50%, rgb(255 255 255 / 0) 51%),
-      var(--fy-tone);
-    border-color: color-mix(in oklab, var(--fy-tone) 70%, black);
+      var(--mi-tone);
+    border-color: color-mix(in oklab, var(--mi-tone) 70%, black);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), 0 1px 2px rgb(0 0 0 / 0.12),
-      0 6px 18px -6px color-mix(in oklab, var(--fy-tone) 70%, transparent);
+      0 6px 18px -6px color-mix(in oklab, var(--mi-tone) 70%, transparent);
   }
-  :where([data-theme="liquid"]) .fy-button[data-variant="danger"] { --fy-tone: var(--fy-danger); }
-  :where([data-theme="liquid"]) .fy-button:is([data-variant="primary"], [data-variant="danger"]):focus-visible {
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), var(--fy-ring);
+  :where([data-theme="liquid"]) .mi-button[data-variant="danger"] { --mi-tone: var(--mi-danger); }
+  :where([data-theme="liquid"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]):focus-visible {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), var(--mi-ring);
   }
-  :where([data-theme="liquid"]) .fy-button[data-variant="ghost"] { background: transparent; }
+  :where([data-theme="liquid"]) .mi-button[data-variant="ghost"] { background: transparent; }
 
   /* ---------- Inputs (field, select trigger) ---------- */
   :where([data-theme="liquid"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border-radius: var(--fy-radius-sm);
-    border: 1px solid var(--fy-border);
-    background: var(--fy-glass-tint);
+    border-radius: var(--mi-radius-sm);
+    border: 1px solid var(--mi-border);
+    background: var(--mi-glass-tint);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06);
-    transition: border-color var(--fy-duration-fast), box-shadow var(--fy-duration-fast), background-color var(--fy-duration-fast);
+    transition: border-color var(--mi-duration-fast), box-shadow var(--mi-duration-fast), background-color var(--mi-duration-fast);
   }
-  :where([data-theme="liquid"]) [data-slot="field-input"]::placeholder { color: var(--fy-fg-muted); }
+  :where([data-theme="liquid"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
   :where([data-theme="liquid"]) :is([data-slot="field-input"]:focus-visible, [data-slot="select-trigger"]:focus-visible) {
     outline: none;
-    border-color: var(--fy-accent);
-    background: var(--fy-glass-tint-strong);
-    box-shadow: var(--fy-ring);
+    border-color: var(--mi-accent);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-ring);
   }
-  :where([data-theme="liquid"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--fy-danger); }
+  :where([data-theme="liquid"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
   :where([data-theme="liquid"]) [data-slot="field"][data-invalid] [data-slot="field-input"]:focus-visible {
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--fy-danger) 30%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--mi-danger) 30%, transparent);
   }
-  :where([data-theme="liquid"]) [data-slot="select-chevron"] { color: var(--fy-fg-muted); }
+  :where([data-theme="liquid"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
 
   /* ---------- Items (select + menu) ---------- */
   :where([data-theme="liquid"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
     border-radius: 7px;
-    transition: background-color var(--fy-duration-fast);
+    transition: background-color var(--mi-duration-fast);
   }
   /* Mouse hover moves focus onto items (lib/pointer-focus), so :focus is the one highlight. */
   :where([data-theme="liquid"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
-    background: var(--fy-accent);
-    color: var(--fy-accent-fg);
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
   }
-  :where([data-theme="liquid"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--fy-danger); }
-  :where([data-theme="liquid"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--fy-danger); }
-  :where([data-theme="liquid"]) [data-slot="menu-separator"] { background: var(--fy-border); }
+  :where([data-theme="liquid"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="liquid"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); }
+  :where([data-theme="liquid"]) [data-slot="menu-separator"] { background: var(--mi-border); }
 
   /* ---------- Checkbox ---------- */
   :where([data-theme="liquid"]) [data-slot="checkbox-box"] {
     border-radius: 6px;
-    border: 1px solid var(--fy-border);
-    background: var(--fy-glass-tint);
+    border: 1px solid var(--mi-border);
+    background: var(--mi-glass-tint);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06);
-    color: var(--fy-accent-fg);
-    transition: background-color var(--fy-duration-fast), border-color var(--fy-duration-fast);
+    color: var(--mi-accent-fg);
+    transition: background-color var(--mi-duration-fast), border-color var(--mi-duration-fast);
   }
   :where([data-theme="liquid"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
-    border-color: color-mix(in oklab, var(--fy-accent) 70%, black);
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.35), rgb(255 255 255 / 0) 55%), var(--fy-accent);
+    border-color: color-mix(in oklab, var(--mi-accent) 70%, black);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.35), rgb(255 255 255 / 0) 55%), var(--mi-accent);
   }
-  :where([data-theme="liquid"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--fy-ring); }
+  :where([data-theme="liquid"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
 
   /* ---------- Switch ---------- */
   :where([data-theme="liquid"]) [data-slot="switch-track"] {
-    border-radius: var(--fy-radius-full);
-    background: color-mix(in oklab, var(--fy-fg) 14%, transparent);
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 14%, transparent);
     box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.12);
-    transition: background-color var(--fy-duration) var(--fy-ease);
+    transition: background-color var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="liquid"]) [data-slot="switch-thumb"] {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     background: linear-gradient(180deg, #fff, #f1f2f5);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.18), 0 3px 8px rgb(0 0 0 / 0.12), inset 0 0 0 0.5px rgb(0 0 0 / 0.04);
-    transition: transform var(--fy-duration) var(--fy-ease), width var(--fy-duration) var(--fy-ease);
+    transition: transform var(--mi-duration) var(--mi-ease), width var(--mi-duration) var(--mi-ease);
   }
-  :where([data-theme="liquid"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--fy-accent); }
-  :where([data-theme="liquid"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--fy-ring); }
+  :where([data-theme="liquid"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
+  :where([data-theme="liquid"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
 
   /* ---------- Slider ---------- */
   :where([data-theme="liquid"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    border-radius: var(--fy-radius-full);
-    background: linear-gradient(90deg, var(--fy-accent) var(--fy-slider-fill), color-mix(in oklab, var(--fy-fg) 14%, transparent) var(--fy-slider-fill));
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
   }
   :where([data-theme="liquid"]) [data-slot="slider"]::-moz-range-track {
-    border-radius: var(--fy-radius-full);
-    background: linear-gradient(90deg, var(--fy-accent) var(--fy-slider-fill), color-mix(in oklab, var(--fy-fg) 14%, transparent) var(--fy-slider-fill));
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
   }
   :where([data-theme="liquid"]) [data-slot="slider"]::-webkit-slider-thumb {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     border: 0;
     background: linear-gradient(180deg, #fff, #f1f2f5);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 4px 10px rgb(0 0 0 / 0.14);
   }
   :where([data-theme="liquid"]) [data-slot="slider"]::-moz-range-thumb {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     border: 0;
     background: linear-gradient(180deg, #fff, #f1f2f5);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 4px 10px rgb(0 0 0 / 0.14);
   }
   :where([data-theme="liquid"]) [data-slot="slider"]:focus-visible { outline: none; }
-  :where([data-theme="liquid"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--fy-ring); }
-  :where([data-theme="liquid"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--fy-ring); }
+  :where([data-theme="liquid"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="liquid"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
 
   /* ---------- Tabs (segmented control) ---------- */
   :where([data-theme="liquid"]) [data-slot="tabs-list"] {
-    border-radius: var(--fy-radius-full);
-    background: color-mix(in oklab, var(--fy-fg) 8%, transparent);
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 8%, transparent);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.08);
   }
   :where([data-theme="liquid"]) [data-slot="tabs-trigger"] {
-    border-radius: var(--fy-radius-full);
-    color: var(--fy-fg-muted);
-    transition: background-color var(--fy-duration) var(--fy-ease), color var(--fy-duration-fast), box-shadow var(--fy-duration);
+    border-radius: var(--mi-radius-full);
+    color: var(--mi-fg-muted);
+    transition: background-color var(--mi-duration) var(--mi-ease), color var(--mi-duration-fast), box-shadow var(--mi-duration);
   }
   :where([data-theme="liquid"]) [data-slot="tabs-trigger"][data-state="active"] {
-    color: var(--fy-fg);
-    background: var(--fy-sheen), var(--fy-glass-tint-strong);
-    box-shadow: var(--fy-rim), 0 1px 3px rgb(0 0 0 / 0.12);
+    color: var(--mi-fg);
+    background: var(--mi-sheen), var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-rim), 0 1px 3px rgb(0 0 0 / 0.12);
   }
-  :where([data-theme="liquid"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--fy-ring); }
+  :where([data-theme="liquid"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
 
   /* ---------- Tooltip ---------- */
   :where([data-theme="liquid"]) [data-slot="tooltip"] {
-    border-radius: var(--fy-radius-sm);
+    border-radius: var(--mi-radius-sm);
     color: #fff;
     background: rgb(20 22 28 / 0.78);
     backdrop-filter: blur(16px) saturate(160%);
@@ -220,8 +220,8 @@
     -webkit-backdrop-filter: blur(6px);
   }
   :where([data-theme="liquid"]) [data-slot="dialog"] {
-    transition: opacity var(--fy-duration) var(--fy-ease), scale var(--fy-duration) var(--fy-ease),
-      display var(--fy-duration) allow-discrete, overlay var(--fy-duration) allow-discrete;
+    transition: opacity var(--mi-duration) var(--mi-ease), scale var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
     opacity: 0;
     scale: 0.96;
   }
@@ -231,42 +231,42 @@
     @starting-style { opacity: 0; scale: 0.96; }
   }
   :where([data-theme="liquid"]) [data-slot="dialog-close-icon"] {
-    border-radius: var(--fy-radius-full);
-    background: color-mix(in oklab, var(--fy-fg) 7%, transparent);
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 7%, transparent);
   }
-  :where([data-theme="liquid"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--fy-ring); }
+  :where([data-theme="liquid"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
 
   /* ---------- Toast ---------- */
-  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: var(--fy-accent); }
-  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--fy-success); }
-  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--fy-danger); }
-  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--fy-warning); }
+  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: var(--mi-accent); }
+  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="liquid"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
   :where([data-theme="liquid"]) [data-slot="toast"] {
-    animation: fy-liquid-toast-in var(--fy-duration) var(--fy-ease);
+    animation: mi-liquid-toast-in var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="liquid"]) [data-slot="toast-action"] {
-    border-radius: var(--fy-radius-full);
-    border: 1px solid var(--fy-glass-edge);
-    color: var(--fy-accent);
-    background: var(--fy-glass-tint);
+    border-radius: var(--mi-radius-full);
+    border: 1px solid var(--mi-glass-edge);
+    color: var(--mi-accent);
+    background: var(--mi-glass-tint);
   }
-  :where([data-theme="liquid"]) [data-slot="toast-close"] { border-radius: var(--fy-radius-full); }
+  :where([data-theme="liquid"]) [data-slot="toast-close"] { border-radius: var(--mi-radius-full); }
 
   /* ---------- Hover (real pointers only, so taps on touch screens never stick) ---------- */
   @media (hover: hover) {
-    :where([data-theme="liquid"]) .fy-button[data-variant="secondary"]:hover:not(:disabled) {
-      background: var(--fy-sheen), var(--fy-glass-tint-strong);
+    :where([data-theme="liquid"]) .mi-button[data-variant="secondary"]:hover:not(:disabled) {
+      background: var(--mi-sheen), var(--mi-glass-tint-strong);
     }
-    :where([data-theme="liquid"]) .fy-button:is([data-variant="primary"], [data-variant="danger"]):hover:not(:disabled) {
+    :where([data-theme="liquid"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]):hover:not(:disabled) {
       background: linear-gradient(180deg, rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.1) 50%, rgb(255 255 255 / 0) 51%),
-        var(--fy-tone);
+        var(--mi-tone);
     }
-    :where([data-theme="liquid"]) .fy-button[data-variant="ghost"]:hover:not(:disabled) { background: var(--fy-glass-tint); }
-    :where([data-theme="liquid"]) [data-slot="dialog-close-icon"]:hover { background: color-mix(in oklab, var(--fy-fg) 12%, transparent); }
-    :where([data-theme="liquid"]) [data-slot="toast-close"]:hover { background: color-mix(in oklab, var(--fy-fg) 8%, transparent); }
+    :where([data-theme="liquid"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { background: var(--mi-glass-tint); }
+    :where([data-theme="liquid"]) [data-slot="dialog-close-icon"]:hover { background: color-mix(in oklab, var(--mi-fg) 12%, transparent); }
+    :where([data-theme="liquid"]) [data-slot="toast-close"]:hover { background: color-mix(in oklab, var(--mi-fg) 8%, transparent); }
   }
 
-  @keyframes fy-liquid-toast-in {
+  @keyframes mi-liquid-toast-in {
     from { opacity: 0; translate: 0 8px; scale: 0.97; }
   }
 }

@@ -11,7 +11,7 @@ export const THEMES = [
 export type ThemeId = "aqua" | "liquid";
 export type Mode = "system" | "light" | "dark";
 
-const EVENT = "fronty:theme";
+const EVENT = "mitame:theme";
 
 function read(): { theme: ThemeId; mode: Mode } {
   const el = document.documentElement;
@@ -32,7 +32,7 @@ function store(key: string, value: string | null) {
 
 export function setTheme(theme: ThemeId) {
   document.documentElement.dataset.theme = theme;
-  store("fronty-theme", theme);
+  store("mitame-theme", theme);
   window.dispatchEvent(new Event(EVENT));
 }
 
@@ -40,7 +40,7 @@ export function setMode(mode: Mode) {
   const el = document.documentElement;
   if (mode === "system") delete el.dataset.mode;
   else el.dataset.mode = mode;
-  store("fronty-mode", mode === "system" ? null : mode);
+  store("mitame-mode", mode === "system" ? null : mode);
   window.dispatchEvent(new Event(EVENT));
 }
 

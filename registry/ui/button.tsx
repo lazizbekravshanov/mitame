@@ -14,7 +14,7 @@ export function Button({ variant = "secondary", size = "md", type = "button", cl
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn("fy-button", className)}
+      className={cn("mi-button", className)}
       {...props}
     />
   );

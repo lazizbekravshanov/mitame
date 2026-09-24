@@ -12,7 +12,7 @@ export interface SliderProps
   ref?: React.Ref<HTMLInputElement>;
 }
 
-/** A native range input. The filled part of the track reads `--fy-slider-fill`. */
+/** A native range input. The filled part of the track reads `--mi-slider-fill`. */
 export function Slider({ value, defaultValue, onValueChange, min = 0, max = 100, className, style, ...props }: SliderProps) {
   const [current, setCurrent] = useControllable(value, defaultValue ?? min, onValueChange);
   const fill = max > min ? ((current - min) / (max - min)) * 100 : 0;
@@ -24,8 +24,8 @@ export function Slider({ value, defaultValue, onValueChange, min = 0, max = 100,
       max={max}
       value={current}
       onChange={(e) => setCurrent(e.currentTarget.valueAsNumber)}
-      className={cn("fy-slider", className)}
-      style={{ "--fy-slider-fill": `${fill}%`, ...style } as CSSProperties}
+      className={cn("mi-slider", className)}
+      style={{ "--mi-slider-fill": `${fill}%`, ...style } as CSSProperties}
       {...props}
     />
   );

@@ -1,4 +1,4 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@fronty/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@mitame/ui/popover";
 
 export default function PopoverDemo() {
   return (

@@ -1,5 +1,5 @@
-import { Button } from "@fronty/ui/button";
-import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "@fronty/ui/card";
+import { Button } from "@mitame/ui/button";
+import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "@mitame/ui/card";
 
 export default function CardDemo() {
   return (

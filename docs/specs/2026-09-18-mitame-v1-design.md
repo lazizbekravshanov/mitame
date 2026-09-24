@@ -1,17 +1,17 @@
-# fronty v1 design
+# mitame v1 design
 
 Date: 2026-09-18
 Status: `now/liquid` and `y2k/aqua` (default) built
 
-## What fronty is
+## What mitame is
 
-A copy-paste React component library for the web that brings old UI back to life with cool minimalism. Every component comes in era themes, from 1984 Mac to 2026 liquid glass. People run `npx fronty add button` and the source lands in their project, so they own it and can change anything. Lighter than shadcn: zero runtime dependencies besides React.
+A copy-paste React component library for the web that brings old UI back to life with cool minimalism. Every component comes in era themes, from 1984 Mac to 2026 liquid glass. People run `npx mitame add button` and the source lands in their project, so they own it and can change anything. Lighter than shadcn: zero runtime dependencies besides React.
 
 ## Decisions
 
 | Topic | Decision |
 |---|---|
-| Delivery | Copy-paste CLI. The only thing on npm is the `fronty` CLI, which carries the registry inside it (works offline, no server). |
+| Delivery | Copy-paste CLI. The only thing on npm is the `mitame` CLI, which carries the registry inside it (works offline, no server). |
 | Stack | React 19, TypeScript, Tailwind CSS v4 friendly (Tailwind is optional). |
 | Themes | One set of components, many themes. A theme is a CSS file keyed by `[data-theme="<name>"]` that styles components through `data-slot` hooks. |
 | Eras | Vintage (1984 to 1999), Y2K (2000 to 2012), Now (2025+), Remix (old structure on new material). |
@@ -33,7 +33,7 @@ registry/                 source of everything users can add
   themes/tailwind.css     optional Tailwind v4 bridge (@theme inline)
   themes/now/liquid.css   hand written material, @imports liquid.tokens.css
   themes/now/liquid.tokens.css   generated from tokens/liquid.json
-cli/                      the `fronty` bin (init, add, list)
+cli/                      the `mitame` bin (init, add, list)
 tokens/liquid.json        exported from Figma variables
 icons/svg/                exported from Figma icon components
 scripts/                  build-tokens, build-icons
@@ -45,15 +45,15 @@ The old Vite library build from the skeleton is removed; the package ships `dist
 
 ## CLI
 
-- `npx fronty init`: writes `fronty.json` (`{ "dir": "src/components/fronty", "theme": "liquid" }`), copies `lib/cn.ts`, `themes/base.css`, `themes/tailwind.css` and the chosen theme.
-- `npx fronty add <item...>`: dependencies are not declared anywhere; the CLI follows each file's relative imports (and CSS `@import`s) through the registry, so `select` pulls `hooks/use-anchor-position`, `icons/chevron-down` and the rest automatically. Files keep the `ui/ lib/ hooks/ icons/ themes/` structure so relative imports just work. Existing files are skipped; `--overwrite` replaces only the items you named, never shared deps you may have edited.
-- `npx fronty list`: prints items grouped by kind.
+- `npx mitame init`: writes `mitame.json` (`{ "dir": "src/components/mitame", "theme": "liquid" }`), copies `lib/cn.ts`, `themes/base.css`, `themes/tailwind.css` and the chosen theme.
+- `npx mitame add <item...>`: dependencies are not declared anywhere; the CLI follows each file's relative imports (and CSS `@import`s) through the registry, so `select` pulls `hooks/use-anchor-position`, `icons/chevron-down` and the rest automatically. Files keep the `ui/ lib/ hooks/ icons/ themes/` structure so relative imports just work. Existing files are skipped; `--overwrite` replaces only the items you named, never shared deps you may have edited.
+- `npx mitame list`: prints items grouped by kind.
 
-The user imports the CSS once: `@import "./components/fronty/themes/base.css"; @import "./components/fronty/themes/now/liquid.css";` and sets `data-theme="liquid"` on `<html>` or any subtree.
+The user imports the CSS once: `@import "./components/mitame/themes/base.css"; @import "./components/mitame/themes/now/liquid.css";` and sets `data-theme="liquid"` on `<html>` or any subtree.
 
 ## Theme contract
 
-Every component part has `data-slot="<component>-<part>"` and state as data attributes (`data-state`, `data-disabled`, `data-variant`, `data-size`). Themes only target those. Tokens are CSS variables prefixed `--fy-`:
+Every component part has `data-slot="<component>-<part>"` and state as data attributes (`data-state`, `data-disabled`, `data-variant`, `data-size`). Themes only target those. Tokens are CSS variables prefixed `--mi-`:
 
 - color: `bg`, `fg`, `fg-muted`, `accent`, `accent-fg`, `danger`, `success`, `warning`, `border`
 - glass: `glass-tint`, `glass-tint-strong`, `glass-blur`, `glass-saturate`, `glass-highlight`, `glass-edge`, `glass-shadow`
@@ -70,7 +70,7 @@ Light and dark both ship; dark follows `prefers-color-scheme` unless `data-mode=
 - **TextField**: label, description, error, optional leading icon; wires `aria-describedby` and `aria-invalid`.
 - **Checkbox**: native input (supports `indeterminate`), custom visual.
 - **Switch**: native checkbox with `role="switch"`.
-- **Slider**: native range input, fill via a `--fy-slider-fill` custom property.
+- **Slider**: native range input, fill via a `--mi-slider-fill` custom property.
 - **Select**: button + listbox in a popover. Keyboard: arrows, Home/End, typeahead, Enter/Space, Escape. Hidden input for forms. Controlled or uncontrolled.
 - **Tabs**: segmented control style; roving focus, arrows move and activate.
 - **Menu**: trigger + popover dropdown, `menuitem` roles, roving focus, typeahead, closes on select.
@@ -82,7 +82,7 @@ Light and dark both ship; dark follows `prefers-color-scheme` unless `data-mode=
 
 ## Aqua (y2k/aqua)
 
-Gel material on buttons, select, tabs, checkbox and switch (a gloss layer, a bottom glow and a `--fy-tone` color, so one rule recolors any gel). Pinstripes under frosted glass on cards, dialogs and popovers. Select gets the blue ⇅ popup cap from CSS (the component's chevron is hidden). Pale yellow help tag tooltips, smoky dark toasts, a red gel close light on dialogs, blue glow focus ring. Dark mode is "midnight aqua" (graphite gel, dimmer pinstripes, same blue); `data-mode="light"` gives strict 2001 light only. Tokens: Figma collection `aqua` with Light and Dark modes, same names as `liquid` (a test enforces the contract).
+Gel material on buttons, select, tabs, checkbox and switch (a gloss layer, a bottom glow and a `--mi-tone` color, so one rule recolors any gel). Pinstripes under frosted glass on cards, dialogs and popovers. Select gets the blue ⇅ popup cap from CSS (the component's chevron is hidden). Pale yellow help tag tooltips, smoky dark toasts, a red gel close light on dialogs, blue glow focus ring. Dark mode is "midnight aqua" (graphite gel, dimmer pinstripes, same blue); `data-mode="light"` gives strict 2001 light only. Tokens: Figma collection `aqua` with Light and Dark modes, same names as `liquid` (a test enforces the contract).
 
 ## Mobile and touch
 
@@ -105,4 +105,4 @@ Vitest + Testing Library in jsdom for behavior and a11y wiring of every componen
 
 ## Out of scope for v1
 
-Other themes, Code Connect, desktop app patterns (right click context menus, keyboard shortcut hints, windows, menu bars, docks; fronty is web only), a docs website, RTL polish, form library integrations, nesting different themes inside each other (selectors are scoped with `:where([data-theme])` today; `@scope` can fence themes later).
+Other themes, Code Connect, desktop app patterns (right click context menus, keyboard shortcut hints, windows, menu bars, docks; mitame is web only), a docs website, RTL polish, form library integrations, nesting different themes inside each other (selectors are scoped with `:where([data-theme])` today; `@scope` can fence themes later).

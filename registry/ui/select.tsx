@@ -94,7 +94,7 @@ export function Select({
   }
 
   return (
-    <div data-slot="select" className={cn("fy-select", className)}>
+    <div data-slot="select" className={cn("mi-select", className)}>
       <button
         ref={trigger}
         id={id}
@@ -119,7 +119,7 @@ export function Select({
         role="listbox"
         tabIndex={-1}
         data-slot="select-content"
-        data-fy-floating=""
+        data-mi-floating=""
         data-state={open ? "open" : "closed"}
         onKeyDown={onListKeyDown}
       >

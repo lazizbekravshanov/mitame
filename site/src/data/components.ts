@@ -9,7 +9,7 @@ export interface ComponentDoc {
   slug: string;
   name: string;
   description: string;
-  /** What `npx fronty add` takes. */
+  /** What `npx mitame add` takes. */
   add: string;
   /** Built on this platform feature. */
   native: string;

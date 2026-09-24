@@ -1,4 +1,4 @@
-import { Switch } from "@fronty/ui/switch";
+import { Switch } from "@mitame/ui/switch";
 
 export default function SwitchDemo() {
   return (

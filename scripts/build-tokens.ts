@@ -25,7 +25,7 @@ const FONT_RELATIVES: Record<string, string> = {
 export function cssVarName(token: string): string {
   const [group, ...rest] = token.split("/");
   const key = rest.join("-");
-  return group === "color" || group === "motion" ? `--fy-${key}` : `--fy-${group}-${key}`;
+  return group === "color" || group === "motion" ? `--mi-${key}` : `--mi-${group}-${key}`;
 }
 
 export function cssValue(token: string, value: Value): string {

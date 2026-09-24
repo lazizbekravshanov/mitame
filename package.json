@@ -1,5 +1,5 @@
 {
-  "name": "fronty",
+  "name": "mitame",
   "version": "0.1.0",
   "description": "Copy-paste React components that bring old UI back to life, from 1984 Mac to 2026 liquid glass.",
   "keywords": [
@@ -16,17 +16,17 @@
   ],
   "license": "MIT",
   "author": "Lazizbek Ravshanov",
-  "homepage": "https://github.com/lazizbekravshanov/fronty#readme",
+  "homepage": "https://github.com/lazizbekravshanov/mitame#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lazizbekravshanov/fronty.git"
+    "url": "git+https://github.com/lazizbekravshanov/mitame.git"
   },
   "bugs": {
-    "url": "https://github.com/lazizbekravshanov/fronty/issues"
+    "url": "https://github.com/lazizbekravshanov/mitame/issues"
   },
   "type": "module",
   "bin": {
-    "fronty": "./dist/cli/index.js"
+    "mitame": "./dist/cli/index.js"
   },
   "files": [
     "dist",

@@ -61,7 +61,7 @@ export function MenuTrigger({ className, onKeyDown, ...props }: HTMLAttributes<H
       data-slot="menu-trigger"
       data-variant="secondary"
       data-size="md"
-      className={cn("fy-button", className)}
+      className={cn("mi-button", className)}
       onKeyDown={(e) => {
         onKeyDown?.(e);
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -96,7 +96,7 @@ export function MenuContent({ placement = "bottom-start", className, onKeyDown, 
       role="menu"
       tabIndex={-1}
       data-slot="menu-content"
-      data-fy-floating=""
+      data-mi-floating=""
       data-state={open ? "open" : "closed"}
       className={className}
       onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {

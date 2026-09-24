@@ -1,5 +1,5 @@
-import { Button } from "@fronty/ui/button";
-import { Toaster, toast } from "@fronty/ui/toast";
+import { Button } from "@mitame/ui/button";
+import { Toaster, toast } from "@mitame/ui/toast";
 
 export default function ToastDemo() {
   return (

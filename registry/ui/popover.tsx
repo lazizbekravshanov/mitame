@@ -46,7 +46,7 @@ export function PopoverTrigger({ className, ...props }: HTMLAttributes<HTMLButto
       aria-expanded={open}
       aria-controls={id}
       data-slot="popover-trigger"
-      className={cn("fy-button", className)}
+      className={cn("mi-button", className)}
       data-variant="secondary"
       data-size="md"
       {...props}
@@ -71,7 +71,7 @@ export function PopoverContent({ placement = "bottom", className, ...props }: Po
       popover="auto"
       role="dialog"
       data-slot="popover-content"
-      data-fy-floating=""
+      data-mi-floating=""
       data-state={open ? "open" : "closed"}
       className={className}
       {...props}

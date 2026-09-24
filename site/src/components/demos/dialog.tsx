@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "@fronty/ui/dialog";
+} from "@mitame/ui/dialog";
 
 export default function DialogDemo() {
   return (

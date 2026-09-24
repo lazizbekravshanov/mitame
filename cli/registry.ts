@@ -23,7 +23,7 @@ export function resolveItem(root: string, name: string): string {
       if (existsSync(join(root, file))) return file;
     }
   }
-  throw new Error(`Unknown item "${name}". Run \`fronty list\` to see what is available.`);
+  throw new Error(`Unknown item "${name}". Run \`mitame list\` to see what is available.`);
 }
 
 /** Relative imports in a TS/TSX file and @imports in CSS. */

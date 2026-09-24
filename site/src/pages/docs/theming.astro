@@ -3,7 +3,7 @@ import CodeBlock from "../../components/CodeBlock.astro";
 import Docs from "../../layouts/Docs.astro";
 ---
 
-<Docs title="Theming" description="How fronty themes work: eras, light and dark modes, design tokens, data-slot hooks and overriding styles.">
+<Docs title="Theming" description="How mitame themes work: eras, light and dark modes, design tokens, data-slot hooks and overriding styles.">
   <h1>Theming</h1>
   <p class="lede">One set of components, many eras. A theme is a CSS file; your markup never changes.</p>
 
@@ -22,14 +22,14 @@ import Docs from "../../layouts/Docs.astro";
   <h2>Tokens</h2>
   <p>Every theme defines the same CSS variables, designed in Figma and generated into CSS. Change them anywhere:</p>
   <CodeBlock lang="css" code={`[data-theme="aqua"] {
-  --fy-accent: #e8559b;      /* pink gel, why not */
-  --fy-radius-lg: 16px;
+  --mi-accent: #e8559b;      /* pink gel, why not */
+  --mi-radius-lg: 16px;
 }`} />
   <ul>
-    <li>Color: <code class="inline-code">--fy-bg</code>, <code class="inline-code">fg</code>, <code class="inline-code">fg-muted</code>, <code class="inline-code">accent</code>, <code class="inline-code">accent-fg</code>, <code class="inline-code">danger</code>, <code class="inline-code">success</code>, <code class="inline-code">warning</code>, <code class="inline-code">border</code></li>
-    <li>Glass: <code class="inline-code">--fy-glass-tint</code>, <code class="inline-code">tint-strong</code>, <code class="inline-code">blur</code>, <code class="inline-code">saturate</code>, <code class="inline-code">highlight</code>, <code class="inline-code">edge</code>, <code class="inline-code">shadow</code></li>
-    <li>Shape and type: <code class="inline-code">--fy-radius-sm…full</code>, <code class="inline-code">--fy-space-1…8</code>, <code class="inline-code">--fy-text-xs…xl</code>, <code class="inline-code">--fy-font-sans</code>, <code class="inline-code">mono</code></li>
-    <li>Motion: <code class="inline-code">--fy-duration-fast</code>, <code class="inline-code">--fy-duration</code></li>
+    <li>Color: <code class="inline-code">--mi-bg</code>, <code class="inline-code">fg</code>, <code class="inline-code">fg-muted</code>, <code class="inline-code">accent</code>, <code class="inline-code">accent-fg</code>, <code class="inline-code">danger</code>, <code class="inline-code">success</code>, <code class="inline-code">warning</code>, <code class="inline-code">border</code></li>
+    <li>Glass: <code class="inline-code">--mi-glass-tint</code>, <code class="inline-code">tint-strong</code>, <code class="inline-code">blur</code>, <code class="inline-code">saturate</code>, <code class="inline-code">highlight</code>, <code class="inline-code">edge</code>, <code class="inline-code">shadow</code></li>
+    <li>Shape and type: <code class="inline-code">--mi-radius-sm…full</code>, <code class="inline-code">--mi-space-1…8</code>, <code class="inline-code">--mi-text-xs…xl</code>, <code class="inline-code">--mi-font-sans</code>, <code class="inline-code">mono</code></li>
+    <li>Motion: <code class="inline-code">--mi-duration-fast</code>, <code class="inline-code">--mi-duration</code></li>
   </ul>
 
   <h2>Slots and state</h2>

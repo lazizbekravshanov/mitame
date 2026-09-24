@@ -1,5 +1,5 @@
-import { SearchIcon } from "@fronty/icons/search";
-import { TextField } from "@fronty/ui/text-field";
+import { SearchIcon } from "@mitame/icons/search";
+import { TextField } from "@mitame/ui/text-field";
 
 export default function TextFieldDemo() {
   return (

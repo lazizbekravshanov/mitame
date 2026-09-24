@@ -6,10 +6,10 @@ import { THEMES, cssValue, cssVarName, tokensToCss, type TokenFile } from "../sc
 
 describe("build-tokens", () => {
   it("names and units", () => {
-    expect(cssVarName("color/fg-muted")).toBe("--fy-fg-muted");
-    expect(cssVarName("glass/tint")).toBe("--fy-glass-tint");
-    expect(cssVarName("motion/duration")).toBe("--fy-duration");
-    expect(cssVarName("space/3")).toBe("--fy-space-3");
+    expect(cssVarName("color/fg-muted")).toBe("--mi-fg-muted");
+    expect(cssVarName("glass/tint")).toBe("--mi-glass-tint");
+    expect(cssVarName("motion/duration")).toBe("--mi-duration");
+    expect(cssVarName("space/3")).toBe("--mi-space-3");
     expect(cssValue("radius/md", 12)).toBe("12px");
     expect(cssValue("glass/saturate", 180)).toBe("180%");
     expect(cssValue("motion/duration", 220)).toBe("220ms");
@@ -27,10 +27,10 @@ describe("build-tokens", () => {
     };
     const css = tokensToCss(file);
     expect(css).toContain('[data-theme="demo"] {');
-    expect(css).toContain("--fy-bg: #FFFFFF;");
+    expect(css).toContain("--mi-bg: #FFFFFF;");
     expect(css).toContain('[data-theme="demo"]:not([data-mode="light"])');
     expect(css).toContain('[data-theme="demo"][data-mode="dark"]');
-    expect(css.match(/--fy-radius-sm/g)).toHaveLength(1);
+    expect(css.match(/--mi-radius-sm/g)).toHaveLength(1);
   });
 
   it.each(Object.entries(THEMES))("the committed %s css is up to date with its Figma tokens", (name, era) => {

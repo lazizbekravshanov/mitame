@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsTrigger } from "@fronty/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@mitame/ui/tabs";
 import { setMode, setTheme, useTheme, type Mode, type ThemeId } from "../lib/theme";
 
 export default function ThemeSwitcher() {

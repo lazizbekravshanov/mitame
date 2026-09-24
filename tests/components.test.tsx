@@ -26,7 +26,7 @@ describe("Button", () => {
     expect(b.getAttribute("type")).toBe("button");
     expect(b.dataset.variant).toBe("primary");
     expect(b.dataset.size).toBe("lg");
-    expect(b.className).toBe("fy-button mine");
+    expect(b.className).toBe("mi-button mine");
   });
 });
 
@@ -72,10 +72,10 @@ describe("Slider", () => {
     const onValueChange = vi.fn();
     render(<Slider aria-label="Volume" defaultValue={25} onValueChange={onValueChange} />);
     const s = screen.getByRole("slider", { name: "Volume" }) as HTMLInputElement;
-    expect(s.style.getPropertyValue("--fy-slider-fill")).toBe("25%");
+    expect(s.style.getPropertyValue("--mi-slider-fill")).toBe("25%");
     fireEvent.change(s, { target: { value: "80" } });
     expect(onValueChange).toHaveBeenCalledWith(80);
-    expect(s.style.getPropertyValue("--fy-slider-fill")).toBe("80%");
+    expect(s.style.getPropertyValue("--mi-slider-fill")).toBe("80%");
   });
 });
 

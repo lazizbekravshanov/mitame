@@ -8,7 +8,7 @@ interface Props {
   wide?: boolean;
 }
 const { title, description } = Astro.props;
-const fullTitle = title === "fronty" ? "fronty · old UI, brought back to life" : `${title} · fronty`;
+const fullTitle = title === "mitame" ? "mitame 見た目 · old UI, brought back to life" : `${title} · mitame`;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const path = Astro.url.pathname;
 const nav = [
@@ -37,19 +37,19 @@ const nav = [
     <script is:inline>
       // Apply the saved era and mode before first paint (no flash).
       try {
-        const t = localStorage.getItem("fronty-theme");
-        const m = localStorage.getItem("fronty-mode");
+        const t = localStorage.getItem("mitame-theme");
+        const m = localStorage.getItem("mitame-mode");
         if (t === "aqua" || t === "liquid") document.documentElement.dataset.theme = t;
         if (m === "light" || m === "dark") document.documentElement.dataset.mode = m;
       } catch {}
     </script>
   </head>
-  <body class="wallpaper text-fy-fg">
+  <body class="wallpaper text-mi-fg">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50">Skip to content</a>
     <header class="site-header sticky top-0 z-40">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3">
         <div class="flex items-center gap-4 sm:gap-6">
-          <a href="/" class="text-xl font-bold tracking-tight text-fy-fg no-underline">fronty</a>
+          <a href="/" class="text-xl font-bold tracking-tight text-mi-fg no-underline">mitame</a>
           <nav aria-label="Main" class="flex items-center gap-4 sm:gap-5">
             {
               nav.map((n) => (
@@ -62,7 +62,7 @@ const nav = [
                 </a>
               ))
             }
-            <a href="https://github.com/lazizbekravshanov/fronty" class="nav-link hidden sm:inline">GitHub</a>
+            <a href="https://github.com/lazizbekravshanov/mitame" class="nav-link hidden sm:inline">GitHub</a>
           </nav>
         </div>
         <ThemeSwitcher client:load />
@@ -71,9 +71,9 @@ const nav = [
     <main id="main">
       <slot />
     </main>
-    <footer class="mx-auto max-w-6xl px-4 py-12 text-sm text-fy-fg-muted">
+    <footer class="mx-auto max-w-6xl px-4 py-12 text-sm text-mi-fg-muted">
       <p class="m-0">
-        fronty is MIT licensed. Built with fronty, on the web platform. <a class="link" href="https://github.com/lazizbekravshanov/fronty">Source on GitHub</a>.
+        mitame is MIT licensed. Built with mitame, on the web platform. <a class="link" href="https://github.com/lazizbekravshanov/mitame">Source on GitHub</a>.
       </p>
     </footer>
   </body>

@@ -33,26 +33,26 @@ const eras = [
 ];
 ---
 
-<Base title="Themes" description="fronty eras: Y2K Aqua, Now liquid glass, and Vintage and Remix coming soon. One set of React components, many looks.">
+<Base title="Themes" description="mitame eras: Y2K Aqua, Now liquid glass, and Vintage and Remix coming soon. One set of React components, many looks.">
   <section class="mx-auto max-w-6xl px-4 py-12">
     <h1 class="m-0 text-4xl font-bold tracking-tight">Themes</h1>
     <p class="lede mt-3 max-w-2xl">Every component works in every era. A theme is one CSS file keyed by <code class="inline-code">data-theme</code>; tokens are designed in Figma.</p>
     <div class="mt-8 grid gap-5 md:grid-cols-2">
       {
         eras.map((e) => (
-          <div data-theme={["aqua", "liquid"].includes(e.id) ? e.id : undefined} class="rounded-fy-lg overflow-hidden">
+          <div data-theme={["aqua", "liquid"].includes(e.id) ? e.id : undefined} class="rounded-mi-lg overflow-hidden">
             <div class="wallpaper p-5">
               <div class="panel p-6">
-                <p class="m-0 text-sm font-semibold text-fy-fg-muted">
+                <p class="m-0 text-sm font-semibold text-mi-fg-muted">
                   {e.era} · {e.years}
                 </p>
                 <h2 class="mt-1 mb-2 text-2xl font-bold">{e.id}</h2>
-                <p class="m-0 text-fy-fg-muted">{e.text}</p>
+                <p class="m-0 text-mi-fg-muted">{e.text}</p>
                 <p class="mt-4 mb-0 text-sm font-semibold">{e.status}</p>
                 {["aqua", "liquid"].includes(e.id) && (
                   <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="fy-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
-                    <span class="fy-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
+                    <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
+                    <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
                   </div>
                 )}
               </div>

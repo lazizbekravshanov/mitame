@@ -10,15 +10,15 @@ export function getStaticPaths() {
 
 const { doc } = Astro.props as { doc: ComponentDoc };
 const sources = import.meta.glob("../../../components/demos/*.tsx", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
-// Show imports the way they look in the user's project after `npx fronty add`.
-const source = (sources[`../../../components/demos/${doc.slug}.tsx`] ?? "").replaceAll("@fronty/", "@/components/fronty/");
+// Show imports the way they look in the user's project after `npx mitame add`.
+const source = (sources[`../../../components/demos/${doc.slug}.tsx`] ?? "").replaceAll("@mitame/", "@/components/mitame/");
 const index = components.findIndex((c) => c.slug === doc.slug);
 const prev = components[index - 1];
 const next = components[index + 1];
 ---
 
 <Docs title={doc.name} description={`${doc.name}: ${doc.description} A copy-paste React component with Aqua and liquid glass themes.`}>
-  <p class="mb-1 text-sm font-semibold text-fy-fg-muted">Component · {doc.native}</p>
+  <p class="mb-1 text-sm font-semibold text-mi-fg-muted">Component · {doc.native}</p>
   <h1>{doc.name}</h1>
   <p class="lede">{doc.description}</p>
 
@@ -27,7 +27,7 @@ const next = components[index + 1];
   </div>
 
   <h2>Install</h2>
-  <CodeBlock lang="bash" code={`npx fronty add ${doc.add}`} />
+  <CodeBlock lang="bash" code={`npx mitame add ${doc.add}`} />
 
   <h2>Usage</h2>
   <CodeBlock code={source} />

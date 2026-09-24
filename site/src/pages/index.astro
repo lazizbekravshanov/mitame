@@ -5,16 +5,16 @@ import TimeMachine from "../components/TimeMachine";
 import { components } from "../data/components";
 ---
 
-<Base title="fronty" description="Copy-paste React components with era themes: 2001 Aqua gel to 2026 liquid glass. Native web platform, zero dependencies besides React.">
+<Base title="mitame" description="Copy-paste React components with era themes: 2001 Aqua gel to 2026 liquid glass. Native web platform, zero dependencies besides React.">
   <section class="mx-auto max-w-6xl px-4 pt-16 pb-10 text-center md:pt-24">
-    <p class="mb-4 text-sm font-semibold tracking-wide text-fy-fg-muted uppercase">React components · era themes</p>
+    <p class="mb-4 text-sm font-semibold tracking-wide text-mi-fg-muted uppercase">mitame 見た目 · React components</p>
     <h1 class="mx-auto m-0 max-w-3xl text-5xl leading-[1.05] font-bold tracking-tight md:text-7xl">Old UI, brought back to life.</h1>
     <p class="lede mx-auto mt-6 max-w-2xl">
-      Copy-paste components that wear any era, from 2001 Aqua gel to 2026 liquid glass. You own the code. The browser does the hard parts, so there's nothing to install but React.
+      <em>Mitame</em> (見た目) is Japanese for "the way it looks". Copy-paste components that wear any era, from 2001 Aqua gel to 2026 liquid glass. You own the code, and the browser does the hard parts, so there's nothing to install but React.
     </p>
     <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="/docs" class="fy-button no-underline" data-slot="button" data-variant="primary" data-size="lg">Get started</a>
-      <a href="/docs/components/button" class="fy-button no-underline" data-slot="button" data-variant="secondary" data-size="lg">Browse components</a>
+      <a href="/docs" class="mi-button no-underline" data-slot="button" data-variant="primary" data-size="lg">Get started</a>
+      <a href="/docs/components/button" class="mi-button no-underline" data-slot="button" data-variant="secondary" data-size="lg">Browse components</a>
     </div>
   </section>
 
@@ -25,19 +25,19 @@ import { components } from "../data/components";
   <section class="mx-auto grid max-w-6xl gap-4 px-4 pb-16 md:grid-cols-3">
     <div class="panel p-6">
       <h2 class="m-0 text-lg font-semibold">Own the code</h2>
-      <p class="mt-2 mb-0 text-fy-fg-muted">
-        <code class="inline-code">npx fronty add dialog</code> puts the source in your project. Change anything. No black box in node_modules.
+      <p class="mt-2 mb-0 text-mi-fg-muted">
+        <code class="inline-code">npx mitame add dialog</code> puts the source in your project. Change anything. No black box in node_modules.
       </p>
     </div>
     <div class="panel p-6">
       <h2 class="m-0 text-lg font-semibold">Native first</h2>
-      <p class="mt-2 mb-0 text-fy-fg-muted">
+      <p class="mt-2 mb-0 text-mi-fg-muted">
         Built on <code class="inline-code">&lt;dialog&gt;</code>, the Popover API and real form inputs. Zero runtime dependencies besides React.
       </p>
     </div>
     <div class="panel p-6">
       <h2 class="m-0 text-lg font-semibold">Every era, one API</h2>
-      <p class="mt-2 mb-0 text-fy-fg-muted">
+      <p class="mt-2 mb-0 text-mi-fg-muted">
         Switch <code class="inline-code">data-theme</code> and the same markup goes from Aqua to liquid glass. Light and dark included, phones too.
       </p>
     </div>
@@ -45,9 +45,9 @@ import { components } from "../data/components";
 
   <section class="mx-auto max-w-3xl px-4 pb-16">
     <h2 class="mb-4 text-center text-2xl font-bold">Three commands</h2>
-    <CodeBlock lang="bash" code={`npx fronty init
-npx fronty add button dialog select
-npx fronty list`} />
+    <CodeBlock lang="bash" code={`npx mitame init
+npx mitame add button dialog select
+npx mitame list`} />
   </section>
 
   <section class="mx-auto max-w-6xl px-4 pb-8">
@@ -56,9 +56,9 @@ npx fronty list`} />
       {
         components.map((c) => (
           <li>
-            <a href={`/docs/components/${c.slug}`} class="panel block h-full p-4 no-underline text-fy-fg">
+            <a href={`/docs/components/${c.slug}`} class="panel block h-full p-4 no-underline text-mi-fg">
               <span class="font-semibold">{c.name}</span>
-              <span class="mt-1 block text-sm text-fy-fg-muted">{c.native}</span>
+              <span class="mt-1 block text-sm text-mi-fg-muted">{c.native}</span>
             </a>
           </li>
         ))

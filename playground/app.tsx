@@ -39,11 +39,11 @@ export function App() {
   };
 
   return (
-    <div className="wallpaper min-h-screen px-4 py-10 text-fy-fg">
+    <div className="wallpaper min-h-screen px-4 py-10 text-mi-fg">
       <div className="mx-auto flex max-w-5xl flex-col gap-8">
         <header className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold text-fy-fg-muted">fronty · {ERA[theme]}</p>
+            <p className="text-sm font-semibold text-mi-fg-muted">mitame · {ERA[theme]}</p>
             <h1 className="m-0 text-4xl font-bold tracking-tight">{theme}</h1>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -114,7 +114,7 @@ export function App() {
             <CardBody className="flex flex-col gap-5">
               <div className="flex items-center gap-4">
                 <Slider aria-label="Volume" value={volume} onValueChange={setVolume} />
-                <span className="w-10 text-right text-sm tabular-nums text-fy-fg-muted">{volume}</span>
+                <span className="w-10 text-right text-sm tabular-nums text-mi-fg-muted">{volume}</span>
               </div>
               <Select
                 aria-label="Era"
@@ -139,9 +139,9 @@ export function App() {
                 <TabsTrigger value="appearance">Appearance</TabsTrigger>
                 <TabsTrigger value="advanced">Advanced</TabsTrigger>
               </TabsList>
-              <TabsPanel value="general" className="text-sm text-fy-fg-muted">Name, language and startup.</TabsPanel>
-              <TabsPanel value="appearance" className="text-sm text-fy-fg-muted">Glass tint, accent and motion.</TabsPanel>
-              <TabsPanel value="advanced" className="text-sm text-fy-fg-muted">Here be dragons.</TabsPanel>
+              <TabsPanel value="general" className="text-sm text-mi-fg-muted">Name, language and startup.</TabsPanel>
+              <TabsPanel value="appearance" className="text-sm text-mi-fg-muted">Glass tint, accent and motion.</TabsPanel>
+              <TabsPanel value="advanced" className="text-sm text-mi-fg-muted">Here be dragons.</TabsPanel>
             </Tabs>
           </Card>
 
@@ -169,7 +169,7 @@ export function App() {
                 <PopoverTrigger>Popover</PopoverTrigger>
                 <PopoverContent className="w-64 text-sm">
                   <p className="m-0 font-semibold">Glass all the way down</p>
-                  <p className="mt-1 mb-0 text-fy-fg-muted">Outside click or Escape closes me. The browser does that part.</p>
+                  <p className="mt-1 mb-0 text-mi-fg-muted">Outside click or Escape closes me. The browser does that part.</p>
                 </PopoverContent>
               </Popover>
 

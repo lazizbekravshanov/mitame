@@ -7,7 +7,7 @@
 @source "../../../registry";
 
 html {
-  background: var(--fy-bg);
+  background: var(--mi-bg);
   scroll-behavior: smooth;
 }
 body {
@@ -22,7 +22,7 @@ body {
     radial-gradient(38vmax 38vmax at 92% 20%, #2f7dff 0%, transparent 60%),
     radial-gradient(30vmax 30vmax at 70% 88%, #19c3a3 0%, transparent 60%),
     radial-gradient(26vmax 26vmax at 20% 90%, #d05cff 0%, transparent 60%),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }
 [data-theme="aqua"] .wallpaper {
@@ -30,7 +30,7 @@ body {
     radial-gradient(120% 60% at 20% 110%, rgb(255 255 255 / 0.55) 0%, transparent 55%),
     radial-gradient(90% 55% at 85% -10%, rgb(160 205 255 / 0.9) 0%, transparent 60%),
     conic-gradient(from 200deg at 70% 60%, #1f5fd6, #4a9cff, #9fd0ff, #3a7fe8, #1f5fd6),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }
 @media (prefers-color-scheme: dark) {
@@ -38,7 +38,7 @@ body {
     background:
       radial-gradient(90% 55% at 85% -10%, rgb(61 142 255 / 0.45) 0%, transparent 60%),
       conic-gradient(from 200deg at 70% 60%, #0b1a33, #13305e, #1d4a8c, #0f2447, #0b1a33),
-      var(--fy-bg);
+      var(--mi-bg);
     background-attachment: fixed;
   }
 }
@@ -46,7 +46,7 @@ body {
   background:
     radial-gradient(90% 55% at 85% -10%, rgb(61 142 255 / 0.45) 0%, transparent 60%),
     conic-gradient(from 200deg at 70% 60%, #0b1a33, #13305e, #1d4a8c, #0f2447, #0b1a33),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }
 /* Fixed backgrounds repaint badly on phones; scroll them instead. */
@@ -56,28 +56,28 @@ body {
 
 /* ---------- Site chrome, built from theme tokens so it follows the era ---------- */
 .site-header {
-  background: var(--fy-glass-tint);
-  backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-  -webkit-backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-  border-bottom: 1px solid var(--fy-glass-edge);
+  background: var(--mi-glass-tint);
+  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  border-bottom: 1px solid var(--mi-glass-edge);
 }
 .panel {
-  background: var(--fy-glass-tint);
-  backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-  -webkit-backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-  border: 1px solid var(--fy-glass-edge);
-  border-radius: var(--fy-radius-lg);
-  box-shadow: inset 0 1px 0 var(--fy-glass-highlight), 0 12px 32px -12px var(--fy-glass-shadow);
+  background: var(--mi-glass-tint);
+  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  border: 1px solid var(--mi-glass-edge);
+  border-radius: var(--mi-radius-lg);
+  box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 12px 32px -12px var(--mi-glass-shadow);
 }
 .nav-link {
-  color: var(--fy-fg-muted);
+  color: var(--mi-fg-muted);
   text-decoration: none;
-  font-size: var(--fy-text-md);
+  font-size: var(--mi-text-md);
   font-weight: 550;
 }
 .nav-link:hover,
-.nav-link[aria-current="page"] { color: var(--fy-fg); }
-.link { color: var(--fy-accent); text-underline-offset: 3px; }
+.nav-link[aria-current="page"] { color: var(--mi-fg); }
+.link { color: var(--mi-accent); text-underline-offset: 3px; }
 
 .era-chip {
   position: relative;
@@ -88,25 +88,25 @@ body {
   padding: 12px 14px;
   font: inherit;
   text-align: left;
-  color: var(--fy-fg);
+  color: var(--mi-fg);
   cursor: pointer;
-  background: var(--fy-glass-tint);
+  background: var(--mi-glass-tint);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--fy-glass-edge);
-  border-radius: var(--fy-radius-md);
-  box-shadow: inset 0 1px 0 var(--fy-glass-highlight);
+  border: 1px solid var(--mi-glass-edge);
+  border-radius: var(--mi-radius-md);
+  box-shadow: inset 0 1px 0 var(--mi-glass-highlight);
   -webkit-tap-highlight-color: transparent;
-  transition: transform var(--fy-duration-fast), box-shadow var(--fy-duration-fast);
+  transition: transform var(--mi-duration-fast), box-shadow var(--mi-duration-fast);
 }
 .era-chip[data-active] {
-  border-color: var(--fy-accent);
-  box-shadow: inset 0 1px 0 var(--fy-glass-highlight), 0 0 0 3px color-mix(in oklab, var(--fy-accent) 35%, transparent);
+  border-color: var(--mi-accent);
+  box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 0 0 3px color-mix(in oklab, var(--mi-accent) 35%, transparent);
 }
 .era-chip:disabled { cursor: not-allowed; opacity: 0.55; }
-.era-chip:focus-visible { outline: 2px solid var(--fy-accent); outline-offset: 2px; }
+.era-chip:focus-visible { outline: 2px solid var(--mi-accent); outline-offset: 2px; }
 .era-chip-year { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.era-chip-name { font-size: var(--fy-text-sm); color: var(--fy-fg-muted); }
+.era-chip-name { font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
 .era-chip-soon {
   position: absolute;
   top: 10px;
@@ -115,15 +115,15 @@ body {
   font-size: 11px;
   font-weight: 600;
   border-radius: 999px;
-  color: var(--fy-fg-muted);
-  border: 1px solid var(--fy-border);
+  color: var(--mi-fg-muted);
+  border: 1px solid var(--mi-border);
 }
 
 /* ---------- Code ---------- */
 .code {
   position: relative;
-  border-radius: var(--fy-radius-md);
-  border: 1px solid var(--fy-border);
+  border-radius: var(--mi-radius-md);
+  border: 1px solid var(--mi-border);
   background: #0f1117;
   overflow: hidden;
 }
@@ -131,7 +131,7 @@ body {
   margin: 0;
   padding: 16px 18px;
   overflow-x: auto;
-  font-family: var(--fy-font-mono);
+  font-family: var(--mi-font-mono);
   font-size: 13px;
   line-height: 1.6;
   background: transparent !important;
@@ -141,7 +141,7 @@ body {
   top: 8px;
   right: 8px;
   padding: 4px 10px;
-  font: 600 12px/1.4 var(--fy-font-sans);
+  font: 600 12px/1.4 var(--mi-font-sans);
   color: #cfd3dc;
   background: rgb(255 255 255 / 0.08);
   border: 1px solid rgb(255 255 255 / 0.14);
@@ -150,27 +150,27 @@ body {
 }
 .copy-btn:hover { background: rgb(255 255 255 / 0.16); }
 .inline-code {
-  font-family: var(--fy-font-mono);
+  font-family: var(--mi-font-mono);
   font-size: 0.9em;
   padding: 1px 6px;
   border-radius: 6px;
-  background: color-mix(in oklab, var(--fy-fg) 8%, transparent);
+  background: color-mix(in oklab, var(--mi-fg) 8%, transparent);
 }
 
 /* ---------- Docs text ---------- */
-.prose { font-size: 15px; line-height: 1.7; color: var(--fy-fg); }
+.prose { font-size: 15px; line-height: 1.7; color: var(--mi-fg); }
 .prose h1 { font-size: 34px; line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 8px; }
 .prose h2 { font-size: 21px; margin: 40px 0 12px; letter-spacing: -0.01em; }
 .prose h3 { font-size: 16px; margin: 28px 0 8px; }
 .prose p { margin: 0 0 14px; }
 .prose ul { margin: 0 0 14px; padding-left: 20px; }
 .prose li { margin: 4px 0; }
-.lede { font-size: 17px; color: var(--fy-fg-muted); }
+.lede { font-size: 17px; color: var(--mi-fg-muted); }
 
 .props { width: 100%; border-collapse: collapse; font-size: 14px; }
-.props th, .props td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--fy-border); }
-.props th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fy-fg-muted); font-weight: 600; }
-.props code { font-family: var(--fy-font-mono); font-size: 12.5px; }
+.props th, .props td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--mi-border); }
+.props th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--mi-fg-muted); font-weight: 600; }
+.props code { font-family: var(--mi-font-mono); font-size: 12.5px; }
 .table-wrap { overflow-x: auto; }
 
 .preview {
@@ -178,7 +178,7 @@ body {
   place-items: center;
   min-height: 220px;
   padding: 40px 20px;
-  border-radius: var(--fy-radius-lg);
+  border-radius: var(--mi-radius-lg);
 }
 /* The demo stage gets its own copy of the wallpaper instead of a window onto the page one. */
 .preview.wallpaper { background-attachment: scroll !important; background-size: 180% 180%; background-position: center; }

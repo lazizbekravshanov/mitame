@@ -1,23 +1,23 @@
 /*
- * Optional Tailwind v4 bridge: exposes fronty tokens as utilities that follow the
- * active theme, e.g. bg-fy-accent, text-fy-fg-muted, border-fy-border, rounded-fy-lg.
+ * Optional Tailwind v4 bridge: exposes mitame tokens as utilities that follow the
+ * active theme, e.g. bg-mi-accent, text-mi-fg-muted, border-mi-border, rounded-mi-lg.
  * Import it after `@import "tailwindcss";`.
  */
 @theme inline {
-  --color-fy-bg: var(--fy-bg);
-  --color-fy-fg: var(--fy-fg);
-  --color-fy-fg-muted: var(--fy-fg-muted);
-  --color-fy-accent: var(--fy-accent);
-  --color-fy-accent-fg: var(--fy-accent-fg);
-  --color-fy-danger: var(--fy-danger);
-  --color-fy-success: var(--fy-success);
-  --color-fy-warning: var(--fy-warning);
-  --color-fy-border: var(--fy-border);
-  --color-fy-glass: var(--fy-glass-tint);
-  --color-fy-glass-strong: var(--fy-glass-tint-strong);
-  --radius-fy-sm: var(--fy-radius-sm);
-  --radius-fy-md: var(--fy-radius-md);
-  --radius-fy-lg: var(--fy-radius-lg);
-  --font-fy-sans: var(--fy-font-sans);
-  --font-fy-mono: var(--fy-font-mono);
+  --color-mi-bg: var(--mi-bg);
+  --color-mi-fg: var(--mi-fg);
+  --color-mi-fg-muted: var(--mi-fg-muted);
+  --color-mi-accent: var(--mi-accent);
+  --color-mi-accent-fg: var(--mi-accent-fg);
+  --color-mi-danger: var(--mi-danger);
+  --color-mi-success: var(--mi-success);
+  --color-mi-warning: var(--mi-warning);
+  --color-mi-border: var(--mi-border);
+  --color-mi-glass: var(--mi-glass-tint);
+  --color-mi-glass-strong: var(--mi-glass-tint-strong);
+  --radius-mi-sm: var(--mi-radius-sm);
+  --radius-mi-md: var(--mi-radius-md);
+  --radius-mi-lg: var(--mi-radius-lg);
+  --font-mi-sans: var(--mi-font-sans);
+  --font-mi-mono: var(--mi-font-mono);
 }

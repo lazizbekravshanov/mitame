@@ -27,6 +27,6 @@ jobs:
         run: |
           npm pack
           mkdir -p /tmp/app && cd /tmp/app && npm init -y >/dev/null
-          npm i "$GITHUB_WORKSPACE"/fronty-*.tgz
-          npx fronty init && npx fronty add select dialog
-          test -f src/components/fronty/ui/select.tsx
+          npm i "$GITHUB_WORKSPACE"/mitame-*.tgz
+          npx mitame init && npx mitame add select dialog
+          test -f src/components/mitame/ui/select.tsx

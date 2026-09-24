@@ -1,4 +1,4 @@
-import { Checkbox } from "@fronty/ui/checkbox";
+import { Checkbox } from "@mitame/ui/checkbox";
 
 export default function CheckboxDemo() {
   return (

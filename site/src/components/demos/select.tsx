@@ -1,4 +1,4 @@
-import { Select } from "@fronty/ui/select";
+import { Select } from "@mitame/ui/select";
 
 export default function SelectDemo() {
   return (

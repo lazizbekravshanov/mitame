@@ -1,4 +1,4 @@
-import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@fronty/ui/tabs";
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@mitame/ui/tabs";
 
 export default function TabsDemo() {
   return (

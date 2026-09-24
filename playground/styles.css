@@ -9,7 +9,7 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--fy-bg);
+  background-color: var(--mi-bg);
 }
 
 /* A busy wallpaper so the glass has something to bend. */
@@ -19,7 +19,7 @@ body {
     radial-gradient(38vmax 38vmax at 92% 20%, #2f7dff 0%, transparent 60%),
     radial-gradient(30vmax 30vmax at 70% 88%, #19c3a3 0%, transparent 60%),
     radial-gradient(26vmax 26vmax at 20% 90%, #d05cff 0%, transparent 60%),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }
 
@@ -29,7 +29,7 @@ body {
     radial-gradient(120% 60% at 20% 110%, rgb(255 255 255 / 0.55) 0%, transparent 55%),
     radial-gradient(90% 55% at 85% -10%, rgb(160 205 255 / 0.9) 0%, transparent 60%),
     conic-gradient(from 200deg at 70% 60%, #1f5fd6, #4a9cff, #9fd0ff, #3a7fe8, #1f5fd6),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }
 @media (prefers-color-scheme: dark) {
@@ -37,7 +37,7 @@ body {
     background:
       radial-gradient(90% 55% at 85% -10%, rgb(61 142 255 / 0.45) 0%, transparent 60%),
       conic-gradient(from 200deg at 70% 60%, #0b1a33, #13305e, #1d4a8c, #0f2447, #0b1a33),
-      var(--fy-bg);
+      var(--mi-bg);
     background-attachment: fixed;
   }
 }
@@ -45,6 +45,6 @@ body {
   background:
     radial-gradient(90% 55% at 85% -10%, rgb(61 142 255 / 0.45) 0%, transparent 60%),
     conic-gradient(from 200deg at 70% 60%, #0b1a33, #13305e, #1d4a8c, #0f2447, #0b1a33),
-    var(--fy-bg);
+    var(--mi-bg);
   background-attachment: fixed;
 }

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Button } from "@fronty/ui/button";
-import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "@fronty/ui/card";
-import { Checkbox } from "@fronty/ui/checkbox";
-import { Select } from "@fronty/ui/select";
-import { Slider } from "@fronty/ui/slider";
-import { Switch } from "@fronty/ui/switch";
-import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@fronty/ui/tabs";
-import { TextField } from "@fronty/ui/text-field";
-import { Toaster, toast } from "@fronty/ui/toast";
+import { Button } from "@mitame/ui/button";
+import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "@mitame/ui/card";
+import { Checkbox } from "@mitame/ui/checkbox";
+import { Select } from "@mitame/ui/select";
+import { Slider } from "@mitame/ui/slider";
+import { Switch } from "@mitame/ui/switch";
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@mitame/ui/tabs";
+import { TextField } from "@mitame/ui/text-field";
+import { Toaster, toast } from "@mitame/ui/toast";
 import { THEMES, setTheme, useTheme, type ThemeId } from "../lib/theme";
 
 /** The landing page hero: one screen, every era. */

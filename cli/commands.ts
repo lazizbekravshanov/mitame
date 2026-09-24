@@ -3,17 +3,17 @@ import { dirname, join } from "node:path";
 import { THEMES, collectFiles, resolveItem } from "./registry.ts";
 
 export interface Config {
-  /** Where fronty files go, relative to the project root. */
+  /** Where mitame files go, relative to the project root. */
   dir: string;
   theme: string;
 }
 
-export const CONFIG_FILE = "fronty.json";
-export const DEFAULT_CONFIG: Config = { dir: "src/components/fronty", theme: "aqua" };
+export const CONFIG_FILE = "mitame.json";
+export const DEFAULT_CONFIG: Config = { dir: "src/components/mitame", theme: "aqua" };
 
 export function readConfig(cwd: string): Config {
   const file = join(cwd, CONFIG_FILE);
-  if (!existsSync(file)) throw new Error("No fronty.json here. Run `npx fronty init` first.");
+  if (!existsSync(file)) throw new Error("No mitame.json here. Run `npx mitame init` first.");
   return { ...DEFAULT_CONFIG, ...JSON.parse(readFileSync(file, "utf8")) };
 }
 
@@ -53,7 +53,7 @@ export function init(root: string, cwd: string, opts: Partial<Config> & { overwr
 
 export function add(root: string, cwd: string, names: string[], opts: { overwrite?: boolean } = {}): CopyResult {
   const config = readConfig(cwd);
-  if (!names.length) throw new Error("Tell me what to add, for example `npx fronty add button dialog`.");
+  if (!names.length) throw new Error("Tell me what to add, for example `npx mitame add button dialog`.");
   const entries = names.map((n) => resolveItem(root, n));
   return copy(root, cwd, config.dir, collectFiles(root, entries), opts.overwrite ?? false, entries);
 }

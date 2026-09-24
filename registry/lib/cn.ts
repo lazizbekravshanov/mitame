@@ -2,7 +2,7 @@ export type ClassValue = string | false | null | undefined | Record<string, bool
 
 /**
  * Join class names, skipping falsy values. `{ active: true }` adds "active".
- * No tailwind-merge needed: fronty styles live in `@layer components`, so any
+ * No tailwind-merge needed: mitame styles live in `@layer components`, so any
  * utility class you pass always wins.
  */
 export function cn(...values: ClassValue[]): string {

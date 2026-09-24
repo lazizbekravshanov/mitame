@@ -1,6 +1,6 @@
-import { InfoIcon } from "@fronty/icons/info";
-import { Button } from "@fronty/ui/button";
-import { Tooltip } from "@fronty/ui/tooltip";
+import { InfoIcon } from "@mitame/icons/info";
+import { Button } from "@mitame/ui/button";
+import { Tooltip } from "@mitame/ui/tooltip";
 
 export default function TooltipDemo() {
   return (

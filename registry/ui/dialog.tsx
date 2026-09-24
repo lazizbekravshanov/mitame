@@ -54,7 +54,7 @@ export function DialogTrigger({ className, onClick, ...props }: HTMLAttributes<H
       data-slot="dialog-trigger"
       data-variant="secondary"
       data-size="md"
-      className={cn("fy-button", className)}
+      className={cn("mi-button", className)}
       onClick={(e) => {
         onClick?.(e);
         setOpen(true);
@@ -112,7 +112,7 @@ export function DialogContent({ dismissible = true, showClose = true, className,
         if (dismissible && e.target === e.currentTarget) setOpen(false);
       }}
     >
-      <div data-slot="dialog-panel" className={cn("fy-dialog", className)} {...props}>
+      <div data-slot="dialog-panel" className={cn("mi-dialog", className)} {...props}>
         {children}
         {showClose && (
           <button type="button" data-slot="dialog-close-icon" aria-label="Close" onClick={() => setOpen(false)}>
@@ -147,7 +147,7 @@ export function DialogClose({ className, onClick, ...props }: HTMLAttributes<HTM
       data-slot="dialog-close"
       data-variant="secondary"
       data-size="md"
-      className={cn("fy-button", className)}
+      className={cn("mi-button", className)}
       onClick={(e) => {
         onClick?.(e);
         setOpen(false);

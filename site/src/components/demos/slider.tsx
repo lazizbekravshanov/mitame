@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Slider } from "@fronty/ui/slider";
+import { Slider } from "@mitame/ui/slider";
 
 export default function SliderDemo() {
   const [volume, setVolume] = useState(64);

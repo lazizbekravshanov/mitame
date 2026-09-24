@@ -1,5 +1,5 @@
 /*
- * fronty theme: Y2K / aqua (2000 to 2012)
+ * mitame theme: Y2K / aqua (2000 to 2012)
  * Lickable gel buttons, pinstripes, glossy blue, pale yellow tooltips and smoky
  * notifications. Dark mode is "midnight aqua": graphite surfaces, same blue gel.
  * Want strict 2001 light only? Set data-mode="light" next to data-theme="aqua".
@@ -9,67 +9,67 @@
 
 @layer components {
   :where([data-theme="aqua"]) {
-    --fy-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --mi-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
     /* Aqua's focus ring was a soft blue glow, not a hard outline. */
-    --fy-ring: 0 0 0 1px color-mix(in oklab, var(--fy-accent) 70%, transparent),
-      0 0 3px 3px color-mix(in oklab, var(--fy-accent) 45%, transparent);
-    --fy-pinstripe: repeating-linear-gradient(
+    --mi-ring: 0 0 0 1px color-mix(in oklab, var(--mi-accent) 70%, transparent),
+      0 0 3px 3px color-mix(in oklab, var(--mi-accent) 45%, transparent);
+    --mi-pinstripe: repeating-linear-gradient(
       180deg,
-      color-mix(in oklab, var(--fy-glass-highlight) 55%, transparent) 0 2px,
+      color-mix(in oklab, var(--mi-glass-highlight) 55%, transparent) 0 2px,
       transparent 2px 4px
     );
-    --fy-edge: color-mix(in oklab, var(--fy-fg) 30%, transparent);
+    --mi-edge: color-mix(in oklab, var(--mi-fg) 30%, transparent);
     /* The white gel is derived from the page color, so it goes graphite in midnight mode. */
-    --fy-gel-white: color-mix(in oklab, var(--fy-bg) 70%, white);
-    --fy-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.8) 0%, rgb(255 255 255 / 0.3) 48%, rgb(255 255 255 / 0) 50%);
+    --mi-gel-white: color-mix(in oklab, var(--mi-bg) 70%, white);
+    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.8) 0%, rgb(255 255 255 / 0.3) 48%, rgb(255 255 255 / 0) 50%);
   }
   @media (prefers-color-scheme: dark) {
     :where([data-theme="aqua"]:not([data-mode="light"])) {
-      --fy-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--fy-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
-      --fy-gel-white: color-mix(in oklab, var(--fy-bg) 78%, white);
-      --fy-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
+      --mi-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--mi-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
+      --mi-gel-white: color-mix(in oklab, var(--mi-bg) 78%, white);
+      --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
     }
   }
   :where([data-theme="aqua"][data-mode="dark"]) {
-    --fy-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--fy-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
-    --fy-gel-white: color-mix(in oklab, var(--fy-bg) 78%, white);
-    --fy-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
+    --mi-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--mi-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
+    --mi-gel-white: color-mix(in oklab, var(--mi-bg) 78%, white);
+    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
   }
 
-  /* ---------- Gel: the lickable Aqua material. Set --fy-tone to recolor it. ---------- */
+  /* ---------- Gel: the lickable Aqua material. Set --mi-tone to recolor it. ---------- */
   :where([data-theme="aqua"])
     :is(
-      .fy-button,
+      .mi-button,
       [data-slot="select-trigger"],
       [data-slot="tabs-trigger"],
       [data-slot="checkbox-box"],
       [data-slot="switch-track"]
     ) {
-    --fy-tone: var(--fy-gel-white);
+    --mi-tone: var(--mi-gel-white);
     background:
-      var(--fy-gloss),
-      radial-gradient(ellipse 90% 70% at 50% 100%, color-mix(in oklab, var(--fy-tone) 55%, white) 0%, transparent 70%),
-      var(--fy-tone);
-    border: 1px solid var(--fy-edge);
+      var(--mi-gloss),
+      radial-gradient(ellipse 90% 70% at 50% 100%, color-mix(in oklab, var(--mi-tone) 55%, white) 0%, transparent 70%),
+      var(--mi-tone);
+    border: 1px solid var(--mi-edge);
     box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), 0 1px 2px rgb(0 0 0 / 0.25);
   }
   :where([data-theme="aqua"])
     :is(
-      .fy-button:is([data-variant="primary"], [data-variant="danger"]),
+      .mi-button:is([data-variant="primary"], [data-variant="danger"]),
       [data-slot="tabs-trigger"][data-state="active"],
       [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
       [data-slot="switch-input"]:checked + [data-slot="switch-track"]
     ) {
-    border-color: color-mix(in oklab, var(--fy-tone) 55%, black);
-    color: var(--fy-accent-fg);
+    border-color: color-mix(in oklab, var(--mi-tone) 55%, black);
+    color: var(--mi-accent-fg);
     text-shadow: 0 1px 1px rgb(0 0 0 / 0.25);
   }
   /* Tones are set in their own rules so :is() specificity never lets blue beat red. */
-  :where([data-theme="aqua"]) .fy-button[data-variant="primary"],
+  :where([data-theme="aqua"]) .mi-button[data-variant="primary"],
   :where([data-theme="aqua"]) [data-slot="tabs-trigger"][data-state="active"],
   :where([data-theme="aqua"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
-  :where([data-theme="aqua"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { --fy-tone: var(--fy-accent); }
-  :where([data-theme="aqua"]) .fy-button[data-variant="danger"] { --fy-tone: var(--fy-danger); }
+  :where([data-theme="aqua"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { --mi-tone: var(--mi-accent); }
+  :where([data-theme="aqua"]) .mi-button[data-variant="danger"] { --mi-tone: var(--mi-danger); }
 
   /* ---------- Surfaces: pinstripes under frosted glass ---------- */
   :where([data-theme="aqua"])
@@ -78,47 +78,47 @@
       [data-slot="dialog-panel"],
       [data-slot="popover-content"]
     ) {
-    background: var(--fy-pinstripe), var(--fy-glass-tint);
-    backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--fy-glass-blur)) saturate(var(--fy-glass-saturate));
-    border: 1px solid var(--fy-edge);
-    box-shadow: inset 0 1px 0 var(--fy-glass-highlight), 0 12px 32px -8px var(--fy-glass-shadow);
+    background: var(--mi-pinstripe), var(--mi-glass-tint);
+    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    border: 1px solid var(--mi-edge);
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 12px 32px -8px var(--mi-glass-shadow);
   }
-  :where([data-theme="aqua"]) [data-slot="card"] { border-radius: var(--fy-radius-lg); }
+  :where([data-theme="aqua"]) [data-slot="card"] { border-radius: var(--mi-radius-lg); }
   :where([data-theme="aqua"]) [data-slot="card-title"] { font-weight: 700; }
   :where([data-theme="aqua"]) [data-slot="dialog-panel"] {
-    border-radius: var(--fy-radius-md);
-    background: var(--fy-pinstripe), var(--fy-glass-tint-strong);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-pinstripe), var(--mi-glass-tint-strong);
   }
   :where([data-theme="aqua"]) [data-slot="dialog-title"] { font-weight: 700; }
   :where([data-theme="aqua"]) [data-slot="popover-content"] {
-    border-radius: var(--fy-radius-md);
-    background: var(--fy-pinstripe), var(--fy-glass-tint-strong);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-pinstripe), var(--mi-glass-tint-strong);
   }
 
   /* Menus and lists were near opaque white sheets with a blue gradient highlight. */
   :where([data-theme="aqua"]) :is([data-slot="select-content"], [data-slot="menu-content"]) {
-    border-radius: var(--fy-radius-sm);
-    background: var(--fy-glass-tint-strong);
-    backdrop-filter: blur(var(--fy-glass-blur));
-    -webkit-backdrop-filter: blur(var(--fy-glass-blur));
-    border: 1px solid var(--fy-edge);
-    box-shadow: 0 8px 24px var(--fy-glass-shadow);
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    backdrop-filter: blur(var(--mi-glass-blur));
+    -webkit-backdrop-filter: blur(var(--mi-glass-blur));
+    border: 1px solid var(--mi-edge);
+    box-shadow: 0 8px 24px var(--mi-glass-shadow);
   }
   :where([data-theme="aqua"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
   :where([data-theme="aqua"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
-    color: var(--fy-accent-fg);
-    background: linear-gradient(180deg, color-mix(in oklab, var(--fy-accent) 70%, white), var(--fy-accent));
+    color: var(--mi-accent-fg);
+    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 70%, white), var(--mi-accent));
   }
-  :where([data-theme="aqua"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--fy-danger); }
+  :where([data-theme="aqua"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
   :where([data-theme="aqua"]) [data-slot="menu-item"][data-variant="danger"]:focus {
-    background: linear-gradient(180deg, color-mix(in oklab, var(--fy-danger) 70%, white), var(--fy-danger));
+    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-danger) 70%, white), var(--mi-danger));
   }
-  :where([data-theme="aqua"]) [data-slot="menu-separator"] { background: var(--fy-border); margin-inline: 0; }
+  :where([data-theme="aqua"]) [data-slot="menu-separator"] { background: var(--mi-border); margin-inline: 0; }
 
   :where([data-theme="aqua"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
-    transition: opacity var(--fy-duration-fast) var(--fy-ease), display var(--fy-duration-fast) allow-discrete,
-      overlay var(--fy-duration-fast) allow-discrete;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), display var(--mi-duration-fast) allow-discrete,
+      overlay var(--mi-duration-fast) allow-discrete;
     opacity: 0;
   }
   :where([data-theme="aqua"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]):popover-open {
@@ -127,47 +127,47 @@
   }
 
   /* ---------- Button ---------- */
-  :where([data-theme="aqua"]) .fy-button {
-    border-radius: var(--fy-radius-full);
-    color: var(--fy-fg);
+  :where([data-theme="aqua"]) .mi-button {
+    border-radius: var(--mi-radius-full);
+    color: var(--mi-fg);
     font-weight: 400;
-    transition: filter var(--fy-duration-fast) var(--fy-ease);
+    transition: filter var(--mi-duration-fast) var(--mi-ease);
   }
-  :where([data-theme="aqua"]) .fy-button:active:not(:disabled) { filter: brightness(0.88) saturate(1.2); }
-  :where([data-theme="aqua"]) .fy-button:focus-visible {
+  :where([data-theme="aqua"]) .mi-button:active:not(:disabled) { filter: brightness(0.88) saturate(1.2); }
+  :where([data-theme="aqua"]) .mi-button:focus-visible {
     outline: none;
-    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), var(--fy-ring);
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), var(--mi-ring);
   }
-  :where([data-theme="aqua"]) .fy-button[data-variant="ghost"] {
+  :where([data-theme="aqua"]) .mi-button[data-variant="ghost"] {
     background: transparent;
     border-color: transparent;
     box-shadow: none;
   }
-  :where([data-theme="aqua"]) .fy-button[data-variant="ghost"]:focus-visible { box-shadow: var(--fy-ring); }
+  :where([data-theme="aqua"]) .mi-button[data-variant="ghost"]:focus-visible { box-shadow: var(--mi-ring); }
 
   /* ---------- Text field ---------- */
   :where([data-theme="aqua"]) [data-slot="field-input"] {
     border-radius: 3px;
-    border: 1px solid var(--fy-edge);
-    background: var(--fy-glass-tint-strong);
+    border: 1px solid var(--mi-edge);
+    background: var(--mi-glass-tint-strong);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22);
-    transition: box-shadow var(--fy-duration-fast);
+    transition: box-shadow var(--mi-duration-fast);
   }
-  :where([data-theme="aqua"]) [data-slot="field-input"]::placeholder { color: var(--fy-fg-muted); }
+  :where([data-theme="aqua"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
   :where([data-theme="aqua"]) [data-slot="field-input"]:focus-visible {
     outline: none;
-    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22), var(--fy-ring);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22), var(--mi-ring);
   }
   :where([data-theme="aqua"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
-    border-color: var(--fy-danger);
-    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22), 0 0 3px 2px color-mix(in oklab, var(--fy-danger) 40%, transparent);
+    border-color: var(--mi-danger);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22), 0 0 3px 2px color-mix(in oklab, var(--mi-danger) 40%, transparent);
   }
 
   /* ---------- Select: the popup button with the blue ⇅ cap ---------- */
   :where([data-theme="aqua"]) [data-slot="select-trigger"] {
     position: relative;
     padding-right: 34px;
-    border-radius: var(--fy-radius-sm);
+    border-radius: var(--mi-radius-sm);
   }
   :where([data-theme="aqua"]) [data-slot="select-chevron"] { display: none; }
   :where([data-theme="aqua"]) [data-slot="select-trigger"]::before {
@@ -177,87 +177,87 @@
     right: 2px;
     bottom: 2px;
     width: 22px;
-    border-radius: calc(var(--fy-radius-sm) - 2px);
+    border-radius: calc(var(--mi-radius-sm) - 2px);
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'%3E%3Cpath d='M5 1 9 5.5H1zM5 13 1 8.5h8z' fill='white'/%3E%3C/svg%3E")
         center / 8px 12px no-repeat,
-      var(--fy-gloss),
-      var(--fy-accent);
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--fy-accent) 60%, black);
+      var(--mi-gloss),
+      var(--mi-accent);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--mi-accent) 60%, black);
   }
   :where([data-theme="aqua"]) [data-slot="select-trigger"]:focus-visible {
     outline: none;
-    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), var(--fy-ring);
+    box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), var(--mi-ring);
   }
   :where([data-theme="aqua"]) [data-slot="select-item-check"] { order: -1; margin-left: -4px; }
 
   /* ---------- Checkbox ---------- */
-  :where([data-theme="aqua"]) [data-slot="checkbox-box"] { border-radius: 4px; color: var(--fy-accent-fg); }
-  :where([data-theme="aqua"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--fy-ring); }
+  :where([data-theme="aqua"]) [data-slot="checkbox-box"] { border-radius: 4px; color: var(--mi-accent-fg); }
+  :where([data-theme="aqua"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
 
   /* ---------- Switch: gel track, glossy marble thumb ---------- */
   :where([data-theme="aqua"]) [data-slot="switch-track"] {
-    border-radius: var(--fy-radius-full);
-    transition: filter var(--fy-duration) var(--fy-ease);
+    border-radius: var(--mi-radius-full);
+    transition: filter var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="aqua"]) [data-slot="switch-thumb"] {
     top: 1px;
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     background: radial-gradient(circle at 50% 30%, #fff 0 30%, #e9e9e9 70%, #cfcfcf 100%);
     box-shadow: 0 0 0 1px rgb(0 0 0 / 0.25), 0 1px 2px rgb(0 0 0 / 0.35);
-    transition: transform var(--fy-duration) var(--fy-ease);
+    transition: transform var(--mi-duration) var(--mi-ease);
   }
-  :where([data-theme="aqua"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--fy-ring); }
+  :where([data-theme="aqua"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
 
   /* ---------- Slider: grooved track, blue marble knob ---------- */
   :where([data-theme="aqua"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     background:
-      linear-gradient(90deg, var(--fy-accent) var(--fy-slider-fill), transparent var(--fy-slider-fill)),
-      color-mix(in oklab, var(--fy-fg) 16%, transparent);
+      linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)),
+      color-mix(in oklab, var(--mi-fg) 16%, transparent);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
   }
   :where([data-theme="aqua"]) [data-slot="slider"]::-moz-range-track {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     background:
-      linear-gradient(90deg, var(--fy-accent) var(--fy-slider-fill), transparent var(--fy-slider-fill)),
-      color-mix(in oklab, var(--fy-fg) 16%, transparent);
+      linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)),
+      color-mix(in oklab, var(--mi-fg) 16%, transparent);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.35);
   }
   :where([data-theme="aqua"]) [data-slot="slider"]::-webkit-slider-thumb {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     border: 0;
-    background: radial-gradient(circle at 50% 28%, #fff 0 14%, color-mix(in oklab, var(--fy-accent) 45%, white) 42%, var(--fy-accent) 78%, color-mix(in oklab, var(--fy-accent) 70%, black) 100%);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--fy-accent) 50%, black), 0 1px 3px rgb(0 0 0 / 0.4);
+    background: radial-gradient(circle at 50% 28%, #fff 0 14%, color-mix(in oklab, var(--mi-accent) 45%, white) 42%, var(--mi-accent) 78%, color-mix(in oklab, var(--mi-accent) 70%, black) 100%);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--mi-accent) 50%, black), 0 1px 3px rgb(0 0 0 / 0.4);
   }
   :where([data-theme="aqua"]) [data-slot="slider"]::-moz-range-thumb {
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     border: 0;
-    background: radial-gradient(circle at 50% 28%, #fff 0 14%, color-mix(in oklab, var(--fy-accent) 45%, white) 42%, var(--fy-accent) 78%, color-mix(in oklab, var(--fy-accent) 70%, black) 100%);
-    box-shadow: 0 0 0 1px color-mix(in oklab, var(--fy-accent) 50%, black), 0 1px 3px rgb(0 0 0 / 0.4);
+    background: radial-gradient(circle at 50% 28%, #fff 0 14%, color-mix(in oklab, var(--mi-accent) 45%, white) 42%, var(--mi-accent) 78%, color-mix(in oklab, var(--mi-accent) 70%, black) 100%);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--mi-accent) 50%, black), 0 1px 3px rgb(0 0 0 / 0.4);
   }
   :where([data-theme="aqua"]) [data-slot="slider"]:focus-visible { outline: none; }
-  :where([data-theme="aqua"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--fy-ring); }
-  :where([data-theme="aqua"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--fy-ring); }
+  :where([data-theme="aqua"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="aqua"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
 
   /* ---------- Tabs: joined gel pills ---------- */
   :where([data-theme="aqua"]) [data-slot="tabs-list"] {
     gap: 0;
     padding: 0;
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
   }
   :where([data-theme="aqua"]) [data-slot="tabs-trigger"] {
     border-radius: 0;
     box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5);
-    color: var(--fy-fg);
+    color: var(--mi-fg);
     font-weight: 400;
   }
   :where([data-theme="aqua"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left-width: 0; }
-  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:first-child { border-radius: var(--fy-radius-full) 0 0 var(--fy-radius-full); }
-  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:last-child { border-radius: 0 var(--fy-radius-full) var(--fy-radius-full) 0; }
-  :where([data-theme="aqua"]) [data-slot="tabs-trigger"][data-state="active"] { color: var(--fy-accent-fg); }
-  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--fy-ring); position: relative; z-index: 1; }
+  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:first-child { border-radius: var(--mi-radius-full) 0 0 var(--mi-radius-full); }
+  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:last-child { border-radius: 0 var(--mi-radius-full) var(--mi-radius-full) 0; }
+  :where([data-theme="aqua"]) [data-slot="tabs-trigger"][data-state="active"] { color: var(--mi-accent-fg); }
+  :where([data-theme="aqua"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); position: relative; z-index: 1; }
 
   /* ---------- Tooltip: the pale yellow help tag ---------- */
   :where([data-theme="aqua"]) [data-slot="tooltip"] {
@@ -271,8 +271,8 @@
   /* ---------- Dialog: a sheet with a red gel close light ---------- */
   :where([data-theme="aqua"]) [data-slot="dialog"]::backdrop { background: rgb(0 0 0 / 0.25); }
   :where([data-theme="aqua"]) [data-slot="dialog"] {
-    transition: opacity var(--fy-duration) var(--fy-ease), translate var(--fy-duration) var(--fy-ease),
-      display var(--fy-duration) allow-discrete, overlay var(--fy-duration) allow-discrete;
+    transition: opacity var(--mi-duration) var(--mi-ease), translate var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
     opacity: 0;
     translate: 0 -16px;
   }
@@ -282,21 +282,21 @@
     @starting-style { opacity: 0; translate: 0 -16px; }
   }
   :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] {
-    top: var(--fy-space-3);
-    right: var(--fy-space-3);
+    top: var(--mi-space-3);
+    right: var(--mi-space-3);
     width: 16px;
     height: 16px;
-    border-radius: var(--fy-radius-full);
+    border-radius: var(--mi-radius-full);
     color: rgb(90 10 10 / 0);
     background:
       radial-gradient(circle at 50% 28%, rgb(255 255 255 / 0.8) 0 18%, transparent 45%),
       radial-gradient(circle at 50% 50%, #ff8a82 0%, #ff5f57 55%, #d8322a 100%);
     box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.25);
-    transition: color var(--fy-duration-fast);
+    transition: color var(--mi-duration-fast);
   }
   :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] svg { width: 10px; height: 10px; }
   :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:is(:focus-visible, :hover) { color: rgb(90 10 10 / 0.8); }
-  :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--fy-ring); }
+  :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
   @media (hover: none) {
     /* No hover on touch, so always show the × inside the red light. */
     :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] { color: rgb(90 10 10 / 0.8); }
@@ -304,40 +304,40 @@
 
   /* ---------- Toast: smoky translucent notifications ---------- */
   :where([data-theme="aqua"]) [data-slot="toast"] {
-    border-radius: var(--fy-radius-md);
+    border-radius: var(--mi-radius-md);
     color: #fff;
     background: rgb(20 20 20 / 0.78);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 6px 20px rgb(0 0 0 / 0.35);
-    animation: fy-aqua-toast-in var(--fy-duration) var(--fy-ease);
+    animation: mi-aqua-toast-in var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="aqua"]) [data-slot="toast-description"] { color: rgb(255 255 255 / 0.7); }
   :where([data-theme="aqua"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: #8cc2ff; }
   :where([data-theme="aqua"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: #7ee08a; }
   :where([data-theme="aqua"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: #ff8a82; }
   :where([data-theme="aqua"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: #ffcf70; }
-  :where([data-theme="aqua"]) [data-slot="toast-close"] { color: rgb(255 255 255 / 0.6); border-radius: var(--fy-radius-full); }
+  :where([data-theme="aqua"]) [data-slot="toast-close"] { color: rgb(255 255 255 / 0.6); border-radius: var(--mi-radius-full); }
   :where([data-theme="aqua"]) [data-slot="toast-action"] {
-    --fy-tone: rgb(255 255 255 / 0.15);
-    border-radius: var(--fy-radius-full);
+    --mi-tone: rgb(255 255 255 / 0.15);
+    border-radius: var(--mi-radius-full);
     border: 1px solid rgb(255 255 255 / 0.3);
     color: #fff;
-    background: var(--fy-gloss), var(--fy-tone);
+    background: var(--mi-gloss), var(--mi-tone);
   }
 
   /* ---------- Hover (real pointers only) ---------- */
   @media (hover: hover) {
-    :where([data-theme="aqua"]) :is(.fy-button, [data-slot="select-trigger"], [data-slot="tabs-trigger"]):hover:not(:disabled) {
+    :where([data-theme="aqua"]) :is(.mi-button, [data-slot="select-trigger"], [data-slot="tabs-trigger"]):hover:not(:disabled) {
       filter: brightness(1.04);
     }
-    :where([data-theme="aqua"]) .fy-button[data-variant="ghost"]:hover:not(:disabled) {
-      background: color-mix(in oklab, var(--fy-fg) 7%, transparent);
+    :where([data-theme="aqua"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--mi-fg) 7%, transparent);
     }
     :where([data-theme="aqua"]) [data-slot="toast-close"]:hover { color: #fff; }
   }
 
-  @keyframes fy-aqua-toast-in {
+  @keyframes mi-aqua-toast-in {
     from { opacity: 0; }
   }
 }

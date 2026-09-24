@@ -102,7 +102,7 @@ export function Tooltip({ content, children, placement = "top", delay = 400 }: T
         onFocus: chain(p.onFocus, (e: FocusEvent) => isFocusVisible(e.currentTarget) && show(0)),
         onBlur: chain(p.onBlur, hide),
       })}
-      <div ref={tip} id={id} role="tooltip" popover="manual" data-slot="tooltip" data-fy-floating="" data-state={open ? "open" : "closed"}>
+      <div ref={tip} id={id} role="tooltip" popover="manual" data-slot="tooltip" data-mi-floating="" data-state={open ? "open" : "closed"}>
         {content}
       </div>
     </>

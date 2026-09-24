@@ -7,7 +7,7 @@ import { THEMES, collectFiles, listItems, localImports, resolveItem } from "../c
 import { THEMES as TOKEN_THEMES } from "../scripts/build-tokens";
 
 const root = join(import.meta.dirname, "../registry");
-const tmp = () => mkdtempSync(join(tmpdir(), "fronty-"));
+const tmp = () => mkdtempSync(join(tmpdir(), "mitame-"));
 
 describe("registry", () => {
   it("resolves names to files", () => {
@@ -59,9 +59,9 @@ describe("commands", () => {
   it("init defaults to aqua and writes config plus the base files", () => {
     const cwd = tmp();
     const r = init(root, cwd);
-    expect(JSON.parse(readFileSync(join(cwd, "fronty.json"), "utf8"))).toEqual({ dir: "src/components/fronty", theme: "aqua" });
+    expect(JSON.parse(readFileSync(join(cwd, "mitame.json"), "utf8"))).toEqual({ dir: "src/components/mitame", theme: "aqua" });
     for (const f of ["lib/cn.ts", "themes/base.css", "themes/y2k/aqua.css", "themes/y2k/aqua.tokens.css"]) {
-      expect(existsSync(join(cwd, "src/components/fronty", f))).toBe(true);
+      expect(existsSync(join(cwd, "src/components/mitame", f))).toBe(true);
     }
     expect(r.written).toHaveLength(5);
   });
@@ -69,12 +69,12 @@ describe("commands", () => {
   it("init can pick another theme and rejects unknown ones", () => {
     const cwd = tmp();
     init(root, cwd, { theme: "liquid" });
-    expect(existsSync(join(cwd, "src/components/fronty/themes/now/liquid.css"))).toBe(true);
+    expect(existsSync(join(cwd, "src/components/mitame/themes/now/liquid.css"))).toBe(true);
     expect(() => init(root, tmp(), { theme: "nope" })).toThrow(/Unknown theme/);
   });
 
   it("add refuses to run before init", () => {
-    expect(() => add(root, tmp(), ["button"])).toThrow(/fronty init/);
+    expect(() => add(root, tmp(), ["button"])).toThrow(/mitame init/);
   });
 
   it("add copies deps, keeps edited files, and --overwrite only touches what was asked for", () => {

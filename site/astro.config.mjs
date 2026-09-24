@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "node:url";
 
-// Set SITE_URL (e.g. https://fronty.dev) once the domain exists; canonical links and the sitemap use it.
+// Set SITE_URL (e.g. https://mitame.dev) once the domain exists; canonical links and the sitemap use it.
 const site = process.env.SITE_URL || undefined;
 
 export default defineConfig({
@@ -14,7 +14,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     resolve: {
-      alias: { "@fronty": fileURLToPath(new URL("../registry", import.meta.url)) },
+      alias: { "@mitame": fileURLToPath(new URL("../registry", import.meta.url)) },
     },
   },
 });

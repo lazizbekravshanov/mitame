@@ -1,5 +1,5 @@
-import { PlusIcon } from "@fronty/icons/plus";
-import { Button } from "@fronty/ui/button";
+import { PlusIcon } from "@mitame/icons/plus";
+import { Button } from "@mitame/ui/button";
 
 export default function ButtonDemo() {
   return (

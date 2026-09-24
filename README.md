@@ -1,8 +1,10 @@
-# fronty
+# mitame 見た目
 
 Old UI, brought back to life with cool minimalism.
 
-fronty is a copy-paste React component library for the web with **era themes**. You run one command, the component's source lands in your project, and it's yours to change. No runtime dependencies besides React: menus, dialogs, popovers and tooltips are built on the browser's own `<dialog>` and Popover API.
+*mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
+
+mitame is a copy-paste React component library for the web with **era themes**. You run one command, the component's source lands in your project, and it's yours to change. No runtime dependencies besides React: menus, dialogs, popovers and tooltips are built on the browser's own `<dialog>` and Popover API.
 
 | Era | Themes | Status |
 |---|---|---|
@@ -15,18 +17,18 @@ fronty is a copy-paste React component library for the web with **era themes**. 
 ## Quick start
 
 ```bash
-npx fronty init             # writes fronty.json, copies cn + theme css (aqua)
-npx fronty init --theme liquid
-npx fronty add button card dialog
-npx fronty list             # everything you can add
+npx mitame init             # writes mitame.json, copies cn + theme css (aqua)
+npx mitame init --theme liquid
+npx mitame add button card dialog
+npx mitame list             # everything you can add
 ```
 
 Then import the styles once and pick a theme:
 
 ```css
-@import "./components/fronty/themes/base.css";
-@import "./components/fronty/themes/y2k/aqua.css";
-/* Tailwind v4? also: @import "./components/fronty/themes/tailwind.css"; */
+@import "./components/mitame/themes/base.css";
+@import "./components/mitame/themes/y2k/aqua.css";
+/* Tailwind v4? also: @import "./components/mitame/themes/tailwind.css"; */
 ```
 
 ```html
@@ -36,7 +38,7 @@ Then import the styles once and pick a theme:
 ```
 
 ```tsx
-import { Button } from "@/components/fronty/ui/button";
+import { Button } from "@/components/mitame/ui/button";
 
 <Button variant="primary">Save</Button>
 ```
@@ -57,18 +59,18 @@ Built for phones as much as laptops:
 
 ## Browser support
 
-Chrome and Edge 114+, Safari 17+, Firefox 125+ (all released by spring 2024). fronty relies on the Popover API and `<dialog>`; open/close animations use `@starting-style` and simply skip on browsers without it.
+Chrome and Edge 114+, Safari 17+, Firefox 125+ (all released by spring 2024). mitame relies on the Popover API and `<dialog>`; open/close animations use `@starting-style` and simply skip on browsers without it.
 
 ## Customizing
 
 - **Edit the file.** It's in your repo now.
 - **Override with classes.** Theme styles live in `@layer components`, so any class you pass (Tailwind or your own) wins. No tailwind-merge needed.
 - **Target slots.** Every part has a `data-slot` (`select-trigger`, `menu-item`, `dialog-panel`…) and state attributes (`data-state`, `data-variant`, `data-size`), so you can restyle from CSS.
-- **Change tokens.** Colors, glass, radius and spacing are CSS variables (`--fy-accent`, `--fy-glass-blur`…).
+- **Change tokens.** Colors, glass, radius and spacing are CSS variables (`--mi-accent`, `--mi-glass-blur`…).
 
 ## Design source: Figma
 
-Tokens and icons are designed in the [fronty Figma file](https://www.figma.com/design/8SPBcOobbk0U7U0uV01I2C) (one variable collection per theme: `aqua`, `liquid`; page `Icons`) and generated into code:
+Tokens and icons are designed in the [mitame Figma file](https://www.figma.com/design/8SPBcOobbk0U7U0uV01I2C) (one variable collection per theme: `aqua`, `liquid`; page `Icons`) and generated into code:
 
 1. Pull with `scripts/figma/export.js` (via the Figma MCP or a plugin console) into `tokens/*.json` and `icons/svg/*.svg`.
 2. `npm run tokens` → `registry/themes/<era>/<theme>.tokens.css`
@@ -87,7 +89,7 @@ npm run build      # builds the CLI into dist/cli
 
 ```
 registry/   what users can add: ui/, hooks/, lib/, icons/, themes/
-cli/        the fronty command (init, add, list)
+cli/        the mitame command (init, add, list)
 tokens/     design tokens pulled from Figma
 icons/svg/  icons pulled from Figma
 scripts/    token + icon generators, Figma export script

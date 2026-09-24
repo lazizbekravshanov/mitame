@@ -1,5 +1,5 @@
-import { MoreIcon } from "@fronty/icons/more";
-import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from "@fronty/ui/menu";
+import { MoreIcon } from "@mitame/icons/more";
+import { Menu, MenuContent, MenuItem, MenuLabel, MenuSeparator, MenuTrigger } from "@mitame/ui/menu";
 
 export default function MenuDemo() {
   return (
