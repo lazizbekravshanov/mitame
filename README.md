@@ -1,80 +1,120 @@
+<div align="center">
+
 # mitame 見た目
 
-Old UI, brought back to life with cool minimalism.
+**Old UI, brought back to life.**
 
-*mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
+Copy-paste React components that wear any era, from 2001 Aqua gel to 2026 liquid glass.
+*Mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
 
-mitame is a copy-paste React component library for the web with **era themes**. You run one command, the component's source lands in your project, and it's yours to change. No runtime dependencies besides React: menus, dialogs, popovers and tooltips are built on the browser's own `<dialog>` and Popover API.
+[mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components/button) · [Themes](https://mitame.dev/themes)
 
-| Era | Themes | Status |
+[![CI](https://github.com/lazizbekravshanov/mitame/actions/workflows/ci.yml/badge.svg)](https://github.com/lazizbekravshanov/mitame/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-black)](LICENSE)
+
+</div>
+
+```bash
+npx mitame init
+npx mitame add button dialog select
+```
+
+The source lands in your project and it's yours to edit. Nothing is hidden in `node_modules`.
+
+## Why mitame
+
+- **You own the code.** Components are copied into your repo, not installed as a dependency.
+- **Nothing to install but React.** Menus, dialogs, popovers and tooltips are built on the browser's own `<dialog>`, the Popover API and real form inputs. No Radix, no Floating UI, no tailwind-merge.
+- **Every era, one API.** Change `data-theme` and the same markup goes from Aqua gel to liquid glass. Light and dark come with each theme.
+- **Phones are first class.** 44px touch targets, no iOS zoom on focus, no hover stuck after a tap.
+- **Designed in Figma, generated into code.** Tokens and icons come from a Figma file, so the design and the CSS can't drift apart.
+
+## Themes
+
+| Era | Theme | Status |
 |---|---|---|
-| **Y2K** (2000 to 2012) | `aqua` ⭐ default (gel, pinstripes, midnight dark mode) | ✅ |
-| **Y2K** (2000 to 2012) | `aero` | next |
-| **Now** (2025+) | `liquid` (liquid glass) | ✅ |
-| **Vintage** (1984 to 1999) | `platinum`, `system` | planned |
-| **Remix** | `blend` (old structure, new glass) | planned |
+| **Y2K** · 2000 to 2012 | `aqua` — gel buttons, pinstripes, the blue ⇅ popup button, midnight dark mode | ✅ default |
+| **Now** · 2025 and later | `liquid` — frosted glass, rim light, deep soft shadows | ✅ |
+| **Vintage** · 1984 to 1999 | `platinum`, `system` — gray bevels and 1-bit black and white | next |
+| **Y2K** | `aero` — frosted Frutiger Aero glass | planned |
+| **Remix** | `blend` — old structure on new material | planned |
 
 ## Quick start
 
+**1. Initialize.** Writes `mitame.json` and copies the helpers and theme CSS.
+
 ```bash
-npx mitame init             # writes mitame.json, copies cn + theme css (aqua)
-npx mitame init --theme liquid
-npx mitame add button card dialog
-npx mitame list             # everything you can add
+npx mitame init                  # aqua, the default
+npx mitame init --theme liquid   # or liquid glass
 ```
 
-Then import the styles once and pick a theme:
+**2. Import the styles once,** in your global CSS:
 
 ```css
 @import "./components/mitame/themes/base.css";
 @import "./components/mitame/themes/y2k/aqua.css";
-/* Tailwind v4? also: @import "./components/mitame/themes/tailwind.css"; */
+
+/* Using Tailwind v4? Add the bridge for bg-mi-accent, rounded-mi-lg, ... */
+@import "tailwindcss";
+@import "./components/mitame/themes/tailwind.css";
 ```
 
+**3. Pick the era:**
+
 ```html
-<html data-theme="aqua">                   <!-- follows the OS light/dark -->
-<html data-theme="aqua" data-mode="light">  <!-- strict 2001: always light -->
-<html data-theme="liquid" data-mode="dark">
+<html data-theme="aqua">                    <!-- follows the device light/dark -->
+<html data-theme="aqua" data-mode="light">  <!-- always light, strict 2001 -->
+<html data-theme="liquid" data-mode="dark"> <!-- always dark -->
+```
+
+**4. Add components and use them:**
+
+```bash
+npx mitame add button dialog select
+npx mitame list   # everything you can add
 ```
 
 ```tsx
 import { Button } from "@/components/mitame/ui/button";
 
-<Button variant="primary">Save</Button>
+<Button variant="primary">Save</Button>;
 ```
 
-## Components (v1)
+`add` follows imports, so `select` also brings the hooks and icons it needs. Files you already have are kept, and `--overwrite` replaces only what you name.
 
-Button · TextField · Checkbox · Switch · Slider · Select · Tabs · Menu · Dialog · Popover · Tooltip · Toast · Card, plus 14 icons.
+## Components
 
-## Mobile and touch
+Button · Card · TextField · Checkbox · Switch · Slider · Select · Tabs · Menu · Dialog · Popover · Tooltip · Toast, plus 14 icons.
 
-Built for phones as much as laptops:
-
-- **44px touch targets** on touch screens. Controls keep their look; an invisible hit area grows around small buttons, tabs and close buttons. List items, fields, checkboxes and switches grow to 44px.
-- **No iOS zoom on focus**: fields use 16px text on touch devices.
-- **Hover effects only on real pointers**, so taps never leave a button stuck in its hover state.
-- **Tooltips**: hover (mouse), keyboard focus, or long press (touch). Don't put anything only in a tooltip.
-- Dialogs lock page scroll; toasts span the screen on phones; menus and lists don't scroll the page behind them.
-
-## Browser support
-
-Chrome and Edge 114+, Safari 17+, Firefox 125+ (all released by spring 2024). mitame relies on the Popover API and `<dialog>`; open/close animations use `@starting-style` and simply skip on browsers without it.
+Each one has a page on [mitame.dev](https://mitame.dev/docs/components/button) with a live demo you can switch between eras, the source, props and keyboard shortcuts.
 
 ## Customizing
 
 - **Edit the file.** It's in your repo now.
-- **Override with classes.** Theme styles live in `@layer components`, so any class you pass (Tailwind or your own) wins. No tailwind-merge needed.
-- **Target slots.** Every part has a `data-slot` (`select-trigger`, `menu-item`, `dialog-panel`…) and state attributes (`data-state`, `data-variant`, `data-size`), so you can restyle from CSS.
-- **Change tokens.** Colors, glass, radius and spacing are CSS variables (`--mi-accent`, `--mi-glass-blur`…).
+- **Override with classes.** Theme styles live in `@layer components`, so any class you pass wins without `!important`.
+- **Target slots.** Every part has a `data-slot` (`select-trigger`, `menu-item`, `dialog-panel`…) and state attributes (`data-state`, `data-variant`, `data-size`).
+- **Change tokens.** Colors, glass, radius, spacing and motion are CSS variables:
+
+```css
+[data-theme="aqua"] {
+  --mi-accent: #e8559b;
+  --mi-radius-lg: 16px;
+}
+```
+
+## Requirements
+
+React 19, and Chrome/Edge 114+, Safari 17+ or Firefox 125+ (the Popover API). Tailwind is optional. Web only.
 
 ## Design source: Figma
 
-Tokens and icons are designed in the [mitame Figma file](https://www.figma.com/design/8SPBcOobbk0U7U0uV01I2C) (one variable collection per theme: `aqua`, `liquid`; page `Icons`) and generated into code:
+Tokens and icons live in a Figma file (one variable collection per theme, plus an icon page) and are generated into code:
 
-1. Pull with `scripts/figma/export.js` (via the Figma MCP or a plugin console) into `tokens/*.json` and `icons/svg/*.svg`.
+1. Pull with `scripts/figma/export.js` (through the Figma MCP or a plugin console) into `tokens/*.json` and `icons/svg/*.svg`.
 2. `npm run tokens` → `registry/themes/<era>/<theme>.tokens.css`
 3. `npm run icons` → `registry/icons/*.tsx`
+
+CI fails if the generated files drift from the Figma exports.
 
 ## Develop
 
@@ -82,7 +122,7 @@ Tokens and icons are designed in the [mitame Figma file](https://www.figma.com/d
 npm install
 npm run site:dev   # the docs website, http://localhost:4321
 npm run dev        # playground with every component, http://localhost:5173
-npm test           # vitest: components, CLI, generators
+npm test           # components, CLI and generators
 npm run typecheck
 npm run build      # builds the CLI into dist/cli
 ```
@@ -90,13 +130,20 @@ npm run build      # builds the CLI into dist/cli
 ```
 registry/   what users can add: ui/, hooks/, lib/, icons/, themes/
 cli/        the mitame command (init, add, list)
+site/       the docs website (Astro), deployed on Vercel
 tokens/     design tokens pulled from Figma
 icons/svg/  icons pulled from Figma
-scripts/    token + icon generators, Figma export script
-site/       the docs website (Astro), deployed on Vercel
+scripts/    token and icon generators, Figma export script
 playground/ local showcase, not shipped
 docs/specs/ design decisions
 ```
+
+## Roadmap
+
+- Vintage era: `platinum` and 1-bit `system`
+- Page templates (sign in, pricing, dashboard) in every era
+- A registry endpoint so the shadcn CLI can install mitame components
+- Figma Code Connect
 
 ## License
 
