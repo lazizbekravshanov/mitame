@@ -1,7 +1,7 @@
 # mitame v1 design
 
 Date: 2026-09-18
-Status: `now/liquid` and `y2k/aqua` (default) built
+Status: `now/liquid`, `y2k/aqua` (default) and `vintage/platinum` built
 
 ## What mitame is
 
@@ -15,7 +15,7 @@ A copy-paste React component library for the web that brings old UI back to life
 | Stack | React 19, TypeScript, Tailwind CSS v4 friendly (Tailwind is optional). |
 | Themes | One set of components, many themes. A theme is a CSS file keyed by `[data-theme="<name>"]` that styles components through `data-slot` hooks. |
 | Eras | Vintage (1984 to 1999), Y2K (2000 to 2012), Now (2025+), Remix (old structure on new material). |
-| Theme roadmap | v1: `now/liquid`. Then `y2k/aqua` (becomes the default once it ships), `vintage/platinum`, `remix/blend`. Later: `vintage/system`, `y2k/aero`. |
+| Theme roadmap (done) | v1: `now/liquid`. Then `y2k/aqua` (becomes the default once it ships), `vintage/platinum`, `remix/blend`. Later: `vintage/system`, `y2k/aero`. |
 | v1 components | Button, TextField, Checkbox, Switch, Slider, Select, Tabs, Menu, Dialog, Popover, Tooltip, Toast, Card. |
 | Behavior | Native platform first: `<dialog>`, the Popover API (top layer, light dismiss), native checkbox/range inputs. Small in-house hooks fill gaps (positioning, roving focus, typeahead). No Radix, no Floating UI. |
 | Styling | Theme CSS lives in `@layer components`. User Tailwind classes land in `@layer utilities` and always win, so no tailwind-merge is needed. `cn()` just joins class names. |
@@ -83,6 +83,17 @@ Light and dark both ship; dark follows `prefers-color-scheme` unless `data-mode=
 ## Aqua (y2k/aqua)
 
 Gel material on buttons, select, tabs, checkbox and switch (a gloss layer, a bottom glow and a `--mi-tone` color, so one rule recolors any gel). Pinstripes under frosted glass on cards, dialogs and popovers. Select gets the blue ⇅ popup cap from CSS (the component's chevron is hidden). Pale yellow help tag tooltips, smoky dark toasts, a red gel close light on dialogs, blue glow focus ring. Dark mode is "midnight aqua" (graphite gel, dimmer pinstripes, same blue); `data-mode="light"` gives strict 2001 light only. Tokens: Figma collection `aqua` with Light and Dark modes, same names as `liquid` (a test enforces the contract).
+
+## Platinum (vintage/platinum)
+
+Mac OS 8 and 9: flat gray, 1px black outlines, raised (`--mi-raised`) and sunken (`--mi-sunken`) bevels instead of shadows, a hard 2px drop shadow, square corners everywhere (all radius tokens are 0) and `transition: none` (both motion tokens are 0). Select gets a black triangle, Tabs become file folder tabs on a panel edge, the switch is a sunken track with a raised square thumb, tooltips are Balloon Help yellow. Dark mode is "graphite". Tokens: Figma collection `platinum`, Light and Graphite modes.
+
+## Server rendering
+
+Two rules the components and the site follow, both learned from real bugs:
+
+- **Triggers withhold `popoverTarget` until mounted** (`hooks/use-mounted.ts`). Before hydration the browser would happily open the popover through the native invoker, unpositioned in the page corner, because the positioning hook had not run yet.
+- **Anything reading browser state renders the server value first.** React 19 does not patch attribute mismatches during hydration ("this won't be patched up"), so a theme switcher that read `data-theme` during hydration kept a stale selection. The site's `useTheme` returns a fixed default and syncs in an effect.
 
 ## Mobile and touch
 

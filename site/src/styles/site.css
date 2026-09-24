@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "../../../registry/themes/base.css";
+@import "../../../registry/themes/vintage/platinum.css";
 @import "../../../registry/themes/y2k/aqua.css";
 @import "../../../registry/themes/now/liquid.css";
 @import "../../../registry/themes/tailwind.css";
@@ -53,6 +54,18 @@ body {
 @media (pointer: coarse) {
   .wallpaper { background-attachment: scroll !important; }
 }
+
+/* Platinum: the gray desktop, with the classic 50% dither pattern. */
+[data-theme="platinum"] .wallpaper {
+  background-color: #6d84a8;
+  background-image:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.10) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.10) 0 1px, transparent 1px 2px);
+}
+@media (prefers-color-scheme: dark) {
+  [data-theme="platinum"]:not([data-mode="light"]) .wallpaper { background-color: #33415c; }
+}
+[data-theme="platinum"][data-mode="dark"] .wallpaper { background-color: #33415c; }
 
 /* ---------- Site chrome, built from theme tokens so it follows the era ---------- */
 .site-header {

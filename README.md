@@ -35,7 +35,8 @@ The source lands in your project and it's yours to edit. Nothing is hidden in `n
 |---|---|---|
 | **Y2K** · 2000 to 2012 | `aqua` — gel buttons, pinstripes, the blue ⇅ popup button, midnight dark mode | ✅ default |
 | **Now** · 2025 and later | `liquid` — frosted glass, rim light, deep soft shadows | ✅ |
-| **Vintage** · 1984 to 1999 | `platinum`, `system` — gray bevels and 1-bit black and white | next |
+| **Vintage** · 1984 to 1999 | `platinum` — Mac OS 8/9 gray, bevels, hard shadows, square corners, graphite dark mode | ✅ |
+| **Vintage** | `system` — 1-bit black and white | next |
 | **Y2K** | `aero` — frosted Frutiger Aero glass | planned |
 | **Remix** | `blend` — old structure on new material | planned |
 
@@ -140,7 +141,7 @@ docs/specs/ design decisions
 
 ## Roadmap
 
-- Vintage era: `platinum` and 1-bit `system`
+- Vintage `system`: 1-bit black and white
 - Page templates (sign in, pricing, dashboard) in every era
 - A registry endpoint so the shadcn CLI can install mitame components
 - Figma Code Connect

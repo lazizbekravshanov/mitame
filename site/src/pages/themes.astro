@@ -20,8 +20,8 @@ const eras = [
     id: "platinum",
     era: "Vintage",
     years: "1984 to 1999",
-    status: "Coming next",
-    text: "Gray Platinum bevels and 1-bit black and white: sharp pixels, hard shadows, square corners.",
+    status: "Available",
+    text: "Mac OS 8 and 9 Platinum: flat gray, 1px black outlines, raised and sunken bevels, hard drop shadows, square corners and no animation. Dark mode is graphite.",
   },
   {
     id: "blend",
@@ -40,7 +40,7 @@ const eras = [
     <div class="mt-8 grid gap-5 md:grid-cols-2">
       {
         eras.map((e) => (
-          <div data-theme={["aqua", "liquid"].includes(e.id) ? e.id : undefined} class="rounded-mi-lg overflow-hidden">
+          <div data-theme={["aqua", "liquid", "platinum"].includes(e.id) ? e.id : undefined} class="rounded-mi-lg overflow-hidden">
             <div class="wallpaper p-5">
               <div class="panel p-6">
                 <p class="m-0 text-sm font-semibold text-mi-fg-muted">
@@ -49,7 +49,7 @@ const eras = [
                 <h2 class="mt-1 mb-2 text-2xl font-bold">{e.id}</h2>
                 <p class="m-0 text-mi-fg-muted">{e.text}</p>
                 <p class="mt-4 mb-0 text-sm font-semibold">{e.status}</p>
-                {["aqua", "liquid"].includes(e.id) && (
+                {["aqua", "liquid", "platinum"].includes(e.id) && (
                   <div class="mt-4 flex flex-wrap gap-2">
                     <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
                     <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>

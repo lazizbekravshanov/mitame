@@ -2,6 +2,7 @@ import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "rea
 import { useAnchorPosition } from "../hooks/use-anchor-position";
 import { useControllable } from "../hooks/use-controllable";
 import { useListNavigation } from "../hooks/use-list-navigation";
+import { useMounted } from "../hooks/use-mounted";
 import { usePopover } from "../hooks/use-popover";
 import { CheckIcon } from "../icons/check";
 import { ChevronDownIcon } from "../icons/chevron-down";
@@ -47,6 +48,7 @@ export function Select({
   const trigger = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLDivElement>(null);
   const listId = useId();
+  const mounted = useMounted();
 
   usePopover(list, open, (next) => {
     setOpen(next);
@@ -105,7 +107,7 @@ export function Select({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
-        popoverTarget={listId}
+        popoverTarget={mounted ? listId : undefined}
         onKeyDown={onTriggerKeyDown}
         {...aria}
       >

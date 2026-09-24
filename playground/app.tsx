@@ -19,8 +19,8 @@ import { Toaster, toast } from "../registry/ui/toast";
 import { Tooltip } from "../registry/ui/tooltip";
 
 type Mode = "system" | "light" | "dark";
-type Theme = "aqua" | "liquid";
-const ERA: Record<Theme, string> = { aqua: "Y2K era", liquid: "Now era" };
+type Theme = "platinum" | "aqua" | "liquid";
+const ERA: Record<Theme, string> = { platinum: "Vintage era", aqua: "Y2K era", liquid: "Now era" };
 
 export function App() {
   const [mode, setMode] = useState<Mode>("system");
@@ -49,6 +49,7 @@ export function App() {
           <div className="flex flex-wrap gap-3">
             <Tabs value={theme} onValueChange={(v) => setDocTheme(v as Theme)}>
               <TabsList aria-label="Theme">
+                <TabsTrigger value="platinum">Platinum</TabsTrigger>
                 <TabsTrigger value="aqua">Aqua</TabsTrigger>
                 <TabsTrigger value="liquid">Liquid</TabsTrigger>
               </TabsList>

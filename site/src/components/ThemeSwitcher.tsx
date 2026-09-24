@@ -7,6 +7,7 @@ export default function ThemeSwitcher() {
     <div className="flex flex-wrap items-center gap-2">
       <Tabs value={theme} onValueChange={(v) => setTheme(v as ThemeId)}>
         <TabsList aria-label="Theme">
+          <TabsTrigger value="platinum">Platinum</TabsTrigger>
           <TabsTrigger value="aqua">Aqua</TabsTrigger>
           <TabsTrigger value="liquid">Liquid</TabsTrigger>
         </TabsList>

@@ -39,7 +39,7 @@ const nav = [
       try {
         const t = localStorage.getItem("mitame-theme");
         const m = localStorage.getItem("mitame-mode");
-        if (t === "aqua" || t === "liquid") document.documentElement.dataset.theme = t;
+        if (["platinum", "aqua", "liquid"].includes(t)) document.documentElement.dataset.theme = t;
         if (m === "light" || m === "dark") document.documentElement.dataset.mode = m;
       } catch {}
     </script>

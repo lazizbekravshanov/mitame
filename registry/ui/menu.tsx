@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useAnchorPosition, type Placement } from "../hooks/use-anchor-position";
 import { useListNavigation } from "../hooks/use-list-navigation";
+import { useMounted } from "../hooks/use-mounted";
 import { usePopover } from "../hooks/use-popover";
 import { cn } from "../lib/cn";
 import { pointerFocus } from "../lib/pointer-focus";
@@ -50,11 +51,12 @@ export function Menu({ open: controlled, onOpenChange, children }: MenuProps) {
 
 export function MenuTrigger({ className, onKeyDown, ...props }: HTMLAttributes<HTMLButtonElement>) {
   const { open, setOpen, id, trigger } = useMenu();
+  const mounted = useMounted();
   return (
     <button
       ref={trigger}
       type="button"
-      popoverTarget={id}
+      popoverTarget={mounted ? id : undefined}
       aria-haspopup="menu"
       aria-expanded={open}
       aria-controls={id}

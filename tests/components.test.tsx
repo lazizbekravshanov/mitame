@@ -331,3 +331,41 @@ describe("computePosition", () => {
     expect(computePosition(new DOMRect(950, 100, 40, 30), { width: 200, height: 100 }, "bottom-start", vp).x).toBe(792);
   });
 });
+
+describe("server rendering", () => {
+  it("holds back popoverTarget until mount, so a pre-hydration click cannot open an unpositioned popover", async () => {
+    const { renderToStaticMarkup } = await import("react-dom/server");
+    const html = renderToStaticMarkup(
+      <>
+        <Menu>
+          <MenuTrigger>Actions</MenuTrigger>
+          <MenuContent>
+            <MenuItem>Copy</MenuItem>
+          </MenuContent>
+        </Menu>
+        <Select aria-label="Era" options={[{ value: "y2k", label: "Y2K" }]} />
+        <Popover>
+          <PopoverTrigger>Details</PopoverTrigger>
+          <PopoverContent>Hi</PopoverContent>
+        </Popover>
+      </>,
+    );
+    expect(html).not.toContain("popovertarget");
+    // The popovers themselves still render, just not wired to their triggers yet.
+    expect(html).toContain('popover="auto"');
+  });
+
+  it("wires the trigger up once mounted", async () => {
+    render(
+      <Menu>
+        <MenuTrigger>Actions</MenuTrigger>
+        <MenuContent>
+          <MenuItem>Copy</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+    const trigger = screen.getByRole("button", { name: "Actions" });
+    await waitFor(() => expect(trigger.getAttribute("popovertarget")).toBeTruthy());
+    expect(trigger.getAttribute("popovertarget")).toBe(screen.getByRole("menu", { hidden: true }).id);
+  });
+});

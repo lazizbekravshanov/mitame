@@ -12,7 +12,7 @@ const root = here.endsWith(join("dist", "cli")) ? join(here, "../../registry") :
 const HELP = `mitame: copy-paste components with era themes
 
 Usage
-  npx mitame init [--dir src/components/mitame] [--theme aqua|liquid]
+  npx mitame init [--dir src/components/mitame] [--theme aqua|liquid|platinum]
   npx mitame add <item...> [--overwrite]      e.g. add button select dialog
   npx mitame list
 

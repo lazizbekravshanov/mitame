@@ -1,5 +1,6 @@
 import { createContext, useContext, useId, useRef, useState, type HTMLAttributes, type RefObject } from "react";
 import { useAnchorPosition, type Placement } from "../hooks/use-anchor-position";
+import { useMounted } from "../hooks/use-mounted";
 import { usePopover } from "../hooks/use-popover";
 import { cn } from "../lib/cn";
 
@@ -37,11 +38,12 @@ export function Popover({ open: controlled, onOpenChange, children }: PopoverPro
 
 export function PopoverTrigger({ className, ...props }: HTMLAttributes<HTMLButtonElement>) {
   const { open, id, trigger } = usePopoverCtx();
+  const mounted = useMounted();
   return (
     <button
       ref={trigger}
       type="button"
-      popoverTarget={id}
+      popoverTarget={mounted ? id : undefined}
       aria-haspopup="dialog"
       aria-expanded={open}
       aria-controls={id}
