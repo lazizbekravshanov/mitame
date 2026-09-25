@@ -1,0 +1,26 @@
+---
+import ComponentDemo from "../../../components/ComponentDemo";
+import Docs from "../../../layouts/Docs.astro";
+import { components } from "../../../data/components";
+---
+
+<Docs title="Components" description="Every mitame component: Button, Card, TextField, Checkbox, Switch, Slider, Select, Tabs, Menu, Dialog, Popover, Tooltip and Toast, live in every era.">
+  <h1>Components</h1>
+  <p class="lede">{components.length} components, each one built on the web platform and dressed by whichever era you pick. Switch the theme in the header and they all change.</p>
+
+  <div class="not-prose mt-8 grid gap-5 sm:grid-cols-2">
+    {
+      components.map((c) => (
+        <a href={`/docs/components/${c.slug}`} class="panel block overflow-hidden no-underline text-mi-fg">
+          <div class="preview wallpaper min-h-[150px] p-5">
+            <ComponentDemo slug={c.slug} client:visible />
+          </div>
+          <div class="p-4">
+            <span class="font-semibold">{c.name}</span>
+            <span class="mt-1 block text-sm text-mi-fg-muted">{c.description}</span>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</Docs>

@@ -7,7 +7,7 @@
 Copy-paste React components that wear any era, from 2001 Aqua gel to 2026 liquid glass.
 *Mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
 
-[mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components/button) · [Themes](https://mitame.dev/themes)
+[mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components) · [Themes](https://mitame.dev/themes)
 
 [![CI](https://github.com/lazizbekravshanov/mitame/actions/workflows/ci.yml/badge.svg)](https://github.com/lazizbekravshanov/mitame/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-black)](LICENSE)
@@ -87,7 +87,7 @@ import { Button } from "@/components/mitame/ui/button";
 
 Button · Card · TextField · Checkbox · Switch · Slider · Select · Tabs · Menu · Dialog · Popover · Tooltip · Toast, plus 14 icons.
 
-Each one has a page on [mitame.dev](https://mitame.dev/docs/components/button) with a live demo you can switch between eras, the source, props and keyboard shortcuts.
+Each one has a page on [mitame.dev](https://mitame.dev/docs/components) with a live demo you can switch between eras, the source, props and keyboard shortcuts.
 
 ## Customizing
 

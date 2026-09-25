@@ -13,7 +13,7 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
 const path = Astro.url.pathname;
 const nav = [
   { href: "/docs", label: "Docs" },
-  { href: "/docs/components/button", label: "Components", match: "/docs/components" },
+  { href: "/docs/components", label: "Components", match: "/docs/components" },
   { href: "/themes", label: "Themes" },
 ];
 ---
