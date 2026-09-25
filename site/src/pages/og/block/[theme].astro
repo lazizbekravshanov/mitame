@@ -1,0 +1,23 @@
+---
+import BlockPreview from "../../../components/BlockPreview";
+import "../../../styles/site.css";
+import "../_shot.css";
+
+export function getStaticPaths() {
+  return ["urban", "brutalist", "aqua"].map((theme) => ({ params: { theme } }));
+}
+const { theme } = Astro.params;
+---
+
+<html lang="en" data-theme={theme} data-mode={theme === "urban" ? "dark" : "light"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>mitame block shot</title>
+  </head>
+  <body style="margin:0">
+    <div style="width:1270px;height:760px;overflow:hidden;background:var(--mi-bg)">
+      <BlockPreview slug="dashboard" />
+    </div>
+  </body>
+</html>

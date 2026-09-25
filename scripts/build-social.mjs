@@ -19,6 +19,9 @@ const SHOTS = [
   { url: "/og/gallery/brutalist/", file: "gallery-4-brutalist.png", w: 1270, h: 760 },
   { url: "/og/gallery/urban/", file: "gallery-5-urban.png", w: 1270, h: 760 },
   { url: "/og/gallery/minimal/", file: "gallery-6-minimal.png", w: 1270, h: 760 },
+  { url: "/og/block/urban/", file: "block-dashboard-urban.png", w: 1270, h: 760 },
+  { url: "/og/block/brutalist/", file: "block-dashboard-brutalist.png", w: 1270, h: 760 },
+  { url: "/og/block/aqua/", file: "block-dashboard-aqua.png", w: 1270, h: 760 },
 ];
 
 mkdirSync(out, { recursive: true });

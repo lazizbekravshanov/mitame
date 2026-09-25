@@ -94,6 +94,18 @@ Button · Card · TextField · Checkbox · Switch · Slider · Select · Tabs ·
 
 Each one has a page on [mitame.dev](https://mitame.dev/docs/components) with a live demo you can switch between eras, the source, props and keyboard shortcuts.
 
+## Blocks
+
+Whole pages built from the same components, in any theme:
+
+```bash
+npx mitame add sign-in
+npx mitame add pricing
+npx mitame add dashboard
+```
+
+They bring their own layout CSS (tokens only, no utility framework), so they look right with or without Tailwind. See them live at [mitame.dev/blocks](https://mitame.dev/blocks).
+
 ## Customizing
 
 - **Edit the file.** It's in your repo now.
@@ -136,7 +148,7 @@ npm run clip       # records the era switch as a GIF
 ```
 
 ```
-registry/   what users can add: ui/, hooks/, lib/, icons/, themes/
+registry/   what users can add: ui/, blocks/, hooks/, lib/, icons/, themes/
 cli/        the mitame command (init, add, list)
 site/       the docs website (Astro), deployed on Vercel
 tokens/     design tokens pulled from Figma
@@ -151,6 +163,7 @@ docs/launch/ launch copy and asset notes
 
 - Vintage `system`: 1-bit black and white
 - Page templates (sign in, pricing, dashboard) in every era
+- More blocks: settings, empty states, marketing hero
 - A registry endpoint so the shadcn CLI can install mitame components
 - Figma Code Connect
 

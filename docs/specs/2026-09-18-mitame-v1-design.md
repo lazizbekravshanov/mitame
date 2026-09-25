@@ -103,6 +103,12 @@ Two rules the components and the site follow, both learned from real bugs:
 
 `brutalist` and `urban` name Archivo as their font, `minimal` names Inter. Themes only suggest a family through `--mi-font-sans`; loading it is the user's job.
 
+## Blocks
+
+Whole pages (`registry/blocks/`): `sign-in`, `pricing`, `dashboard`. Each is one default-exported component built only from mitame components, with layout in a shared `blocks.css` that uses tokens only, so blocks need no utility framework. `npx mitame add dashboard` pulls the block, `blocks.css` and every component, hook and icon it imports.
+
+`blocks.css` repeats the `@layer theme, base, components, utilities;` statement from `base.css`, because a block imports it from TypeScript and a bundler can inject it first. Whichever stylesheet names the layers first sets their order for the page, and without this a reset like Tailwind preflight outranks the theme layer. A test enforces it for every CSS file reachable from code.
+
 ## Mobile and touch
 
 - `@media (pointer: coarse)`: 44px hit areas (an invisible `::after` on small controls, real min-heights on list items, fields, checkboxes, switches), 16px field text so iOS does not zoom, bigger slider thumb.

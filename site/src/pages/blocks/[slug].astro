@@ -1,0 +1,48 @@
+---
+import BlockPreview from "../../components/BlockPreview";
+import CodeBlock from "../../components/CodeBlock.astro";
+import Base from "../../layouts/Base.astro";
+import { blocks, type BlockDoc } from "../../data/blocks";
+
+export function getStaticPaths() {
+  return blocks.map((block) => ({ params: { slug: block.slug }, props: { block } }));
+}
+const { block } = Astro.props as { block: BlockDoc };
+const sources = import.meta.glob("../../../../registry/blocks/*.tsx", { query: "?raw", import: "default", eager: true }) as Record<string, string>;
+const source = (sources[`../../../../registry/blocks/${block.slug}.tsx`] ?? "")
+  .replaceAll('from "../', 'from "@/components/mitame/')
+  .replaceAll('"./blocks.css"', '"@/components/mitame/blocks/blocks.css"');
+---
+
+<Base title={block.name} description={`${block.description} A copy-paste mitame block that works in every theme.`}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <p class="mb-1 text-sm font-semibold text-mi-fg-muted">
+      <a class="link" href="/blocks">Blocks</a> · built from {block.uses.join(", ")}
+    </p>
+    <h1 class="m-0 text-4xl font-bold tracking-tight">{block.name}</h1>
+    <p class="lede mt-2 max-w-2xl">{block.description}</p>
+
+    <div class="panel mt-8 overflow-hidden">
+      <div class="block-frame" style={`height:${block.height}px`}>
+        <BlockPreview slug={block.slug} client:load />
+      </div>
+    </div>
+
+    <div class="panel prose mt-8 p-6 md:p-10">
+      <h2>Install</h2>
+      <CodeBlock lang="bash" code={`npx mitame add ${block.slug}`} />
+      <p>That copies the block, the shared block layout CSS and every component it uses.</p>
+
+      <h2>Source</h2>
+      <CodeBlock code={source} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .block-frame {
+    overflow: auto;
+    background: var(--mi-bg);
+    container-type: inline-size;
+  }
+</style>

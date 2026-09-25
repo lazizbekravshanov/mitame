@@ -48,6 +48,18 @@ describe("registry", () => {
     expect(Object.entries(THEMES).sort()).toEqual(Object.entries(TOKEN_THEMES).map(([n, era]) => [n, `${era}/${n}`]).sort());
   });
 
+  it("CSS that a component can import declares the layer order", () => {
+    // Whichever stylesheet loads first decides layer order for the page. A CSS
+    // file imported from TS can be injected before base.css, so it must name
+    // the layers itself or a reset (like Tailwind preflight) outranks themes.
+    const all = collectFiles(root, Object.entries(listItems(root)).flatMap(([kind, items]) => items.map((i) => resolveItem(root, `${kind}/${i}`))));
+    const importedFromCode = all.filter((f) => f.endsWith(".css") && !f.startsWith("themes/"));
+    expect(importedFromCode.length).toBeGreaterThan(0);
+    for (const file of importedFromCode) {
+      expect(readFileSync(join(root, file), "utf8")).toContain("@layer theme, base, components, utilities;");
+    }
+  });
+
   it("every registry file only imports things inside the registry", () => {
     const all = Object.entries(listItems(root)).flatMap(([kind, items]) => items.map((i) => resolveItem(root, `${kind}/${i}`)));
     expect(all.length).toBeGreaterThan(30);

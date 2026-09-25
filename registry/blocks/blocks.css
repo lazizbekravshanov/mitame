@@ -1,0 +1,71 @@
+/*
+ * Layout for mitame blocks. Only tokens, no utility framework, so blocks work
+ * with or without Tailwind. Every rule sits in @layer components, so your own
+ * classes still win.
+ *
+ * The layer order is declared here as well as in base.css: blocks import this
+ * file from TypeScript, so a bundler can inject it before base.css, and the
+ * first file to name the layers decides their order for the whole page.
+ */
+@layer theme, base, components, utilities;
+
+@layer components {
+  /* ---------- shared ---------- */
+  .mi-block { color: var(--mi-fg); font-family: var(--mi-font-sans); }
+  .mi-block-center { display: grid; place-items: center; min-height: 100vh; padding: var(--mi-space-6); }
+  .mi-block-section { max-width: 1120px; margin: 0 auto; padding: var(--mi-space-8) var(--mi-space-6); }
+  .mi-block-head { text-align: center; margin-bottom: var(--mi-space-8); }
+  .mi-block-title { margin: 0; font-size: calc(var(--mi-text-xl) * 1.6); font-weight: 700; letter-spacing: -0.02em; }
+  .mi-block-lede { margin: var(--mi-space-2) auto 0; max-width: 56ch; color: var(--mi-fg-muted); }
+  .mi-block-row { display: flex; align-items: center; gap: var(--mi-space-3); }
+  .mi-block-between { display: flex; align-items: center; justify-content: space-between; gap: var(--mi-space-4); }
+  .mi-block-stack { display: flex; flex-direction: column; gap: var(--mi-space-4); }
+  .mi-block-muted { color: var(--mi-fg-muted); }
+  .mi-block-small { font-size: var(--mi-text-sm); }
+
+  /* ---------- sign in ---------- */
+  .mi-auth { width: min(400px, 100%); }
+  .mi-auth-mark { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--mi-border); border-radius: var(--mi-radius-md); font-weight: 800; }
+  .mi-auth-divider { display: flex; align-items: center; gap: var(--mi-space-3); color: var(--mi-fg-muted); font-size: var(--mi-text-xs); }
+  .mi-auth-divider::before,
+  .mi-auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--mi-border); }
+  .mi-auth-foot { text-align: center; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-auth-foot a { color: var(--mi-accent); }
+
+  /* ---------- pricing ---------- */
+  .mi-price-grid { display: grid; gap: var(--mi-space-5); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+  .mi-price-amount { display: flex; align-items: baseline; gap: var(--mi-space-2); margin: var(--mi-space-2) 0 0; }
+  .mi-price-number { font-size: calc(var(--mi-text-xl) * 1.8); font-weight: 800; letter-spacing: -0.03em; }
+  .mi-price-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--mi-space-2); font-size: var(--mi-text-sm); }
+  .mi-price-list li { display: flex; gap: var(--mi-space-2); align-items: flex-start; }
+  .mi-price-list svg { flex: none; margin-top: 2px; color: var(--mi-success); }
+  .mi-price-tag { align-self: flex-start; padding: 2px 10px; font-size: var(--mi-text-xs); font-weight: 700; border-radius: var(--mi-radius-full); background: var(--mi-accent); color: var(--mi-accent-fg); }
+  .mi-price-toggle { display: flex; justify-content: center; margin-bottom: var(--mi-space-6); }
+
+  /* ---------- dashboard ---------- */
+  .mi-dash { display: grid; grid-template-columns: 216px 1fr; min-height: 100vh; }
+  .mi-dash-side { border-right: 1px solid var(--mi-border); padding: var(--mi-space-5); display: flex; flex-direction: column; gap: var(--mi-space-5); }
+  .mi-dash-nav { display: flex; flex-direction: column; gap: 2px; }
+  .mi-dash-nav a {
+    display: flex; align-items: center; gap: var(--mi-space-2);
+    padding: 8px var(--mi-space-3); border-radius: var(--mi-radius-sm);
+    color: var(--mi-fg-muted); text-decoration: none; font-size: var(--mi-text-md);
+  }
+  .mi-dash-nav a[aria-current="page"] { background: var(--mi-accent); color: var(--mi-accent-fg); font-weight: 600; }
+  .mi-dash-main { display: flex; flex-direction: column; gap: var(--mi-space-5); padding: var(--mi-space-6); min-width: 0; }
+  .mi-dash-stats { display: grid; gap: var(--mi-space-4); grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .mi-dash-stat-value { font-size: calc(var(--mi-text-xl) * 1.4); font-weight: 800; letter-spacing: -0.02em; }
+  .mi-dash-delta { font-size: var(--mi-text-xs); font-weight: 700; color: var(--mi-success); }
+  .mi-dash-delta[data-down] { color: var(--mi-danger); }
+  .mi-dash-table { width: 100%; border-collapse: collapse; font-size: var(--mi-text-sm); }
+  .mi-dash-table th { text-align: left; font-size: var(--mi-text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--mi-fg-muted); padding: 0 var(--mi-space-3) var(--mi-space-2); font-weight: 600; }
+  .mi-dash-table td { padding: var(--mi-space-3); border-top: 1px solid var(--mi-border); }
+  .mi-dash-bar { height: 6px; border-radius: var(--mi-radius-full); background: color-mix(in oklab, var(--mi-fg) 12%, transparent); overflow: hidden; }
+  .mi-dash-bar span { display: block; height: 100%; border-radius: inherit; background: var(--mi-accent); }
+
+  @media (max-width: 760px) {
+    .mi-dash { grid-template-columns: 1fr; }
+    .mi-dash-side { border-right: 0; border-bottom: 1px solid var(--mi-border); }
+    .mi-dash-nav { flex-direction: row; overflow-x: auto; }
+  }
+}

@@ -1,0 +1,46 @@
+---
+import BlockPreview from "../../components/BlockPreview";
+import Base from "../../layouts/Base.astro";
+import { blocks } from "../../data/blocks";
+---
+
+<Base title="Blocks" description="Full page mitame blocks: sign in, pricing and dashboard. Copy them into your project and they wear whichever theme you pick.">
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="m-0 text-4xl font-bold tracking-tight">Blocks</h1>
+    <p class="lede mt-3 max-w-2xl">
+      Whole pages built from the same components. Copy one in, change the copy, ship it. Switch the theme in the header and the blocks change with it.
+    </p>
+
+    <div class="mt-10 flex flex-col gap-10">
+      {
+        blocks.map((block) => (
+          <article>
+            <div class="mb-3 flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <h2 class="m-0 text-2xl font-bold">
+                  <a class="text-mi-fg no-underline" href={`/blocks/${block.slug}`}>{block.name}</a>
+                </h2>
+                <p class="mt-1 mb-0 text-mi-fg-muted">{block.description}</p>
+              </div>
+              <code class="inline-code">npx mitame add {block.slug}</code>
+            </div>
+            <div class="panel overflow-hidden">
+              <div class="block-frame" style={`height:${block.height}px`}>
+                <BlockPreview slug={block.slug} client:visible />
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* The block sets its own page background, so let it fill the frame. */
+  .block-frame {
+    overflow: auto;
+    background: var(--mi-bg);
+    container-type: inline-size;
+  }
+</style>

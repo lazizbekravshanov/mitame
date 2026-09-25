@@ -17,6 +17,9 @@ Rendered from the real components by `npm run social` (Playwright + local static
 | `site/public/social/gallery-4-brutalist.png` | 1270x760 @2x | Product Hunt gallery 4 |
 | `site/public/social/gallery-5-urban.png` | 1270x760 @2x | Product Hunt gallery 5 |
 | `site/public/social/gallery-6-minimal.png` | 1270x760 @2x | Spare |
+| `site/public/social/block-dashboard-urban.png` | 1270x760 @2x | The dashboard block, urban. Strongest single image |
+| `site/public/social/block-dashboard-brutalist.png` | 1270x760 @2x | The dashboard block, brutalist |
+| `site/public/social/block-dashboard-aqua.png` | 1270x760 @2x | The dashboard block, Aqua |
 | `site/public/social/eras.gif` | 1000x600, 6 frames | The era switch, for X, Reddit and the PH gallery |
 | `site/public/social/eras.webm` | 1000x600 video | Same clip as video, for anywhere that takes webm |
 
@@ -36,7 +39,7 @@ X also accepts the GIF directly and converts it to video on upload, so the mp4 i
 1. `mitame.dev` bought and pointing at the Vercel project.
 2. `SITE_URL=https://mitame.dev` set in Vercel, then redeploy, so previews and the sitemap use real URLs.
 3. `npm publish` done, then check `npx mitame@latest init` in an empty folder.
-4. Open https://mitame.dev in a private window and click through: era switch, a component page, dark mode, phone width.
+4. Open https://mitame.dev in a private window and click through: theme switch, a component page, a block, dark mode, phone width.
 5. Paste the URL into a Slack or Discord message to confirm the preview image shows.
 6. Post the same day to Product Hunt (12:01am PT) and X, then Show HN and r/reactjs a few hours apart.
 

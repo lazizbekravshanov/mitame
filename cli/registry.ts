@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, normalize, relative } from "node:path";
 
 /** Registry kinds, matching folders under registry/. */
-export const KINDS = ["ui", "hooks", "lib", "icons", "themes"] as const;
+export const KINDS = ["ui", "blocks", "hooks", "lib", "icons", "themes"] as const;
 
 export const THEMES: Record<string, string> = {
   aqua: "y2k/aqua",
@@ -20,6 +20,7 @@ export function resolveItem(root: string, name: string): string {
   const clean = name.replace(/\.(tsx?|css)$/, "");
   const candidates = [
     clean.includes("/") ? clean : `ui/${clean}`,
+    `blocks/${clean}`,
     `themes/${THEMES[clean] ?? clean}`,
     `icons/${clean}`,
     `hooks/${clean}`,
@@ -69,7 +70,9 @@ export function listItems(root: string): Record<string, string[]> {
   for (const kind of KINDS) {
     if (!existsSync(join(root, kind))) continue;
     out[kind] = walk(kind)
-      .filter((f) => !f.endsWith(".tokens.css"))
+      // Support files (generated tokens, shared block layout) are pulled in by
+      // whatever imports them, so they are not items you add yourself.
+      .filter((f) => !f.endsWith(".tokens.css") && !(kind !== "themes" && f.endsWith(".css")))
       .map((f) => f.replace(/^[^/]+\//, "").replace(/\.(tsx?|css)$/, ""))
       .sort();
   }
