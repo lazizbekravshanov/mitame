@@ -17,6 +17,8 @@ Rendered from the real components by `npm run social` (Playwright + local static
 | `site/public/social/gallery-4-brutalist.png` | 1270x760 @2x | Product Hunt gallery 4 |
 | `site/public/social/gallery-5-urban.png` | 1270x760 @2x | Product Hunt gallery 5 |
 | `site/public/social/gallery-6-minimal.png` | 1270x760 @2x | Spare |
+| `site/public/social/gallery-7-paper.png` … `gallery-11-aero.png` | 1270x760 @2x | paper, terminal, neon, system (1-bit), aero |
+| `site/public/social/og-terminal.png`, `og-paper.png` | 1200x630 @2x | Alternate social cards |
 | `site/public/social/block-dashboard-urban.png` | 1270x760 @2x | The dashboard block, urban. Strongest single image |
 | `site/public/social/block-dashboard-brutalist.png` | 1270x760 @2x | The dashboard block, brutalist |
 | `site/public/social/block-dashboard-aqua.png` | 1270x760 @2x | The dashboard block, Aqua |
