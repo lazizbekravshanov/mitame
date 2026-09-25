@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 
 export const THEMES = [
-  { id: "platinum", era: "Vintage", year: "1997", ready: true },
-  { id: "aqua", era: "Y2K", year: "2001", ready: true },
-  { id: "liquid", era: "Now", year: "2026", ready: true },
-  { id: "blend", era: "Remix", year: "any", ready: false },
+  { id: "platinum", group: "Eras", era: "Vintage", year: "1997", ready: true },
+  { id: "aqua", group: "Eras", era: "Y2K", year: "2001", ready: true },
+  { id: "liquid", group: "Eras", era: "Now", year: "2026", ready: true },
+  { id: "brutalist", group: "Styles", era: "Brutalist", year: "loud", ready: true },
+  { id: "minimal", group: "Styles", era: "Minimal", year: "quiet", ready: true },
+  { id: "urban", group: "Styles", era: "Urban", year: "night", ready: true },
 ] as const;
-export type ThemeId = "aqua" | "liquid" | "platinum";
+export const ERAS = THEMES.filter((t) => t.group === "Eras");
+export const STYLES = THEMES.filter((t) => t.group === "Styles");
+export type Theme = (typeof THEMES)[number];
+export type ThemeId = Theme["id"];
 export type Mode = "system" | "light" | "dark";
 
 const EVENT = "mitame:theme";

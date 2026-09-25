@@ -1,7 +1,7 @@
 # mitame v1 design
 
 Date: 2026-09-18
-Status: `now/liquid`, `y2k/aqua` (default) and `vintage/platinum` built
+Status: six themes built. Eras: `y2k/aqua` (default), `now/liquid`, `vintage/platinum`. Styles: `styles/brutalist`, `styles/minimal`, `styles/urban`.
 
 ## What mitame is
 
@@ -14,7 +14,7 @@ A copy-paste React component library for the web that brings old UI back to life
 | Delivery | Copy-paste CLI. The only thing on npm is the `mitame` CLI, which carries the registry inside it (works offline, no server). |
 | Stack | React 19, TypeScript, Tailwind CSS v4 friendly (Tailwind is optional). |
 | Themes | One set of components, many themes. A theme is a CSS file keyed by `[data-theme="<name>"]` that styles components through `data-slot` hooks. |
-| Eras | Vintage (1984 to 1999), Y2K (2000 to 2012), Now (2025+), Remix (old structure on new material). |
+| Shelves | **Eras** (Vintage, Y2K, Now) are looks that existed. **Styles** (brutalist, minimal, urban) are looks that never belonged to a decade. Same theme system, one folder each: `registry/themes/styles/`. |
 | Theme roadmap (done) | v1: `now/liquid`. Then `y2k/aqua` (becomes the default once it ships), `vintage/platinum`, `remix/blend`. Later: `vintage/system`, `y2k/aero`. |
 | v1 components | Button, TextField, Checkbox, Switch, Slider, Select, Tabs, Menu, Dialog, Popover, Tooltip, Toast, Card. |
 | Behavior | Native platform first: `<dialog>`, the Popover API (top layer, light dismiss), native checkbox/range inputs. Small in-house hooks fill gaps (positioning, roving focus, typeahead). No Radix, no Floating UI. |
@@ -94,6 +94,14 @@ Two rules the components and the site follow, both learned from real bugs:
 
 - **Triggers withhold `popoverTarget` until mounted** (`hooks/use-mounted.ts`). Before hydration the browser would happily open the popover through the native invoker, unpositioned in the page corner, because the positioning hook had not run yet.
 - **Anything reading browser state renders the server value first.** React 19 does not patch attribute mismatches during hydration ("this won't be patched up"), so a theme switcher that read `data-theme` during hydration kept a stale selection. The site's `useTheme` returns a fixed default and syncs in an effect.
+
+## Styles (styles/brutalist, styles/minimal, styles/urban)
+
+- **brutalist**: 3px outlines, 4 to 6px hard offset shadows, radius 0 everywhere, flat accent fills, uppercase labels. Pressing a button translates it into its own shadow. Danger toasts flip the whole surface to the danger color.
+- **minimal**: hairline borders, no shadows except a faint lift on floating surfaces, inputs are an underline, tabs are an underline, the accent is the ink color itself. Motion is a short fade, nothing moves.
+- **urban**: near black surfaces with a scanline grain, one acid accent (`#BEFF00`) that also glows on primary buttons and the checked switch, heavy uppercase type, mono sticker labels. Light mode is the daylight version of the same kit.
+
+`brutalist` and `urban` name Archivo as their font, `minimal` names Inter. Themes only suggest a family through `--mi-font-sans`; loading it is the user's job.
 
 ## Mobile and touch
 

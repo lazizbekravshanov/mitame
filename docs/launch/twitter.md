@@ -54,11 +54,14 @@ so the design file and the code cannot disagree, which was my main frustration b
 
 **7/**
 
-13 components, MIT, React 19.
+13 components, 6 looks, MIT, React 19.
 
-next up: 1-bit black and white (System 1 to 6), then page templates in every era.
+eras: platinum (1997), aqua (2001), liquid (2026)
+styles: brutalist, minimal, urban
 
-which era should I build after that?
+next: 1-bit black and white, then page templates.
+
+which look should I build after that?
 
 mitame.dev
 

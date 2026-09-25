@@ -16,6 +16,9 @@ const SHOTS = [
   { url: "/og/gallery/aqua/", file: "gallery-1-aqua.png", w: 1270, h: 760 },
   { url: "/og/gallery/liquid/", file: "gallery-2-liquid.png", w: 1270, h: 760 },
   { url: "/og/gallery/platinum/", file: "gallery-3-platinum.png", w: 1270, h: 760 },
+  { url: "/og/gallery/brutalist/", file: "gallery-4-brutalist.png", w: 1270, h: 760 },
+  { url: "/og/gallery/urban/", file: "gallery-5-urban.png", w: 1270, h: 760 },
+  { url: "/og/gallery/minimal/", file: "gallery-6-minimal.png", w: 1270, h: 760 },
 ];
 
 mkdirSync(out, { recursive: true });

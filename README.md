@@ -4,7 +4,7 @@
 
 **Old UI, brought back to life.**
 
-Copy-paste React components that wear any era, from 2001 Aqua gel to 2026 liquid glass.
+Copy-paste React components that wear any look, from 2001 Aqua gel to 2026 liquid glass to brutalist, minimal and urban.
 *Mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
 
 [mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components) · [Themes](https://mitame.dev/themes)
@@ -31,12 +31,17 @@ The source lands in your project and it's yours to edit. Nothing is hidden in `n
 
 ## Themes
 
-| Era | Theme | Status |
+Two shelves: **eras** that really existed, and **styles** that are just looks.
+
+| Shelf | Theme | Status |
 |---|---|---|
 | **Y2K** · 2000 to 2012 | `aqua` — gel buttons, pinstripes, the blue ⇅ popup button, midnight dark mode | ✅ default |
 | **Now** · 2025 and later | `liquid` — frosted glass, rim light, deep soft shadows | ✅ |
 | **Vintage** · 1984 to 1999 | `platinum` — Mac OS 8/9 gray, bevels, hard shadows, square corners, graphite dark mode | ✅ |
 | **Vintage** | `system` — 1-bit black and white | next |
+| **Styles** | `brutalist` — thick outlines, hard shadows, zero radius, loud flats | ✅ |
+| **Styles** | `minimal` — hairlines, no shadows, space, one ink color | ✅ |
+| **Styles** | `urban` — near black with grain, acid accent, heavy uppercase | ✅ |
 | **Y2K** | `aero` — frosted Frutiger Aero glass | planned |
 | **Remix** | `blend` — old structure on new material | planned |
 

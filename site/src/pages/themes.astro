@@ -1,65 +1,64 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const eras = [
+const shelves = [
   {
-    id: "aqua",
-    era: "Y2K",
-    years: "2000 to 2012",
-    status: "Available · default",
-    text: "Lickable gel buttons, pinstripes, the blue ⇅ popup button, yellow help tags and smoky notifications. Midnight dark mode included.",
+    name: "Eras",
+    blurb: "Looks that actually existed, rebuilt from memory and screenshots.",
+    themes: [
+      { id: "platinum", title: "Vintage · 1984 to 1999", live: true, text: "Mac OS 8 and 9 Platinum: flat gray, 1px black outlines, raised and sunken bevels, hard drop shadows, square corners and no animation. Dark mode is graphite." },
+      { id: "aqua", title: "Y2K · 2000 to 2012", live: true, text: "Lickable gel buttons, pinstripes, the blue ⇅ popup button, yellow help tags and smoky notifications. Midnight dark mode included." },
+      { id: "liquid", title: "Now · 2025 and later", live: true, text: "Frosted liquid glass with a bright rim light, deep soft shadows and one Aqua style shine on the primary button." },
+      { id: "system", title: "Vintage · 1984", live: false, text: "1-bit black and white: System 1 to 6, sharp pixels, no gray at all." },
+    ],
   },
   {
-    id: "liquid",
-    era: "Now",
-    years: "2025 and later",
-    status: "Available",
-    text: "Frosted liquid glass with a bright rim light, deep soft shadows and one Aqua style shine on the primary button.",
-  },
-  {
-    id: "platinum",
-    era: "Vintage",
-    years: "1984 to 1999",
-    status: "Available",
-    text: "Mac OS 8 and 9 Platinum: flat gray, 1px black outlines, raised and sunken bevels, hard drop shadows, square corners and no animation. Dark mode is graphite.",
-  },
-  {
-    id: "blend",
-    era: "Remix",
-    years: "any",
-    status: "Planned",
-    text: "Old structure on new material: Platinum lines on liquid glass.",
+    name: "Styles",
+    blurb: "Looks that are just looks. No nostalgia required.",
+    themes: [
+      { id: "brutalist", title: "Loud", live: true, text: "Thick black outlines, hard offset shadows, zero radius and flat color. Press a button and it slams into its own shadow." },
+      { id: "minimal", title: "Quiet", live: true, text: "Swiss: hairline borders, no shadows, generous space and one ink color doing all the work. Tabs are an underline, inputs are a rule." },
+      { id: "urban", title: "Night", live: true, text: "Streetwear: near black with a scanline grain, acid green accent, heavy uppercase type and monospace sticker tags." },
+    ],
   },
 ];
 ---
 
-<Base image="/social/og-platinum.png" title="Themes" description="mitame eras: Y2K Aqua, Now liquid glass, and Vintage and Remix coming soon. One set of React components, many looks.">
+<Base image="/social/og-platinum.png" title="Themes" description="mitame themes: Vintage platinum, Y2K aqua, Now liquid glass, plus brutalist, minimal and urban styles. One set of React components, many looks.">
   <section class="mx-auto max-w-6xl px-4 py-12">
     <h1 class="m-0 text-4xl font-bold tracking-tight">Themes</h1>
-    <p class="lede mt-3 max-w-2xl">Every component works in every era. A theme is one CSS file keyed by <code class="inline-code">data-theme</code>; tokens are designed in Figma.</p>
-    <div class="mt-8 grid gap-5 md:grid-cols-2">
-      {
-        eras.map((e) => (
-          <div data-theme={["aqua", "liquid", "platinum"].includes(e.id) ? e.id : undefined} class="rounded-mi-lg overflow-hidden">
-            <div class="wallpaper p-5">
-              <div class="panel p-6">
-                <p class="m-0 text-sm font-semibold text-mi-fg-muted">
-                  {e.era} · {e.years}
-                </p>
-                <h2 class="mt-1 mb-2 text-2xl font-bold">{e.id}</h2>
-                <p class="m-0 text-mi-fg-muted">{e.text}</p>
-                <p class="mt-4 mb-0 text-sm font-semibold">{e.status}</p>
-                {["aqua", "liquid", "platinum"].includes(e.id) && (
-                  <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
-                    <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
+    <p class="lede mt-3 max-w-2xl">
+      Every component works in every theme. A theme is one CSS file keyed by <code class="inline-code">data-theme</code>, and the tokens behind it are designed in Figma.
+    </p>
+
+    {
+      shelves.map((shelf) => (
+        <div class="mt-12">
+          <h2 class="m-0 text-2xl font-bold">{shelf.name}</h2>
+          <p class="mt-1 mb-6 text-mi-fg-muted">{shelf.blurb}</p>
+          <div class="grid gap-5 md:grid-cols-2">
+            {shelf.themes.map((t) => (
+              <div data-theme={t.live ? t.id : undefined} class="rounded-mi-lg overflow-hidden">
+                <div class="wallpaper p-5">
+                  <div class="panel p-6">
+                    <p class="m-0 text-sm font-semibold text-mi-fg-muted">{t.title}</p>
+                    <h3 class="mt-1 mb-2 text-2xl font-bold">{t.id}</h3>
+                    <p class="m-0 text-mi-fg-muted">{t.text}</p>
+                    <p class="mt-4 mb-0 text-sm font-semibold">{t.live ? "Available" : "Coming next"}</p>
+                    {t.live && (
+                      <div class="mt-4 flex flex-wrap items-center gap-2">
+                        <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
+                        <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
+                        <code class="inline-code">data-theme="{t.id}"</code>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))
-      }
-    </div>
+        </div>
+      ))
+    }
   </section>
 </Base>

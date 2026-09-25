@@ -4,7 +4,14 @@ import { Checkbox } from "@mitame/ui/checkbox";
 import { Select } from "@mitame/ui/select";
 import { Switch } from "@mitame/ui/switch";
 
-const ERA: Record<string, string> = { aqua: "Y2K · 2001", liquid: "Now · 2026", platinum: "Vintage · 1997" };
+const ERA: Record<string, string> = {
+  aqua: "Y2K · 2001",
+  liquid: "Now · 2026",
+  platinum: "Vintage · 1997",
+  brutalist: "Style · brutalist",
+  minimal: "Style · minimal",
+  urban: "Style · urban",
+};
 
 /** 1200x630 social card. Rendered static, screenshotted by scripts/build-social.mjs. */
 export default function ShotCard({ theme }: { theme: string }) {

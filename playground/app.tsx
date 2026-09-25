@@ -19,8 +19,15 @@ import { Toaster, toast } from "../registry/ui/toast";
 import { Tooltip } from "../registry/ui/tooltip";
 
 type Mode = "system" | "light" | "dark";
-type Theme = "platinum" | "aqua" | "liquid";
-const ERA: Record<Theme, string> = { platinum: "Vintage era", aqua: "Y2K era", liquid: "Now era" };
+type Theme = "platinum" | "aqua" | "liquid" | "brutalist" | "minimal" | "urban";
+const ERA: Record<Theme, string> = {
+  platinum: "Vintage era",
+  aqua: "Y2K era",
+  liquid: "Now era",
+  brutalist: "Style",
+  minimal: "Style",
+  urban: "Style",
+};
 
 export function App() {
   const [mode, setMode] = useState<Mode>("system");
@@ -52,6 +59,9 @@ export function App() {
                 <TabsTrigger value="platinum">Platinum</TabsTrigger>
                 <TabsTrigger value="aqua">Aqua</TabsTrigger>
                 <TabsTrigger value="liquid">Liquid</TabsTrigger>
+                <TabsTrigger value="brutalist">Brutalist</TabsTrigger>
+                <TabsTrigger value="minimal">Minimal</TabsTrigger>
+                <TabsTrigger value="urban">Urban</TabsTrigger>
               </TabsList>
             </Tabs>
             <Tabs value={mode} onValueChange={(v) => setDocMode(v as Mode)}>

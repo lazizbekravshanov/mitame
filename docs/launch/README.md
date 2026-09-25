@@ -14,6 +14,9 @@ Rendered from the real components by `npm run social` (Playwright + local static
 | `site/public/social/gallery-1-aqua.png` | 1270x760 @2x | Product Hunt gallery 1 |
 | `site/public/social/gallery-2-liquid.png` | 1270x760 @2x | Product Hunt gallery 2 |
 | `site/public/social/gallery-3-platinum.png` | 1270x760 @2x | Product Hunt gallery 3 |
+| `site/public/social/gallery-4-brutalist.png` | 1270x760 @2x | Product Hunt gallery 4 |
+| `site/public/social/gallery-5-urban.png` | 1270x760 @2x | Product Hunt gallery 5 |
+| `site/public/social/gallery-6-minimal.png` | 1270x760 @2x | Spare |
 | `site/public/social/eras.gif` | 1000x600, 6 frames | The era switch, for X, Reddit and the PH gallery |
 | `site/public/social/eras.webm` | 1000x600 video | Same clip as video, for anywhere that takes webm |
 

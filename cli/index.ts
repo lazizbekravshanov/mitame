@@ -9,12 +9,16 @@ import { add, init, type CopyResult } from "./commands.ts";
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here.endsWith(join("dist", "cli")) ? join(here, "../../registry") : join(here, "../registry");
 
-const HELP = `mitame: copy-paste components with era themes
+const HELP = `mitame: copy-paste components, any look
 
 Usage
-  npx mitame init [--dir src/components/mitame] [--theme aqua|liquid|platinum]
+  npx mitame init [--dir src/components/mitame] [--theme <name>]
   npx mitame add <item...> [--overwrite]      e.g. add button select dialog
-  npx mitame list
+  npx mitame list                             components, hooks, icons, themes
+
+Themes
+  eras    platinum (1997), aqua (2001, default), liquid (2026)
+  styles  brutalist, minimal, urban
 
 Files land in your project and are yours to edit. Existing files are
 skipped unless you pass --overwrite.`;

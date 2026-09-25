@@ -42,13 +42,13 @@ const nav = [
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;700&display=swap" />
     <script is:inline>
       // Apply the saved era and mode before first paint (no flash).
       try {
         const t = localStorage.getItem("mitame-theme");
         const m = localStorage.getItem("mitame-mode");
-        if (["platinum", "aqua", "liquid"].includes(t)) document.documentElement.dataset.theme = t;
+        if (["platinum", "aqua", "liquid", "brutalist", "minimal", "urban"].includes(t)) document.documentElement.dataset.theme = t;
         if (m === "light" || m === "dark") document.documentElement.dataset.mode = m;
       } catch {}
     </script>

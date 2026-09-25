@@ -11,6 +11,9 @@ const LABEL: Record<string, string> = {
   aqua: "Y2K · aqua · 2001",
   liquid: "Now · liquid · 2026",
   platinum: "Vintage · platinum · 1997",
+  brutalist: "Style · brutalist",
+  minimal: "Style · minimal",
+  urban: "Style · urban",
 };
 
 /** 1270x760 gallery shot for Product Hunt: the same screen in each era. */

@@ -4,7 +4,14 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-export const THEMES: Record<string, string> = { aqua: "y2k", liquid: "now", platinum: "vintage" };
+export const THEMES: Record<string, string> = {
+  aqua: "y2k",
+  liquid: "now",
+  platinum: "vintage",
+  brutalist: "styles",
+  minimal: "styles",
+  urban: "styles",
+};
 
 type Value = string | number;
 export interface TokenFile {
@@ -21,6 +28,7 @@ const FONT_FALLBACKS: Record<string, string> = {
 const FONT_RELATIVES: Record<string, string> = {
   "Lucida Grande": '"Lucida Sans Unicode", "Lucida Sans", ',
   Charcoal: '"Geneva", "Chicago", Tahoma, Verdana, ',
+  Archivo: '"Archivo Expanded", "Helvetica Neue", ',
 };
 
 export function cssVarName(token: string): string {

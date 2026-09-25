@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "../../../registry/themes/base.css";
 @import "../../../registry/themes/vintage/platinum.css";
+@import "../../../registry/themes/styles/brutalist.css";
+@import "../../../registry/themes/styles/minimal.css";
+@import "../../../registry/themes/styles/urban.css";
 @import "../../../registry/themes/y2k/aqua.css";
 @import "../../../registry/themes/now/liquid.css";
 @import "../../../registry/themes/tailwind.css";
@@ -66,6 +69,24 @@ body {
   [data-theme="platinum"]:not([data-mode="light"]) .wallpaper { background-color: #33415c; }
 }
 [data-theme="platinum"][data-mode="dark"] .wallpaper { background-color: #33415c; }
+
+/* Brutalist: flat paper with a fat grid. */
+[data-theme="brutalist"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 8%, transparent) 0 2px, transparent 2px 48px),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--mi-fg) 8%, transparent) 0 2px, transparent 2px 48px);
+}
+/* Minimal: nothing at all, on purpose. */
+[data-theme="minimal"] .wallpaper { background: var(--mi-bg); }
+/* Urban: night city glow plus scanlines. */
+[data-theme="urban"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    radial-gradient(60% 40% at 82% 0%, color-mix(in oklab, var(--mi-accent) 16%, transparent), transparent 70%),
+    radial-gradient(50% 40% at 10% 100%, color-mix(in oklab, var(--mi-accent) 10%, transparent), transparent 70%),
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 3px);
+}
 
 /* ---------- Site chrome, built from theme tokens so it follows the era ---------- */
 .site-header {

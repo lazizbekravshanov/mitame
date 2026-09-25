@@ -1,0 +1,206 @@
+/*
+ * mitame theme: Styles / minimal
+ * Swiss: hairline borders, no shadows, generous space, one ink color doing all
+ * the work. Motion is short and almost invisible. Nothing decorative.
+ * Tokens come from Figma (minimal.tokens.css).
+ */
+@import "./minimal.tokens.css";
+
+@layer components {
+  :where([data-theme="minimal"]) {
+    --mi-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 3px var(--mi-fg);
+  }
+
+  :where([data-theme="minimal"]) { font-weight: 400; letter-spacing: -0.005em; }
+  :where([data-theme="minimal"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) { font-weight: 500; letter-spacing: -0.015em; }
+  :where([data-theme="minimal"]) [data-slot="field-label"] { font-weight: 450; color: var(--mi-fg-muted); }
+
+  /* ---------- Buttons: ink, outline, or nothing ---------- */
+  :where([data-theme="minimal"]) .mi-button {
+    border: 1px solid transparent;
+    border-radius: var(--mi-radius-sm);
+    font-weight: 450;
+    color: var(--mi-fg);
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), border-color var(--mi-duration-fast) var(--mi-ease),
+      color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="minimal"]) .mi-button[data-variant="secondary"] { border-color: var(--mi-border); background: transparent; }
+  :where([data-theme="minimal"]) .mi-button[data-variant="primary"] { background: var(--mi-accent); color: var(--mi-accent-fg); border-color: var(--mi-accent); }
+  :where([data-theme="minimal"]) .mi-button[data-variant="danger"] { background: transparent; border-color: var(--mi-danger); color: var(--mi-danger); }
+  :where([data-theme="minimal"]) .mi-button[data-variant="ghost"] { background: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="minimal"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Surfaces: a line, not a box ---------- */
+  :where([data-theme="minimal"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-glass-tint);
+    box-shadow: none;
+  }
+  :where([data-theme="minimal"]) :is([data-slot="popover-content"], [data-slot="select-content"], [data-slot="menu-content"], [data-slot="toast"]) {
+    box-shadow: 0 8px 24px -12px var(--mi-glass-shadow);
+  }
+  :where([data-theme="minimal"]) [data-slot="card"] { padding: var(--mi-space-7); }
+  :where([data-theme="minimal"]) [data-slot="dialog"]::backdrop { background: color-mix(in oklab, var(--mi-fg) 12%, transparent); }
+  :where([data-theme="minimal"]) [data-slot="dialog-panel"] { padding: var(--mi-space-7); }
+  :where([data-theme="minimal"]) [data-slot="dialog-close-icon"] { background: transparent; color: var(--mi-fg-muted); }
+
+  /* Fade only, no scale or slide. */
+  :where([data-theme="minimal"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
+    opacity: 0;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), display var(--mi-duration-fast) allow-discrete,
+      overlay var(--mi-duration-fast) allow-discrete;
+  }
+  :where([data-theme="minimal"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]):popover-open {
+    opacity: 1;
+    @starting-style { opacity: 0; }
+  }
+
+  /* ---------- Items ---------- */
+  :where([data-theme="minimal"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: var(--mi-radius-sm); }
+  :where([data-theme="minimal"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: color-mix(in oklab, var(--mi-fg) 6%, transparent);
+    color: var(--mi-fg);
+  }
+  :where([data-theme="minimal"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="minimal"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 10%, transparent); color: var(--mi-danger); }
+  :where([data-theme="minimal"]) [data-slot="menu-separator"] { background: var(--mi-border); }
+  :where([data-theme="minimal"]) [data-slot="select-item-check"] { opacity: 0.5; }
+
+  /* ---------- Inputs: an underline is enough ---------- */
+  :where([data-theme="minimal"]) [data-slot="field-input"] {
+    border: 0;
+    border-bottom: 1px solid var(--mi-border);
+    border-radius: 0;
+    padding-inline: 0;
+    background: transparent;
+    transition: border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="minimal"]) [data-slot="field-icon"] + [data-slot="field-input"] { padding-left: 26px; }
+  :where([data-theme="minimal"]) [data-slot="field-icon"] { left: 0; }
+  :where([data-theme="minimal"]) [data-slot="field-input"]:focus-visible { outline: none; border-bottom-color: var(--mi-fg); }
+  :where([data-theme="minimal"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-bottom-color: var(--mi-danger); }
+  :where([data-theme="minimal"]) [data-slot="select-trigger"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-sm);
+    background: transparent;
+  }
+  :where([data-theme="minimal"]) [data-slot="select-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+  :where([data-theme="minimal"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox and switch ---------- */
+  :where([data-theme="minimal"]) [data-slot="checkbox-box"] {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-sm);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="minimal"]) [data-slot="checkbox-box"] > svg { width: 11px; height: 11px; }
+  :where([data-theme="minimal"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-accent);
+    border-color: var(--mi-accent);
+  }
+  :where([data-theme="minimal"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+
+  :where([data-theme="minimal"]) [data-slot="switch-track"] {
+    width: 36px;
+    height: 20px;
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 18%, transparent);
+    transition: background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="minimal"]) [data-slot="switch-thumb"] {
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-bg);
+    box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="minimal"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
+  :where([data-theme="minimal"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(16px); }
+  :where([data-theme="minimal"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* ---------- Slider: a hairline and a dot ---------- */
+  :where([data-theme="minimal"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 1px;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  :where([data-theme="minimal"]) [data-slot="slider"]::-moz-range-track {
+    height: 1px;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  :where([data-theme="minimal"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-accent);
+  }
+  :where([data-theme="minimal"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-accent);
+  }
+  :where([data-theme="minimal"]) [data-slot="slider"]:focus-visible { outline: none; }
+  :where([data-theme="minimal"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="minimal"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
+
+  /* ---------- Tabs: underline, not pills ---------- */
+  :where([data-theme="minimal"]) [data-slot="tabs-list"] {
+    gap: var(--mi-space-5);
+    padding: 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--mi-border);
+    background: transparent;
+    box-shadow: none;
+  }
+  :where([data-theme="minimal"]) [data-slot="tabs-trigger"] {
+    position: relative;
+    padding: 0 0 10px;
+    border-radius: 0;
+    color: var(--mi-fg-muted);
+    font-weight: 450;
+  }
+  :where([data-theme="minimal"]) [data-slot="tabs-trigger"][data-state="active"] { color: var(--mi-fg); background: transparent; box-shadow: none; }
+  :where([data-theme="minimal"]) [data-slot="tabs-trigger"][data-state="active"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--mi-fg);
+  }
+  :where([data-theme="minimal"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Tooltip and toast ---------- */
+  :where([data-theme="minimal"]) [data-slot="tooltip"] {
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-fg);
+    color: var(--mi-bg);
+  }
+  :where([data-theme="minimal"]) [data-slot="toast"] { border-radius: var(--mi-radius-lg); }
+  :where([data-theme="minimal"]) [data-slot="toast-title"] { font-weight: 500; }
+  :where([data-theme="minimal"]) [data-slot="toast-action"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-sm);
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 450;
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="minimal"]) .mi-button:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-fg) 6%, transparent); }
+    :where([data-theme="minimal"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 88%, var(--mi-bg)); }
+    :where([data-theme="minimal"]) .mi-button[data-variant="danger"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-danger) 8%, transparent); }
+  }
+}

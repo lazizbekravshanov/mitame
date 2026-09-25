@@ -4,7 +4,14 @@ import { dirname, join, normalize, relative } from "node:path";
 /** Registry kinds, matching folders under registry/. */
 export const KINDS = ["ui", "hooks", "lib", "icons", "themes"] as const;
 
-export const THEMES: Record<string, string> = { aqua: "y2k/aqua", liquid: "now/liquid", platinum: "vintage/platinum" };
+export const THEMES: Record<string, string> = {
+  aqua: "y2k/aqua",
+  liquid: "now/liquid",
+  platinum: "vintage/platinum",
+  brutalist: "styles/brutalist",
+  minimal: "styles/minimal",
+  urban: "styles/urban",
+};
 
 const EXTS = [".tsx", ".ts", ".css"];
 

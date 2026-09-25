@@ -8,7 +8,7 @@ import { Switch } from "@mitame/ui/switch";
 import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@mitame/ui/tabs";
 import { TextField } from "@mitame/ui/text-field";
 import { Toaster, toast } from "@mitame/ui/toast";
-import { THEMES, setTheme, useTheme, type ThemeId } from "../lib/theme";
+import { ERAS, STYLES, setTheme, useTheme, type ThemeId } from "../lib/theme";
 
 /** The landing page hero: one screen, every era. */
 export default function TimeMachine() {
@@ -17,8 +17,8 @@ export default function TimeMachine() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div role="group" aria-label="Era" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {THEMES.map((t) => {
+      <div role="group" aria-label="Era" className="grid grid-cols-3 gap-2">
+        {ERAS.map((t) => {
           const active = t.id === theme;
           return (
             <button
@@ -35,6 +35,25 @@ export default function TimeMachine() {
                 {t.era} · {t.id}
               </span>
               {!t.ready && <span className="era-chip-soon">soon</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      <div role="group" aria-label="Style" className="grid grid-cols-3 gap-2">
+        {STYLES.map((t) => {
+          const active = t.id === theme;
+          return (
+            <button
+              key={t.id}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setTheme(t.id as ThemeId)}
+              className="era-chip"
+              data-active={active || undefined}
+            >
+              <span className="era-chip-year">{t.era}</span>
+              <span className="era-chip-name">{t.year}</span>
             </button>
           );
         })}

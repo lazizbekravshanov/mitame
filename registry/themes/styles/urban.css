@@ -1,0 +1,218 @@
+/*
+ * mitame theme: Styles / urban
+ * Streetwear: near black surfaces with a faint scanline grain, one acid accent,
+ * heavy uppercase type, pill buttons and monospace sticker tags.
+ * Light mode is the daylight version of the same kit.
+ * Pairs with the Archivo typeface; any heavy grotesque works.
+ * Tokens come from Figma (urban.tokens.css).
+ */
+@import "./urban.tokens.css";
+
+@layer components {
+  :where([data-theme="urban"]) {
+    --mi-ease: cubic-bezier(0.2, 0.9, 0.1, 1);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-accent);
+    --mi-grain: repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 3px);
+    --mi-glow: 0 0 24px -6px color-mix(in oklab, var(--mi-accent) 60%, transparent);
+  }
+
+  :where([data-theme="urban"]) { font-weight: 500; }
+  :where([data-theme="urban"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+  }
+  :where([data-theme="urban"]) [data-slot="field-label"] {
+    font-family: var(--mi-font-mono);
+    font-size: var(--mi-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mi-fg-muted);
+  }
+
+  /* ---------- Buttons: acid pill, or outline ---------- */
+  :where([data-theme="urban"]) .mi-button {
+    border: 1px solid transparent;
+    border-radius: var(--mi-radius-full);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--mi-fg);
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), box-shadow var(--mi-duration-fast) var(--mi-ease),
+      scale var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="urban"]) .mi-button[data-variant="secondary"] {
+    background: var(--mi-glass-tint);
+    border-color: var(--mi-glass-edge);
+  }
+  :where([data-theme="urban"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="urban"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: #fff; }
+  :where([data-theme="urban"]) .mi-button[data-variant="ghost"] { background: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="urban"]) .mi-button:active:not(:disabled) { scale: 0.97; }
+  :where([data-theme="urban"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Surfaces: matte panels with grain ---------- */
+  :where([data-theme="urban"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-grain), var(--mi-glass-tint);
+    box-shadow: 0 24px 60px -24px var(--mi-glass-shadow);
+  }
+  :where([data-theme="urban"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { border-radius: var(--mi-radius-md); }
+  :where([data-theme="urban"]) [data-slot="dialog"]::backdrop { background: rgb(5 5 6 / 0.72); }
+  :where([data-theme="urban"]) [data-slot="dialog-close-icon"] {
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg-muted);
+  }
+
+  /* ---------- Items ---------- */
+  :where([data-theme="urban"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
+    border-radius: var(--mi-radius-sm);
+    font-weight: 600;
+  }
+  :where([data-theme="urban"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="urban"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="urban"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); color: #fff; }
+  :where([data-theme="urban"]) [data-slot="menu-label"] {
+    font-family: var(--mi-font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  :where([data-theme="urban"]) [data-slot="menu-separator"] { background: var(--mi-glass-edge); }
+
+  /* ---------- Inputs ---------- */
+  :where([data-theme="urban"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+  }
+  :where([data-theme="urban"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: none;
+    border-color: var(--mi-accent);
+    box-shadow: var(--mi-ring);
+  }
+  :where([data-theme="urban"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
+  :where([data-theme="urban"]) [data-slot="field-error"] { font-family: var(--mi-font-mono); }
+
+  /* ---------- Checkbox and switch ---------- */
+  :where([data-theme="urban"]) [data-slot="checkbox-box"] {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: 6px;
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="urban"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-accent);
+    border-color: var(--mi-accent);
+  }
+  :where([data-theme="urban"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+
+  :where([data-theme="urban"]) [data-slot="switch-track"] {
+    width: 46px;
+    height: 26px;
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 16%, transparent);
+    transition: background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="urban"]) [data-slot="switch-thumb"] {
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-fg);
+    box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease), background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="urban"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); box-shadow: var(--mi-glow); }
+  :where([data-theme="urban"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(20px);
+    background: var(--mi-accent-fg);
+  }
+  :where([data-theme="urban"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* ---------- Slider ---------- */
+  :where([data-theme="urban"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 16%, transparent) var(--mi-slider-fill));
+  }
+  :where([data-theme="urban"]) [data-slot="slider"]::-moz-range-track {
+    height: 6px;
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 16%, transparent) var(--mi-slider-fill));
+  }
+  :where([data-theme="urban"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -6px;
+    border: 3px solid var(--mi-bg);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-accent);
+  }
+  :where([data-theme="urban"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--mi-bg);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-accent);
+  }
+  :where([data-theme="urban"]) [data-slot="slider"]:focus-visible { outline: none; }
+  :where([data-theme="urban"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="urban"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
+
+  /* ---------- Tabs ---------- */
+  :where([data-theme="urban"]) [data-slot="tabs-list"] {
+    padding: 4px;
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint);
+    box-shadow: none;
+  }
+  :where([data-theme="urban"]) [data-slot="tabs-trigger"] {
+    border-radius: var(--mi-radius-full);
+    color: var(--mi-fg-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  :where([data-theme="urban"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
+  :where([data-theme="urban"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Tooltip and toast ---------- */
+  :where([data-theme="urban"]) [data-slot="tooltip"] {
+    border: 1px solid var(--mi-accent);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-bg);
+    color: var(--mi-accent);
+    font-family: var(--mi-font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  :where([data-theme="urban"]) [data-slot="toast-title"] { text-transform: uppercase; font-weight: 800; letter-spacing: 0.02em; }
+  :where([data-theme="urban"]) [data-slot="toast-action"] {
+    border: 1px solid var(--mi-accent);
+    border-radius: var(--mi-radius-full);
+    background: transparent;
+    color: var(--mi-accent);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  :where([data-theme="urban"]) [data-slot="toast-close"] { border-radius: var(--mi-radius-full); }
+
+  @media (hover: hover) {
+    :where([data-theme="urban"]) .mi-button[data-variant="secondary"]:hover:not(:disabled) { background: var(--mi-glass-tint-strong); border-color: var(--mi-accent); }
+    :where([data-theme="urban"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 88%, white); }
+    :where([data-theme="urban"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-accent); }
+  }
+}

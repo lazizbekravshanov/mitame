@@ -6,22 +6,24 @@ mitame
 
 ## Tagline (60 characters max)
 
-`Copy-paste React components from 2001 Aqua to 2026 glass`  (56)
+`Copy-paste React components that wear any look` (46)
 
 Alternatives:
-- `React components that wear any era, 1997 to 2026` (48)
-- `Old UI brought back to life, as React components` (48)
+- `Copy-paste React components from 2001 Aqua to 2026 glass` (56)
+- `One React component set, six looks, zero dependencies` (53)
 
 ## Description (260 characters max)
 
-mitame (見た目, "the way it looks") is a copy-paste React library with era themes. The same components render as Mac OS 8 gray, 2001 Aqua gel or 2026 liquid glass. Built on native dialog and popover, so there is nothing to install but React. MIT.
+mitame (見た目, "the way it looks") is a copy-paste React library where one component set wears six looks: Mac OS 8 gray, 2001 Aqua gel, 2026 liquid glass, brutalist, minimal and urban. Built on native dialog and popover, so there is nothing to install but React. MIT.
 
 ## Gallery order
 
 1. `gallery-1-aqua.png` (Y2K aqua, the most recognizable)
-2. `gallery-3-platinum.png` (Vintage platinum, the biggest contrast)
-3. `gallery-2-liquid.png` (Now liquid glass, the trend)
-4. `eras.gif` (the switch in motion), or an mp4 if you made one
+2. `gallery-4-brutalist.png` (loudest, stops the scroll)
+3. `gallery-3-platinum.png` (Vintage platinum, the biggest contrast)
+4. `gallery-5-urban.png` (dark, current)
+5. `gallery-2-liquid.png` (Now liquid glass, the trend)
+6. `eras.gif` (the switch in motion), or an mp4 if you made one
 
 ## Topics
 
@@ -35,9 +37,15 @@ I kept noticing that every app I liked as a kid looked better than the apps I bu
 
 So I built mitame. It is a copy-paste React library where the same components can wear any era:
 
+**Eras**, looks that really existed:
 - **Vintage · platinum**: Mac OS 8 and 9 gray, bevels, hard shadows, square corners
 - **Y2K · aqua**: gel buttons, pinstripes, the blue popup arrows, yellow help tags
 - **Now · liquid**: frosted liquid glass with rim light and deep shadows
+
+**Styles**, looks that never belonged to a decade:
+- **brutalist**: thick outlines, hard shadows, buttons that slam into their own shadow
+- **minimal**: hairlines, space and one ink color
+- **urban**: near black with grain and an acid accent
 
 You switch with one attribute, `data-theme`, and your markup never changes.
 

@@ -1,0 +1,206 @@
+/*
+ * mitame theme: Styles / brutalist
+ * Thick black outlines, hard offset shadows, zero radius, flat loud color and
+ * uppercase labels. Press a control and it slams into its own shadow.
+ * Pairs with the Archivo typeface; any heavy grotesque works.
+ * Tokens come from Figma (brutalist.tokens.css).
+ */
+@import "./brutalist.tokens.css";
+
+@layer components {
+  :where([data-theme="brutalist"]) {
+    --mi-line: 3px;
+    --mi-hard: 6px 6px 0 0 var(--mi-glass-shadow);
+    --mi-hard-sm: 4px 4px 0 0 var(--mi-glass-shadow);
+    --mi-ease: linear;
+  }
+
+  :where([data-theme="brutalist"]) {
+    font-weight: 500;
+  }
+  :where([data-theme="brutalist"]) :is([data-slot="card-title"], [data-slot="dialog-title"], [data-slot="field-label"]) {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- Buttons: the shadow is the interaction ---------- */
+  :where([data-theme="brutalist"]) .mi-button {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-hard-sm);
+    color: var(--mi-fg);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: translate var(--mi-duration-fast) var(--mi-ease), box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="brutalist"]) .mi-button[data-variant="primary"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
+  :where([data-theme="brutalist"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: var(--mi-accent-fg); }
+  :where([data-theme="brutalist"]) .mi-button[data-variant="ghost"] { border-color: transparent; background: transparent; box-shadow: none; }
+  :where([data-theme="brutalist"]) .mi-button:active:not(:disabled) { translate: 4px 4px; box-shadow: 0 0 0 0 var(--mi-glass-shadow); }
+  :where([data-theme="brutalist"]) .mi-button:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+
+  /* ---------- Surfaces ---------- */
+  :where([data-theme="brutalist"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-hard);
+  }
+  :where([data-theme="brutalist"]) [data-slot="dialog"]::backdrop { background: color-mix(in oklab, var(--mi-accent) 55%, transparent); }
+  :where([data-theme="brutalist"]) [data-slot="dialog-close-icon"] {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-danger);
+    color: var(--mi-accent-fg);
+  }
+
+  /* ---------- Items ---------- */
+  :where([data-theme="brutalist"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
+    border-radius: 0;
+    font-weight: 600;
+  }
+  :where([data-theme="brutalist"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="brutalist"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); }
+  :where([data-theme="brutalist"]) [data-slot="menu-separator"] { height: var(--mi-line); background: var(--mi-border); margin-inline: 0; }
+  :where([data-theme="brutalist"]) [data-slot="menu-label"] { font-weight: 800; text-transform: uppercase; color: var(--mi-fg); }
+
+  /* ---------- Inputs ---------- */
+  :where([data-theme="brutalist"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    color: var(--mi-fg);
+    font-weight: 600;
+  }
+  :where([data-theme="brutalist"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: none;
+    box-shadow: var(--mi-hard-sm);
+  }
+  :where([data-theme="brutalist"]) [data-slot="field-error"] {
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  :where([data-theme="brutalist"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { background: color-mix(in oklab, var(--mi-danger) 22%, var(--mi-glass-tint)); }
+
+  /* ---------- Checkbox and switch: blocks, not pills ---------- */
+  :where([data-theme="brutalist"]) [data-slot="checkbox-box"] {
+    width: 20px;
+    height: 20px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="brutalist"]) [data-slot="checkbox-box"] > svg { width: 14px; height: 14px; stroke-width: 3; }
+  :where([data-theme="brutalist"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-accent); }
+  :where([data-theme="brutalist"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+
+  :where([data-theme="brutalist"]) [data-slot="switch-track"] {
+    width: 52px;
+    height: 28px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+  }
+  :where([data-theme="brutalist"]) [data-slot="switch-thumb"] {
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 22px;
+    border-radius: 0;
+    background: var(--mi-border);
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
+  :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(26px); }
+  :where([data-theme="brutalist"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+
+  /* ---------- Slider ---------- */
+  :where([data-theme="brutalist"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 14px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
+  }
+  :where([data-theme="brutalist"]) [data-slot="slider"]::-moz-range-track {
+    height: 14px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
+  }
+  :where([data-theme="brutalist"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 18px;
+    height: 26px;
+    margin-top: -9px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-fg);
+  }
+  :where([data-theme="brutalist"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 18px;
+    height: 26px;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-fg);
+  }
+  :where([data-theme="brutalist"]) [data-slot="slider"]:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 4px; }
+
+  /* ---------- Tabs ---------- */
+  :where([data-theme="brutalist"]) [data-slot="tabs-list"] {
+    gap: 0;
+    padding: 0;
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-hard-sm);
+  }
+  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"] {
+    border-radius: 0;
+    color: var(--mi-fg);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left: var(--mi-line) solid var(--mi-border); }
+  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
+  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"]:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: -3px; }
+
+  /* ---------- Tooltip and toast ---------- */
+  :where([data-theme="brutalist"]) [data-slot="tooltip"] {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-highlight);
+    color: #000;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: var(--mi-hard-sm);
+  }
+  :where([data-theme="brutalist"]) [data-slot="toast-title"] { text-transform: uppercase; font-weight: 800; }
+  :where([data-theme="brutalist"]) [data-slot="toast"][data-variant="success"] { background: var(--mi-success); color: #000; }
+  :where([data-theme="brutalist"]) [data-slot="toast"][data-variant="error"] { background: var(--mi-danger); color: #000; }
+  :where([data-theme="brutalist"]) [data-slot="toast"][data-variant="warning"] { background: var(--mi-warning); color: #000; }
+  :where([data-theme="brutalist"]) [data-slot="toast"]:is([data-variant="success"], [data-variant="error"], [data-variant="warning"]) :is([data-slot="toast-icon"], [data-slot="toast-description"], [data-slot="toast-close"]) { color: #000; }
+  :where([data-theme="brutalist"]) [data-slot="toast-action"] {
+    border: var(--mi-line) solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="brutalist"]) .mi-button:hover:not(:disabled) { translate: -1px -1px; box-shadow: 7px 7px 0 0 var(--mi-glass-shadow); }
+    :where([data-theme="brutalist"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      translate: 0;
+      box-shadow: none;
+      background: var(--mi-accent);
+    }
+  }
+}
