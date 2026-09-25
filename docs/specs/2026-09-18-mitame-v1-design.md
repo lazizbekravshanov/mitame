@@ -105,7 +105,7 @@ Two rules the components and the site follow, both learned from real bugs:
 
 ## Blocks
 
-Whole pages (`registry/blocks/`): `sign-in`, `pricing`, `dashboard`. Each is one default-exported component built only from mitame components, with layout in a shared `blocks.css` that uses tokens only, so blocks need no utility framework. `npx @lazizbekio/mitame add dashboard` pulls the block, `blocks.css` and every component, hook and icon it imports.
+Whole pages (`registry/blocks/`): `sign-in`, `pricing`, `dashboard`. Each is one default-exported component built only from mitame components, with layout in a shared `blocks.css` that uses tokens only, so blocks need no utility framework. `npx @lazizbekio/mitame add dashboard` pulls the block, `blocks.css` and every component, hook and icon it imports. Blocks do **not** import the CSS from TypeScript: a plain TS project (no bundler CSS types) fails that side effect import with TS2882, so the CLI pairs every block with `blocks.css` and the user imports it once, like a theme.
 
 `blocks.css` repeats the `@layer theme, base, components, utilities;` statement from `base.css`, because a block imports it from TypeScript and a bundler can inject it first. Whichever stylesheet names the layers first sets their order for the page, and without this a reset like Tailwind preflight outranks the theme layer. A test enforces it for every CSS file reachable from code.
 

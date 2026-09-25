@@ -3,7 +3,6 @@ import { Button } from "../ui/button";
 import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { TextField } from "../ui/text-field";
-import "./blocks.css";
 
 export interface SignInProps {
   onSubmit?: (data: { email: string; password: string; remember: boolean }) => void;

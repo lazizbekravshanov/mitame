@@ -104,7 +104,12 @@ npx @lazizbekio/mitame add pricing
 npx @lazizbekio/mitame add dashboard
 ```
 
-They bring their own layout CSS (tokens only, no utility framework), so they look right with or without Tailwind. See them live at [mitame.dev/blocks](https://mitame.dev/blocks).
+They bring their own layout CSS (tokens only, no utility framework), so they look right with or without Tailwind. Import it once alongside your theme:
+
+```css
+@import "./components/mitame/blocks/blocks.css";
+```
+ See them live at [mitame.dev/blocks](https://mitame.dev/blocks).
 
 ## Customizing
 

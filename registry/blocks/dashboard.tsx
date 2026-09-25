@@ -6,7 +6,6 @@ import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "../ui/m
 import { Select } from "../ui/select";
 import { Tabs, TabsList, TabsPanel, TabsTrigger } from "../ui/tabs";
 import { TextField } from "../ui/text-field";
-import "./blocks.css";
 
 const NAV = ["Overview", "Projects", "Analytics", "Settings"];
 

@@ -42,12 +42,17 @@ export function localImports(source: string): string[] {
   return [...out];
 }
 
+/** Blocks need their layout CSS, which they cannot import from TS: a plain
+ * TypeScript project rejects a side effect CSS import (TS2882). */
+const BLOCK_STYLES = "blocks/blocks.css";
+
 /** The file plus every registry file it imports, transitively. Paths are registry relative. */
 export function collectFiles(root: string, entries: string[]): string[] {
   const seen = new Set<string>();
   const visit = (file: string) => {
     if (seen.has(file)) return;
     seen.add(file);
+    if (file.startsWith("blocks/") && file !== BLOCK_STYLES && existsSync(join(root, BLOCK_STYLES))) visit(BLOCK_STYLES);
     const src = readFileSync(join(root, file), "utf8");
     for (const spec of localImports(src)) {
       const base = normalize(join(dirname(file), spec));

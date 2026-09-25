@@ -3,7 +3,6 @@ import { CheckIcon } from "../icons/check";
 import { Button } from "../ui/button";
 import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Switch } from "../ui/switch";
-import "./blocks.css";
 
 export interface Plan {
   name: string;

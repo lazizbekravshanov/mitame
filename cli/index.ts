@@ -59,7 +59,11 @@ Next:
     return;
   }
   if (command === "add") {
-    report(add(root, cwd, rest, { overwrite: values.overwrite }));
+    const result = add(root, cwd, rest, { overwrite: values.overwrite });
+    report(result);
+    if ([...result.written, ...result.reused, ...result.skipped].some((f) => f.endsWith("blocks/blocks.css"))) {
+      console.log("\nBlocks need their layout CSS. Import it once, next to the theme:\n  @import \"./components/mitame/blocks/blocks.css\";");
+    }
     return;
   }
   if (command === "list") {
