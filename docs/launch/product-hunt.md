@@ -51,7 +51,7 @@ You switch with one attribute, `data-theme`, and your markup never changes.
 
 Two things I care about in it:
 
-**You own the code.** `npx mitame add dialog` copies the source into your project. No black box in node_modules, edit anything.
+**You own the code.** `npx @lazizbekio/mitame add dialog` copies the source into your project. No black box in node_modules, edit anything.
 
 **Nothing to install but React.** Dialogs use the native `<dialog>`, menus and popovers use the browser's Popover API, inputs are real form inputs. No Radix, no Floating UI, no tailwind-merge. Keyboard support, focus handling and the top layer come from the browser, which also means less of my code to get wrong.
 

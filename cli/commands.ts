@@ -13,7 +13,7 @@ export const DEFAULT_CONFIG: Config = { dir: "src/components/mitame", theme: "aq
 
 export function readConfig(cwd: string): Config {
   const file = join(cwd, CONFIG_FILE);
-  if (!existsSync(file)) throw new Error("No mitame.json here. Run `npx mitame init` first.");
+  if (!existsSync(file)) throw new Error("No mitame.json here. Run `npx @lazizbekio/mitame init` first.");
   return { ...DEFAULT_CONFIG, ...JSON.parse(readFileSync(file, "utf8")) };
 }
 
@@ -53,7 +53,7 @@ export function init(root: string, cwd: string, opts: Partial<Config> & { overwr
 
 export function add(root: string, cwd: string, names: string[], opts: { overwrite?: boolean } = {}): CopyResult {
   const config = readConfig(cwd);
-  if (!names.length) throw new Error("Tell me what to add, for example `npx mitame add button dialog`.");
+  if (!names.length) throw new Error("Tell me what to add, for example `npx @lazizbekio/mitame add button dialog`.");
   const entries = names.map((n) => resolveItem(root, n));
   return copy(root, cwd, config.dir, collectFiles(root, entries), opts.overwrite ?? false, entries);
 }

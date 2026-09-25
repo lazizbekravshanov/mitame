@@ -21,7 +21,7 @@ Two React 19 gotchas I hit while building it, in case they save someone time:
 - React 19 will not patch attribute mismatches during hydration ("this won't be patched up"), so anything reading localStorage or the DOM during render keeps a stale value in the DOM. Render the server value, sync in an effect.
 - If a button has `popovertarget` in server HTML, clicking it before hydration opens the popover unpositioned, because your positioning hook has not run. Withhold the attribute until mounted.
 
-Components are copied into your project with `npx mitame add dialog`, so you own and can edit the source. MIT, React 19.
+Components are copied into your project with `npx @lazizbekio/mitame add dialog`, so you own and can edit the source. MIT, React 19.
 
 mitame.dev
 

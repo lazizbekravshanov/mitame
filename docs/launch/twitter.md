@@ -26,7 +26,7 @@ that is the whole idea: your markup stays the same, only the 見た目 changes.
 
 it is copy-paste, like shadcn:
 
-npx mitame add dialog
+npx @lazizbekio/mitame add dialog
 
 the source lands in your project. edit anything. no black box in node_modules.
 

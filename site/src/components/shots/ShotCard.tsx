@@ -26,7 +26,7 @@ export default function ShotCard({ theme }: { theme: string }) {
           <strong>Old UI, brought back to life.</strong>
         </p>
         <p className="sub">Copy-paste React components that wear any era, from 2001 Aqua gel to 2026 liquid glass.</p>
-        <span className="cmd">npx mitame add button</span>
+        <span className="cmd">npx @lazizbekio/mitame add button</span>
       </div>
       <div className="stage" style={{ flex: "0 0 470px" }}>
         <Card style={{ width: "470px" }}>

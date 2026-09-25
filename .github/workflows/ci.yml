@@ -28,5 +28,5 @@ jobs:
           npm pack
           mkdir -p /tmp/app && cd /tmp/app && npm init -y >/dev/null
           npm i "$GITHUB_WORKSPACE"/mitame-*.tgz
-          npx mitame init && npx mitame add select dialog
+          npx @lazizbekio/mitame init && npx @lazizbekio/mitame add select dialog
           test -f src/components/mitame/ui/select.tsx

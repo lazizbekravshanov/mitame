@@ -10,14 +10,14 @@ export const GET: APIRoute = ({ site }) => {
 
 ## Install
 
-- \`npx mitame init\` (writes mitame.json, copies helpers and theme CSS; \`--theme liquid\` for liquid glass)
-- \`npx mitame add <name...>\` copies source into src/components/mitame (ui/, hooks/, lib/, icons/, themes/) and pulls dependencies
+- \`npx @lazizbekio/mitame init\` (writes mitame.json, copies helpers and theme CSS; \`--theme liquid\` for liquid glass)
+- \`npx @lazizbekio/mitame add <name...>\` copies source into src/components/mitame (ui/, hooks/, lib/, icons/, themes/) and pulls dependencies
 - Import once: themes/base.css and themes/y2k/aqua.css (or themes/now/liquid.css); set <html data-theme="aqua">
 - Imports look like: import { Button } from "@/components/mitame/ui/button"
 
 ## Components
 
-${components.map((c) => `- [${c.name}](${base}/docs/components/${c.slug}): ${c.description} Add with \`npx mitame add ${c.add}\`.`).join("\n")}
+${components.map((c) => `- [${c.name}](${base}/docs/components/${c.slug}): ${c.description} Add with \`npx @lazizbekio/mitame add ${c.add}\`.`).join("\n")}
 
 ## Theming
 

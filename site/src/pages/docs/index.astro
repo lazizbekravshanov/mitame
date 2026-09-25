@@ -9,9 +9,9 @@ import Docs from "../../layouts/Docs.astro";
 
   <h2>1. Initialize</h2>
   <p>Run this in your project root. It writes <code class="inline-code">mitame.json</code> and copies the helpers and the theme CSS.</p>
-  <CodeBlock lang="bash" code={`npx mitame init                  # Aqua, the default
-npx mitame init --theme liquid    # or liquid glass
-npx mitame init --theme platinum  # or Mac OS 8/9 gray`} />
+  <CodeBlock lang="bash" code={`npx @lazizbekio/mitame init                  # Aqua, the default
+npx @lazizbekio/mitame init --theme liquid    # or liquid glass
+npx @lazizbekio/mitame init --theme platinum  # or Mac OS 8/9 gray`} />
 
   <h2>2. Import the styles once</h2>
   <p>In your global CSS (paths follow the <code class="inline-code">dir</code> in <code class="inline-code">mitame.json</code>, <code class="inline-code">src/components/mitame</code> by default):</p>
@@ -29,8 +29,8 @@ npx mitame init --theme platinum  # or Mac OS 8/9 gray`} />
   <p>Themes also work on any element, so one page can show several eras.</p>
 
   <h2>4. Add components</h2>
-  <CodeBlock lang="bash" code={`npx mitame add button dialog select
-npx mitame list   # everything you can add`} />
+  <CodeBlock lang="bash" code={`npx @lazizbekio/mitame add button dialog select
+npx @lazizbekio/mitame list   # everything you can add`} />
   <CodeBlock code={`import { Button } from "@/components/mitame/ui/button";
 
 export function Save() {

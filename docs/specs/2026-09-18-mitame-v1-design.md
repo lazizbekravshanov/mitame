@@ -5,7 +5,7 @@ Status: six themes built. Eras: `y2k/aqua` (default), `now/liquid`, `vintage/pla
 
 ## What mitame is
 
-A copy-paste React component library for the web that brings old UI back to life with cool minimalism. Every component comes in era themes, from 1984 Mac to 2026 liquid glass. People run `npx mitame add button` and the source lands in their project, so they own it and can change anything. Lighter than shadcn: zero runtime dependencies besides React.
+A copy-paste React component library for the web that brings old UI back to life with cool minimalism. Every component comes in era themes, from 1984 Mac to 2026 liquid glass. People run `npx @lazizbekio/mitame add button` and the source lands in their project, so they own it and can change anything. Lighter than shadcn: zero runtime dependencies besides React.
 
 ## Decisions
 
@@ -45,9 +45,9 @@ The old Vite library build from the skeleton is removed; the package ships `dist
 
 ## CLI
 
-- `npx mitame init`: writes `mitame.json` (`{ "dir": "src/components/mitame", "theme": "liquid" }`), copies `lib/cn.ts`, `themes/base.css`, `themes/tailwind.css` and the chosen theme.
-- `npx mitame add <item...>`: dependencies are not declared anywhere; the CLI follows each file's relative imports (and CSS `@import`s) through the registry, so `select` pulls `hooks/use-anchor-position`, `icons/chevron-down` and the rest automatically. Files keep the `ui/ lib/ hooks/ icons/ themes/` structure so relative imports just work. Existing files are skipped; `--overwrite` replaces only the items you named, never shared deps you may have edited.
-- `npx mitame list`: prints items grouped by kind.
+- `npx @lazizbekio/mitame init`: writes `mitame.json` (`{ "dir": "src/components/mitame", "theme": "liquid" }`), copies `lib/cn.ts`, `themes/base.css`, `themes/tailwind.css` and the chosen theme.
+- `npx @lazizbekio/mitame add <item...>`: dependencies are not declared anywhere; the CLI follows each file's relative imports (and CSS `@import`s) through the registry, so `select` pulls `hooks/use-anchor-position`, `icons/chevron-down` and the rest automatically. Files keep the `ui/ lib/ hooks/ icons/ themes/` structure so relative imports just work. Existing files are skipped; `--overwrite` replaces only the items you named, never shared deps you may have edited.
+- `npx @lazizbekio/mitame list`: prints items grouped by kind.
 
 The user imports the CSS once: `@import "./components/mitame/themes/base.css"; @import "./components/mitame/themes/now/liquid.css";` and sets `data-theme="liquid"` on `<html>` or any subtree.
 
@@ -105,7 +105,7 @@ Two rules the components and the site follow, both learned from real bugs:
 
 ## Blocks
 
-Whole pages (`registry/blocks/`): `sign-in`, `pricing`, `dashboard`. Each is one default-exported component built only from mitame components, with layout in a shared `blocks.css` that uses tokens only, so blocks need no utility framework. `npx mitame add dashboard` pulls the block, `blocks.css` and every component, hook and icon it imports.
+Whole pages (`registry/blocks/`): `sign-in`, `pricing`, `dashboard`. Each is one default-exported component built only from mitame components, with layout in a shared `blocks.css` that uses tokens only, so blocks need no utility framework. `npx @lazizbekio/mitame add dashboard` pulls the block, `blocks.css` and every component, hook and icon it imports.
 
 `blocks.css` repeats the `@layer theme, base, components, utilities;` statement from `base.css`, because a block imports it from TypeScript and a bundler can inject it first. Whichever stylesheet names the layers first sets their order for the page, and without this a reset like Tailwind preflight outranks the theme layer. A test enforces it for every CSS file reachable from code.
 

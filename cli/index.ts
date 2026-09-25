@@ -12,9 +12,11 @@ const root = here.endsWith(join("dist", "cli")) ? join(here, "../../registry") :
 const HELP = `mitame: copy-paste components, any look
 
 Usage
-  npx mitame init [--dir src/components/mitame] [--theme <name>]
-  npx mitame add <item...> [--overwrite]      e.g. add button select dialog
-  npx mitame list                             components, hooks, icons, themes
+  npx @lazizbekio/mitame init [--dir src/components/mitame] [--theme <name>]
+  npx @lazizbekio/mitame add <item...> [--overwrite]   e.g. add button select dialog
+  npx @lazizbekio/mitame list                          components, hooks, icons, themes
+
+Installed as a dependency? The short form works too: npx mitame add button
 
 Themes
   eras    platinum (1997), aqua (2001, default), liquid (2026)
@@ -53,7 +55,7 @@ Next:
        @import "./${r.config.dir.replace(/^src\//, "")}/themes/${THEMES[r.config.theme]}.css";
      (Tailwind users: also @import ".../themes/tailwind.css" after tailwindcss.)
   2. Set the theme: <html data-theme="${r.config.theme}">
-  3. Add components: npx mitame add button card`);
+  3. Add components: npx @lazizbekio/mitame add button card`);
     return;
   }
   if (command === "add") {

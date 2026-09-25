@@ -38,7 +38,7 @@ X also accepts the GIF directly and converts it to video on upload, so the mp4 i
 
 1. `mitame.dev` bought and pointing at the Vercel project.
 2. `SITE_URL=https://mitame.dev` set in Vercel, then redeploy, so previews and the sitemap use real URLs.
-3. `npm publish` done, then check `npx mitame@latest init` in an empty folder.
+3. `npm publish` done, then check `npx @lazizbekio/mitame@latest init` in an empty folder.
 4. Open https://mitame.dev in a private window and click through: theme switch, a component page, a block, dark mode, phone width.
 5. Paste the URL into a Slack or Discord message to confirm the preview image shows.
 6. Post the same day to Product Hunt (12:01am PT) and X, then Show HN and r/reactjs a few hours apart.

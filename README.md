@@ -15,8 +15,8 @@ Copy-paste React components that wear any look, from 2001 Aqua gel to 2026 liqui
 </div>
 
 ```bash
-npx mitame init
-npx mitame add button dialog select
+npx @lazizbekio/mitame init
+npx @lazizbekio/mitame add button dialog select
 ```
 
 The source lands in your project and it's yours to edit. Nothing is hidden in `node_modules`.
@@ -50,8 +50,8 @@ Two shelves: **eras** that really existed, and **styles** that are just looks.
 **1. Initialize.** Writes `mitame.json` and copies the helpers and theme CSS.
 
 ```bash
-npx mitame init                  # aqua, the default
-npx mitame init --theme liquid   # or liquid glass
+npx @lazizbekio/mitame init                  # aqua, the default
+npx @lazizbekio/mitame init --theme liquid   # or liquid glass
 ```
 
 **2. Import the styles once,** in your global CSS:
@@ -76,8 +76,8 @@ npx mitame init --theme liquid   # or liquid glass
 **4. Add components and use them:**
 
 ```bash
-npx mitame add button dialog select
-npx mitame list   # everything you can add
+npx @lazizbekio/mitame add button dialog select
+npx @lazizbekio/mitame list   # everything you can add
 ```
 
 ```tsx
@@ -99,9 +99,9 @@ Each one has a page on [mitame.dev](https://mitame.dev/docs/components) with a l
 Whole pages built from the same components, in any theme:
 
 ```bash
-npx mitame add sign-in
-npx mitame add pricing
-npx mitame add dashboard
+npx @lazizbekio/mitame add sign-in
+npx @lazizbekio/mitame add pricing
+npx @lazizbekio/mitame add dashboard
 ```
 
 They bring their own layout CSS (tokens only, no utility framework), so they look right with or without Tailwind. See them live at [mitame.dev/blocks](https://mitame.dev/blocks).
