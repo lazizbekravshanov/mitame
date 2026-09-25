@@ -11,6 +11,11 @@ const ERA: Record<string, string> = {
   brutalist: "Style · brutalist",
   minimal: "Style · minimal",
   urban: "Style · urban",
+  system: "Vintage · 1984",
+  aero: "Y2K · 2009",
+  paper: "Style · paper",
+  terminal: "Style · terminal",
+  neon: "Style · neon",
 };
 
 /** 1200x630 social card. Rendered static, screenshotted by scripts/build-social.mjs. */

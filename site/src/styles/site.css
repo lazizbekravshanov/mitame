@@ -1,9 +1,14 @@
 @import "tailwindcss";
 @import "../../../registry/themes/base.css";
+@import "../../../registry/themes/vintage/system.css";
 @import "../../../registry/themes/vintage/platinum.css";
+@import "../../../registry/themes/y2k/aero.css";
 @import "../../../registry/themes/styles/brutalist.css";
 @import "../../../registry/themes/styles/minimal.css";
 @import "../../../registry/themes/styles/urban.css";
+@import "../../../registry/themes/styles/paper.css";
+@import "../../../registry/themes/styles/terminal.css";
+@import "../../../registry/themes/styles/neon.css";
 @import "../../../registry/themes/y2k/aqua.css";
 @import "../../../registry/themes/now/liquid.css";
 @import "../../../registry/themes/tailwind.css";
@@ -87,6 +92,42 @@ body {
     radial-gradient(60% 40% at 82% 0%, color-mix(in oklab, var(--mi-accent) 16%, transparent), transparent 70%),
     radial-gradient(50% 40% at 10% 100%, color-mix(in oklab, var(--mi-accent) 10%, transparent), transparent 70%),
     repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 3px);
+}
+
+/* system: the 1-bit desktop, dithered. */
+[data-theme="system"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image: radial-gradient(var(--mi-fg) 0.5px, transparent 0.6px);
+  background-size: 5px 5px;
+}
+/* aero: sky and water, Vista wallpaper energy. */
+[data-theme="aero"] .wallpaper {
+  background:
+    radial-gradient(80% 50% at 50% -10%, #bfe4ff 0%, transparent 70%),
+    radial-gradient(60% 40% at 15% 100%, #7ee0c0 0%, transparent 70%),
+    linear-gradient(180deg, #9fd0f5, #4d9fdc 60%, #2a6fae);
+  background-attachment: fixed;
+}
+/* paper: plain stock, a faint baseline grid. */
+[data-theme="paper"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image: repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 28px);
+}
+/* terminal: phosphor scanlines. */
+[data-theme="terminal"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    radial-gradient(70% 50% at 50% 0%, color-mix(in oklab, var(--mi-accent) 10%, transparent), transparent 70%),
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 7%, transparent) 0 1px, transparent 1px 3px);
+}
+/* neon: city glow. */
+[data-theme="neon"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    radial-gradient(50% 40% at 15% 0%, color-mix(in oklab, var(--mi-accent) 28%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 85% 20%, color-mix(in oklab, #22d3ee 22%, transparent), transparent 70%),
+    radial-gradient(60% 50% at 50% 110%, color-mix(in oklab, #7c3aed 30%, transparent), transparent 70%);
+  background-attachment: fixed;
 }
 
 /* ---------- Site chrome, built from theme tokens so it follows the era ---------- */
@@ -216,4 +257,4 @@ body {
   border-radius: var(--mi-radius-lg);
 }
 /* The demo stage gets its own copy of the wallpaper instead of a window onto the page one. */
-.preview.wallpaper { background-attachment: scroll !important; background-size: 180% 180%; background-position: center; }
+.preview.wallpaper { background-attachment: scroll !important; background-position: center; }

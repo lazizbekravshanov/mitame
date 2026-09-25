@@ -14,6 +14,11 @@ const LABEL: Record<string, string> = {
   brutalist: "Style · brutalist",
   minimal: "Style · minimal",
   urban: "Style · urban",
+  system: "Vintage · system · 1984",
+  aero: "Y2K · aero · 2009",
+  paper: "Style · paper",
+  terminal: "Style · terminal",
+  neon: "Style · neon",
 };
 
 /** 1270x760 gallery shot for Product Hunt: the same screen in each era. */

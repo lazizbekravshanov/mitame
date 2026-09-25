@@ -1,0 +1,153 @@
+/*
+ * mitame theme: Y2K / aero (2006 to 2012)
+ * Frutiger Aero: glossy glass, saturated sky blues, rounded chrome and a wet
+ * highlight on every control. Vista and Windows 7 by way of a stock photo.
+ * Tokens come from Figma (aero.tokens.css).
+ */
+@import "./aero.tokens.css";
+
+@layer components {
+  :where([data-theme="aero"]) {
+    --mi-ease: cubic-bezier(0.25, 0.8, 0.3, 1);
+    --mi-ring: 0 0 0 3px color-mix(in oklab, var(--mi-accent) 45%, transparent);
+    --mi-wet: linear-gradient(180deg, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0.35) 48%, rgb(255 255 255 / 0.08) 52%, rgb(255 255 255 / 0.3) 100%);
+    --mi-frost: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  }
+
+  /* Glass everywhere, with a wet highlight across the top half */
+  :where([data-theme="aero"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-wet), var(--mi-glass-tint);
+    backdrop-filter: var(--mi-frost);
+    -webkit-backdrop-filter: var(--mi-frost);
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 12px 30px -10px var(--mi-glass-shadow);
+  }
+  :where([data-theme="aero"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { border-radius: var(--mi-radius-md); background: var(--mi-wet), var(--mi-glass-tint-strong); }
+  :where([data-theme="aero"]) [data-slot="dialog"]::backdrop { background: rgb(10 42 67 / 0.35); backdrop-filter: blur(4px); }
+
+  /* Buttons: glossy capsules */
+  :where([data-theme="aero"]) .mi-button {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.6);
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 2px 6px -2px var(--mi-glass-shadow);
+    transition: filter var(--mi-duration-fast) var(--mi-ease), box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="aero"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]) {
+    --mi-tone: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    text-shadow: 0 1px 1px rgb(0 0 0 / 0.35);
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-tone) 75%, white), var(--mi-tone));
+    border-color: color-mix(in oklab, var(--mi-tone) 60%, black);
+  }
+  :where([data-theme="aero"]) .mi-button[data-variant="danger"] { --mi-tone: var(--mi-danger); }
+  :where([data-theme="aero"]) .mi-button[data-variant="ghost"] { background: transparent; border-color: transparent; box-shadow: none; text-shadow: none; }
+  :where([data-theme="aero"]) .mi-button:active:not(:disabled) { filter: brightness(0.94); }
+  :where([data-theme="aero"]) .mi-button:focus-visible { outline: none; box-shadow: inset 0 1px 0 var(--mi-glass-highlight), var(--mi-ring); }
+
+  /* Items */
+  :where([data-theme="aero"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: var(--mi-radius-sm); }
+  :where([data-theme="aero"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    color: var(--mi-accent-fg);
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 75%, white), var(--mi-accent));
+  }
+  :where([data-theme="aero"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="aero"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-wet), var(--mi-danger); }
+  :where([data-theme="aero"]) [data-slot="menu-separator"] { background: var(--mi-border); }
+
+  /* Inputs: glass wells */
+  :where([data-theme="aero"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: inset 0 2px 4px rgb(10 42 67 / 0.12);
+  }
+  :where([data-theme="aero"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: none;
+    border-color: var(--mi-accent);
+    box-shadow: inset 0 2px 4px rgb(10 42 67 / 0.12), var(--mi-ring);
+  }
+  :where([data-theme="aero"]) [data-slot="select-trigger"] { background: var(--mi-wet), var(--mi-glass-tint-strong); }
+  :where([data-theme="aero"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
+
+  /* Checkbox and switch: glossy pills */
+  :where([data-theme="aero"]) [data-slot="checkbox-box"] {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: 5px;
+    background: var(--mi-wet), var(--mi-glass-tint-strong);
+    color: var(--mi-accent-fg);
+    box-shadow: inset 0 1px 2px rgb(10 42 67 / 0.15);
+  }
+  :where([data-theme="aero"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 75%, white), var(--mi-accent));
+    border-color: color-mix(in oklab, var(--mi-accent) 60%, black);
+  }
+  :where([data-theme="aero"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+  :where([data-theme="aero"]) [data-slot="switch-track"] {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint);
+    box-shadow: inset 0 2px 4px rgb(10 42 67 / 0.18);
+  }
+  :where([data-theme="aero"]) [data-slot="switch-thumb"] {
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), linear-gradient(180deg, #ffffff, #dbe9f5);
+    box-shadow: 0 1px 3px rgb(10 42 67 / 0.4);
+  }
+  :where([data-theme="aero"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 70%, white), var(--mi-accent));
+  }
+  :where([data-theme="aero"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* Slider: glass rail, glass marble */
+  :where([data-theme="aero"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 8px; border-radius: var(--mi-radius-full); border: 1px solid var(--mi-glass-edge);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
+    box-shadow: inset 0 1px 3px rgb(10 42 67 / 0.25);
+  }
+  :where([data-theme="aero"]) [data-slot="slider"]::-moz-range-track {
+    height: 8px; border-radius: var(--mi-radius-full); border: 1px solid var(--mi-glass-edge);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
+    box-shadow: inset 0 1px 3px rgb(10 42 67 / 0.25);
+  }
+  :where([data-theme="aero"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 20px; height: 20px; margin-top: -7px; border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), linear-gradient(180deg, #ffffff, #cfe4f6); box-shadow: 0 2px 5px rgb(10 42 67 / 0.35);
+  }
+  :where([data-theme="aero"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 20px; height: 20px; border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), linear-gradient(180deg, #ffffff, #cfe4f6); box-shadow: 0 2px 5px rgb(10 42 67 / 0.35);
+  }
+
+  /* Tabs */
+  :where([data-theme="aero"]) [data-slot="tabs-list"] {
+    border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), var(--mi-glass-tint); box-shadow: inset 0 1px 0 var(--mi-glass-highlight);
+  }
+  :where([data-theme="aero"]) [data-slot="tabs-trigger"] { border-radius: var(--mi-radius-full); color: var(--mi-fg-muted); font-weight: 600; }
+  :where([data-theme="aero"]) [data-slot="tabs-trigger"][data-state="active"] {
+    color: var(--mi-accent-fg);
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 75%, white), var(--mi-accent));
+    box-shadow: 0 1px 3px rgb(10 42 67 / 0.3);
+  }
+
+  /* Tooltip and toast */
+  :where([data-theme="aero"]) [data-slot="tooltip"] {
+    border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-sm);
+    background: var(--mi-wet), var(--mi-glass-tint-strong); color: var(--mi-fg);
+    backdrop-filter: var(--mi-frost); -webkit-backdrop-filter: var(--mi-frost);
+  }
+  :where([data-theme="aero"]) [data-slot="toast-action"] {
+    border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full);
+    background: var(--mi-wet), var(--mi-glass-tint-strong); color: var(--mi-fg); font-weight: 600;
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="aero"]) .mi-button:hover:not(:disabled) { filter: brightness(1.06); }
+  }
+}

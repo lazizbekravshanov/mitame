@@ -1,7 +1,7 @@
 # mitame v1 design
 
 Date: 2026-09-18
-Status: six themes built. Eras: `y2k/aqua` (default), `now/liquid`, `vintage/platinum`. Styles: `styles/brutalist`, `styles/minimal`, `styles/urban`.
+Status: eleven themes built. Eras: `vintage/system`, `vintage/platinum`, `y2k/aqua` (default), `y2k/aero`, `now/liquid`. Styles: `styles/brutalist`, `styles/minimal`, `styles/urban`, `styles/paper`, `styles/terminal`, `styles/neon`.
 
 ## What mitame is
 
@@ -87,6 +87,14 @@ Gel material on buttons, select, tabs, checkbox and switch (a gloss layer, a bot
 ## Platinum (vintage/platinum)
 
 Mac OS 8 and 9: flat gray, 1px black outlines, raised (`--mi-raised`) and sunken (`--mi-sunken`) bevels instead of shadows, a hard 2px drop shadow, square corners everywhere (all radius tokens are 0) and `transition: none` (both motion tokens are 0). Select gets a black triangle, Tabs become file folder tabs on a panel edge, the switch is a sunken track with a raised square thumb, tooltips are Balloon Help yellow. Dark mode is "graphite". Tokens: Figma collection `platinum`, Light and Graphite modes.
+
+## The other themes
+
+- **system** (Vintage, 1984): 1-bit. No gray exists, so disabled states and the switch track use a CSS dither (`repeating-conic-gradient` at 2px), selection inverts, and nothing transitions. The site wallpaper uses a sparser dot screen, because a 50% dither behind body text is unreadable.
+- **aero** (Y2K, 2009): Frutiger Aero. A `--mi-wet` highlight gradient over glass on every control, saturated sky palette, rounded chrome.
+- **paper** (Style): warm stock, serif headings via `--mi-paper-serif`, clay accent, inputs and tabs are rules rather than boxes.
+- **terminal** (Style): monospace everywhere, `[` `]` around button labels via pseudo elements, `>` prompts on labels, inverted selection, phosphor glow, and a caret blink that respects `prefers-reduced-motion`.
+- **neon** (Style): violet black, magenta accent with a cyan secondary, glow on primary buttons, checked switch and slider fill.
 
 ## Server rendering
 

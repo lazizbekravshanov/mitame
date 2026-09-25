@@ -18,9 +18,8 @@ const root = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const out = join(root, "site/public/social");
 const tmp = join(root, "node_modules/.cache/clip");
 
-const SIZE = { width: 1000, height: 600 };
-const ERAS = ["Vintage", "Y2K", "Now"];
-const HOLD_MS = 1400;
+const SIZE = { width: 1000, height: 780 };
+const HOLD_MS = 1100;
 
 rmSync(tmp, { recursive: true, force: true });
 mkdirSync(tmp, { recursive: true });
@@ -39,20 +38,23 @@ const frameShot = () =>
     const el = document.querySelector('[aria-label="Era"]');
     if (!el) return;
     // Instant, not smooth: the page sets scroll-behavior: smooth for humans.
-    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 96, behavior: "instant" });
+    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - 84, behavior: "instant" });
   });
 
 await frameShot();
 await page.waitForTimeout(600);
 
+// Every chip on the landing page, in order: the whole theme range in one loop.
+const chips = page.locator(".era-chip:not([disabled])");
+const count = await chips.count();
 const frames = [];
-for (const era of [...ERAS, ...ERAS]) {
-  await page.getByRole("button", { name: new RegExp(era, "i") }).first().click();
-  await page.waitForTimeout(600); // let the theme's own transitions finish
+for (let i = 0; i < count; i++) {
+  await chips.nth(i).click();
+  await page.waitForTimeout(500); // let the theme's own transitions finish
   await frameShot();
   frames.push(await page.screenshot({ type: "png" }));
-  await page.waitForTimeout(200);
 }
+console.log(`captured ${frames.length} themes`);
 
 await context.close();
 await browser.close();

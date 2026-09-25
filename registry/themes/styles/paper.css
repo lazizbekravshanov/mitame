@@ -1,0 +1,149 @@
+/*
+ * mitame theme: Styles / paper
+ * Warm off-white stock, serif headings against a quiet sans, clay accent, ink
+ * hairlines and almost no shadow. The look of a well set document.
+ * Headings use a serif; load one (Newsreader, Source Serif, Charter) or
+ * override --mi-paper-serif.
+ * Tokens come from Figma (paper.tokens.css).
+ */
+@import "./paper.tokens.css";
+
+@layer components {
+  :where([data-theme="paper"]) {
+    --mi-paper-serif: "Newsreader", "Source Serif 4", Charter, "Iowan Old Style", Georgia, serif;
+    --mi-ease: cubic-bezier(0.32, 0.72, 0, 1);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px color-mix(in oklab, var(--mi-accent) 45%, transparent);
+    --mi-rule: 1px solid var(--mi-border);
+  }
+
+  :where([data-theme="paper"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-family: var(--mi-paper-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  :where([data-theme="paper"]) [data-slot="card-description"] { font-size: var(--mi-text-sm); }
+  :where([data-theme="paper"]) [data-slot="field-label"] {
+    font-size: var(--mi-text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mi-fg-muted);
+  }
+
+  /* Buttons: ink outline, clay fill for the one that matters */
+  :where([data-theme="paper"]) .mi-button {
+    border: var(--mi-rule);
+    border-radius: var(--mi-radius-full);
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 500;
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="paper"]) .mi-button[data-variant="primary"] { background: var(--mi-accent); border-color: var(--mi-accent); color: var(--mi-accent-fg); }
+  :where([data-theme="paper"]) .mi-button[data-variant="danger"] { color: var(--mi-danger); border-color: color-mix(in oklab, var(--mi-danger) 40%, transparent); }
+  :where([data-theme="paper"]) .mi-button[data-variant="ghost"] { border-color: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="paper"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* Surfaces: paper on paper, separated by a rule */
+  :where([data-theme="paper"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: var(--mi-rule);
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-glass-tint);
+    box-shadow: none;
+  }
+  :where([data-theme="paper"]) :is([data-slot="popover-content"], [data-slot="select-content"], [data-slot="menu-content"], [data-slot="toast"], [data-slot="dialog-panel"]) {
+    box-shadow: 0 18px 40px -24px var(--mi-glass-shadow);
+  }
+  :where([data-theme="paper"]) [data-slot="card"] { padding: var(--mi-space-7); }
+  :where([data-theme="paper"]) [data-slot="dialog"]::backdrop { background: color-mix(in oklab, var(--mi-fg) 18%, transparent); }
+
+  /* Items */
+  :where([data-theme="paper"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: var(--mi-radius-sm); }
+  :where([data-theme="paper"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: color-mix(in oklab, var(--mi-accent) 12%, transparent);
+    color: var(--mi-fg);
+  }
+  :where([data-theme="paper"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="paper"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 12%, transparent); color: var(--mi-danger); }
+  :where([data-theme="paper"]) [data-slot="menu-separator"] { background: var(--mi-border); }
+
+  /* Inputs: a ruled line */
+  :where([data-theme="paper"]) [data-slot="field-input"] {
+    border: 0;
+    border-bottom: var(--mi-rule);
+    border-radius: 0;
+    padding-inline: 0;
+    background: transparent;
+    font-size: var(--mi-text-md);
+  }
+  :where([data-theme="paper"]) [data-slot="field-icon"] { left: 0; }
+  :where([data-theme="paper"]) [data-slot="field-icon"] + [data-slot="field-input"] { padding-left: 26px; }
+  :where([data-theme="paper"]) [data-slot="field-input"]:focus-visible { outline: none; border-bottom-color: var(--mi-accent); }
+  :where([data-theme="paper"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-bottom-color: var(--mi-danger); }
+  :where([data-theme="paper"]) [data-slot="select-trigger"] { border: var(--mi-rule); border-radius: var(--mi-radius-sm); background: transparent; }
+  :where([data-theme="paper"]) [data-slot="select-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* Checkbox, switch, slider: small and ink coloured */
+  :where([data-theme="paper"]) [data-slot="checkbox-box"] {
+    width: 16px; height: 16px;
+    border: var(--mi-rule); border-radius: 3px;
+    background: var(--mi-glass-tint); color: var(--mi-accent-fg);
+  }
+  :where([data-theme="paper"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-accent); border-color: var(--mi-accent); }
+  :where([data-theme="paper"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+  :where([data-theme="paper"]) [data-slot="switch-track"] {
+    width: 36px; height: 20px; border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 16%, transparent);
+  }
+  :where([data-theme="paper"]) [data-slot="switch-thumb"] {
+    top: 3px; left: 3px; width: 14px; height: 14px;
+    border-radius: var(--mi-radius-full); background: var(--mi-bg); box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="paper"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
+  :where([data-theme="paper"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(16px); }
+  :where([data-theme="paper"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+  :where([data-theme="paper"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 2px;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  :where([data-theme="paper"]) [data-slot="slider"]::-moz-range-track {
+    height: 2px;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  :where([data-theme="paper"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 14px; height: 14px; margin-top: -6px; border: 0;
+    border-radius: var(--mi-radius-full); background: var(--mi-accent);
+  }
+  :where([data-theme="paper"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 14px; height: 14px; border: 0; border-radius: var(--mi-radius-full); background: var(--mi-accent);
+  }
+
+  /* Tabs: a rule with a clay marker */
+  :where([data-theme="paper"]) [data-slot="tabs-list"] {
+    gap: var(--mi-space-5); padding: 0; border-radius: 0;
+    border-bottom: var(--mi-rule); background: transparent; box-shadow: none;
+  }
+  :where([data-theme="paper"]) [data-slot="tabs-trigger"] {
+    position: relative; padding: 0 0 10px; border-radius: 0;
+    color: var(--mi-fg-muted); font-weight: 500;
+  }
+  :where([data-theme="paper"]) [data-slot="tabs-trigger"][data-state="active"] { color: var(--mi-fg); background: transparent; box-shadow: none; }
+  :where([data-theme="paper"]) [data-slot="tabs-trigger"][data-state="active"]::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--mi-accent);
+  }
+
+  /* Tooltip, toast */
+  :where([data-theme="paper"]) [data-slot="tooltip"] {
+    border-radius: var(--mi-radius-sm); background: var(--mi-fg); color: var(--mi-bg); font-size: var(--mi-text-xs);
+  }
+  :where([data-theme="paper"]) [data-slot="toast-title"] { font-family: var(--mi-paper-serif); font-weight: 400; }
+  :where([data-theme="paper"]) [data-slot="toast-action"] {
+    border: var(--mi-rule); border-radius: var(--mi-radius-full); background: transparent; color: var(--mi-fg); font-weight: 500;
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="paper"]) .mi-button:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-fg) 5%, transparent); }
+    :where([data-theme="paper"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 88%, black); }
+  }
+}

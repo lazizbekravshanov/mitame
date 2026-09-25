@@ -6,7 +6,7 @@ mitame
 
 ## Tagline (60 characters max)
 
-`Copy-paste React components that wear any look` (46)
+`One React component set. Eleven looks. Zero dependencies.` (56)
 
 Alternatives:
 - `Copy-paste React components from 2001 Aqua to 2026 glass` (56)

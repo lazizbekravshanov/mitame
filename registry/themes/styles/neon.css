@@ -1,0 +1,146 @@
+/*
+ * mitame theme: Styles / neon
+ * Night city: deep violet black, magenta and cyan glow, blurred halos and
+ * chrome-thin borders. Light mode keeps the palette on a pale violet page.
+ * Tokens come from Figma (neon.tokens.css).
+ */
+@import "./neon.tokens.css";
+
+@layer components {
+  :where([data-theme="neon"]) {
+    --mi-cyan: #22d3ee;
+    --mi-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --mi-glow: 0 0 18px -2px color-mix(in oklab, var(--mi-accent) 75%, transparent);
+    --mi-glow-soft: 0 0 32px -8px color-mix(in oklab, var(--mi-accent) 60%, transparent);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-accent), var(--mi-glow);
+    --mi-sheen: linear-gradient(135deg, color-mix(in oklab, var(--mi-accent) 10%, transparent), transparent 40%, color-mix(in oklab, var(--mi-cyan) 10%, transparent));
+  }
+
+  :where([data-theme="neon"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-shadow: 0 0 20px color-mix(in oklab, var(--mi-accent) 40%, transparent);
+  }
+
+  /* Surfaces: dark glass with a colour wash */
+  :where([data-theme="neon"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-sheen), var(--mi-glass-tint);
+    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 24px 60px -28px var(--mi-glass-shadow), var(--mi-glow-soft);
+  }
+  :where([data-theme="neon"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { border-radius: var(--mi-radius-md); }
+  :where([data-theme="neon"]) [data-slot="dialog"]::backdrop { background: rgb(4 2 10 / 0.7); backdrop-filter: blur(6px); }
+
+  /* Buttons: lit signs */
+  :where([data-theme="neon"]) .mi-button {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease), background-color var(--mi-duration-fast) var(--mi-ease), scale var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="neon"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    border-color: transparent;
+    box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="neon"]) .mi-button[data-variant="danger"] {
+    background: transparent;
+    color: var(--mi-danger);
+    border-color: var(--mi-danger);
+    box-shadow: 0 0 18px -4px color-mix(in oklab, var(--mi-danger) 70%, transparent);
+  }
+  :where([data-theme="neon"]) .mi-button[data-variant="ghost"] { background: transparent; border-color: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="neon"]) .mi-button:active:not(:disabled) { scale: 0.97; }
+  :where([data-theme="neon"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* Items */
+  :where([data-theme="neon"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: var(--mi-radius-sm); }
+  :where([data-theme="neon"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: color-mix(in oklab, var(--mi-accent) 22%, transparent);
+    color: var(--mi-fg);
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--mi-accent) 50%, transparent);
+  }
+  :where([data-theme="neon"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="neon"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 25%, transparent); }
+  :where([data-theme="neon"]) [data-slot="menu-separator"] { background: var(--mi-glass-edge); }
+
+  /* Inputs */
+  :where([data-theme="neon"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: 1px solid var(--mi-glass-edge);
+    border-radius: var(--mi-radius-sm);
+    background: color-mix(in oklab, var(--mi-glass-tint) 80%, transparent);
+    color: var(--mi-fg);
+  }
+  :where([data-theme="neon"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: none; border-color: var(--mi-accent); box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="neon"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
+
+  /* Toggles glow when on */
+  :where([data-theme="neon"]) [data-slot="checkbox-box"] {
+    border: 1px solid var(--mi-glass-edge); border-radius: 6px;
+    background: var(--mi-glass-tint); color: var(--mi-accent-fg);
+  }
+  :where([data-theme="neon"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-accent); border-color: transparent; box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="neon"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+  :where([data-theme="neon"]) [data-slot="switch-track"] {
+    border-radius: var(--mi-radius-full);
+    background: color-mix(in oklab, var(--mi-fg) 14%, transparent);
+    border: 1px solid var(--mi-glass-edge);
+  }
+  :where([data-theme="neon"]) [data-slot="switch-thumb"] { border-radius: var(--mi-radius-full); background: var(--mi-fg); box-shadow: none; }
+  :where([data-theme="neon"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); border-color: transparent; box-shadow: var(--mi-glow); }
+  :where([data-theme="neon"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { background: var(--mi-accent-fg); }
+  :where([data-theme="neon"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* Slider with a lit fill */
+  :where([data-theme="neon"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 6px; border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
+    box-shadow: var(--mi-glow-soft);
+  }
+  :where([data-theme="neon"]) [data-slot="slider"]::-moz-range-track {
+    height: 6px; border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
+    box-shadow: var(--mi-glow-soft);
+  }
+  :where([data-theme="neon"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 18px; height: 18px; margin-top: -6px; border: 3px solid var(--mi-bg);
+    border-radius: var(--mi-radius-full); background: var(--mi-accent); box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="neon"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 18px; height: 18px; border: 3px solid var(--mi-bg);
+    border-radius: var(--mi-radius-full); background: var(--mi-accent); box-shadow: var(--mi-glow);
+  }
+
+  /* Tabs */
+  :where([data-theme="neon"]) [data-slot="tabs-list"] {
+    padding: 4px; border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full); background: var(--mi-glass-tint);
+  }
+  :where([data-theme="neon"]) [data-slot="tabs-trigger"] { border-radius: var(--mi-radius-full); color: var(--mi-fg-muted); font-weight: 700; }
+  :where([data-theme="neon"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-accent); color: var(--mi-accent-fg); box-shadow: var(--mi-glow); }
+
+  /* Tooltip and toast */
+  :where([data-theme="neon"]) [data-slot="tooltip"] {
+    border: 1px solid var(--mi-accent); border-radius: var(--mi-radius-full);
+    background: var(--mi-bg); color: var(--mi-accent); box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="neon"]) [data-slot="toast-action"] {
+    border: 1px solid var(--mi-accent); border-radius: var(--mi-radius-full); background: transparent; color: var(--mi-accent); font-weight: 700;
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="neon"]) .mi-button:hover:not(:disabled) { box-shadow: var(--mi-glow); }
+    :where([data-theme="neon"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 85%, white); }
+  }
+}

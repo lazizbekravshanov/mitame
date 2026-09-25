@@ -35,7 +35,7 @@
   --mi-text-lg: 16px;
   --mi-text-xl: 20px;
   --mi-font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mi-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mi-font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, ui-monospace, SFMono-Regular, Menlo, monospace;
   --mi-duration-fast: 120ms;
   --mi-duration: 220ms;
 }

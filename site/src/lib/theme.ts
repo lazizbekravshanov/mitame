@@ -3,12 +3,17 @@
 import { useEffect, useState } from "react";
 
 export const THEMES = [
+  { id: "system", group: "Eras", era: "Vintage", year: "1984", ready: true },
   { id: "platinum", group: "Eras", era: "Vintage", year: "1997", ready: true },
   { id: "aqua", group: "Eras", era: "Y2K", year: "2001", ready: true },
+  { id: "aero", group: "Eras", era: "Y2K", year: "2009", ready: true },
   { id: "liquid", group: "Eras", era: "Now", year: "2026", ready: true },
   { id: "brutalist", group: "Styles", era: "Brutalist", year: "loud", ready: true },
   { id: "minimal", group: "Styles", era: "Minimal", year: "quiet", ready: true },
   { id: "urban", group: "Styles", era: "Urban", year: "night", ready: true },
+  { id: "paper", group: "Styles", era: "Paper", year: "printed", ready: true },
+  { id: "terminal", group: "Styles", era: "Terminal", year: "phosphor", ready: true },
+  { id: "neon", group: "Styles", era: "Neon", year: "city", ready: true },
 ] as const;
 export const ERAS = THEMES.filter((t) => t.group === "Eras");
 export const STYLES = THEMES.filter((t) => t.group === "Styles");

@@ -1,9 +1,14 @@
 @import "tailwindcss";
 @import "../registry/themes/base.css";
+@import "../registry/themes/vintage/system.css";
 @import "../registry/themes/vintage/platinum.css";
+@import "../registry/themes/y2k/aero.css";
 @import "../registry/themes/styles/brutalist.css";
 @import "../registry/themes/styles/minimal.css";
 @import "../registry/themes/styles/urban.css";
+@import "../registry/themes/styles/paper.css";
+@import "../registry/themes/styles/terminal.css";
+@import "../registry/themes/styles/neon.css";
 @import "../registry/themes/y2k/aqua.css";
 @import "../registry/themes/now/liquid.css";
 @import "../registry/themes/tailwind.css";

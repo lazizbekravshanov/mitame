@@ -4,7 +4,7 @@ import "../../../styles/site.css";
 import "../_shot.css";
 
 export function getStaticPaths() {
-  return ["aqua", "liquid", "platinum", "brutalist", "minimal", "urban"].map((theme) => ({ params: { theme } }));
+  return ["aqua", "liquid", "platinum", "system", "aero", "brutalist", "minimal", "urban", "paper", "terminal", "neon"].map((theme) => ({ params: { theme } }));
 }
 const { theme } = Astro.params;
 ---

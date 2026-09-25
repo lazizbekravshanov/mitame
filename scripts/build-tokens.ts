@@ -11,6 +11,11 @@ export const THEMES: Record<string, string> = {
   brutalist: "styles",
   minimal: "styles",
   urban: "styles",
+  paper: "styles",
+  terminal: "styles",
+  neon: "styles",
+  system: "vintage",
+  aero: "y2k",
 };
 
 type Value = string | number;
@@ -29,6 +34,9 @@ const FONT_RELATIVES: Record<string, string> = {
   "Lucida Grande": '"Lucida Sans Unicode", "Lucida Sans", ',
   Charcoal: '"Geneva", "Chicago", Tahoma, Verdana, ',
   Archivo: '"Archivo Expanded", "Helvetica Neue", ',
+  Chicago: '"ChicagoFLF", "Charcoal", "Geneva", ',
+  "Segoe UI": '"Segoe UI Variable", "Frutiger", ',
+  "JetBrains Mono": '"SF Mono", Menlo, Consolas, ',
 };
 
 export function cssVarName(token: string): string {

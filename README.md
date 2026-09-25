@@ -4,7 +4,7 @@
 
 **Old UI, brought back to life.**
 
-Copy-paste React components that wear any look, from 2001 Aqua gel to 2026 liquid glass to brutalist, minimal and urban.
+Copy-paste React components that wear any look: 11 themes, from 1-bit 1984 and 2001 Aqua gel to liquid glass, brutalist, terminal and neon.
 *Mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
 
 [mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components) · [Themes](https://mitame.dev/themes)
@@ -37,12 +37,15 @@ Two shelves: **eras** that really existed, and **styles** that are just looks.
 |---|---|---|
 | **Y2K** · 2000 to 2012 | `aqua` — gel buttons, pinstripes, the blue ⇅ popup button, midnight dark mode | ✅ default |
 | **Now** · 2025 and later | `liquid` — frosted glass, rim light, deep soft shadows | ✅ |
-| **Vintage** · 1984 to 1999 | `platinum` — Mac OS 8/9 gray, bevels, hard shadows, square corners, graphite dark mode | ✅ |
-| **Vintage** | `system` — 1-bit black and white | next |
+| **Vintage** · 1997 | `platinum` — Mac OS 8/9 gray, bevels, hard shadows, square corners, graphite dark mode | ✅ |
+| **Vintage** · 1984 | `system` — 1-bit black and white, dither instead of gray, inverted selection | ✅ |
 | **Styles** | `brutalist` — thick outlines, hard shadows, zero radius, loud flats | ✅ |
 | **Styles** | `minimal` — hairlines, no shadows, space, one ink color | ✅ |
 | **Styles** | `urban` — near black with grain, acid accent, heavy uppercase | ✅ |
-| **Y2K** | `aero` — frosted Frutiger Aero glass | planned |
+| **Styles** | `paper` — warm stock, serif headings, clay accent, ruled inputs | ✅ |
+| **Styles** | `terminal` — monospace, bracketed buttons, phosphor glow | ✅ |
+| **Styles** | `neon` — violet black, magenta and cyan glow, lit controls | ✅ |
+| **Y2K** · 2009 | `aero` — Frutiger Aero glass, wet highlights, sky blue | ✅ |
 | **Remix** | `blend` — old structure on new material | planned |
 
 ## Quick start
@@ -166,7 +169,6 @@ docs/launch/ launch copy and asset notes
 
 ## Roadmap
 
-- Vintage `system`: 1-bit black and white
 - Page templates (sign in, pricing, dashboard) in every era
 - More blocks: settings, empty states, marketing hero
 - A registry endpoint so the shadcn CLI can install mitame components

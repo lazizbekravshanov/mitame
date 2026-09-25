@@ -1,0 +1,159 @@
+/*
+ * mitame theme: Styles / terminal
+ * Phosphor on black: monospace everywhere, square corners, bracket markers
+ * instead of icons where it helps, a blinking caret on the primary button and
+ * scanline glow. Light mode is the amber-on-paper variant.
+ * Tokens come from Figma (terminal.tokens.css).
+ */
+@import "./terminal.tokens.css";
+
+@layer components {
+  :where([data-theme="terminal"]) {
+    --mi-ease: steps(2, end);
+    --mi-glow: 0 0 12px -2px color-mix(in oklab, var(--mi-accent) 70%, transparent);
+    --mi-scan: repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 6%, transparent) 0 1px, transparent 1px 3px);
+  }
+
+  :where([data-theme="terminal"]) { font-family: var(--mi-font-mono); }
+  :where([data-theme="terminal"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  /* Labels read like prompts */
+  :where([data-theme="terminal"]) [data-slot="field-label"]::before { content: "> "; opacity: 0.7; }
+  :where([data-theme="terminal"]) [data-slot="card-title"]::before { content: "// "; opacity: 0.6; }
+
+  /* Buttons: bracketed commands */
+  :where([data-theme="terminal"]) .mi-button {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="terminal"]) .mi-button::before { content: "["; opacity: 0.6; margin-right: 2px; }
+  :where([data-theme="terminal"]) .mi-button::after { content: "]"; opacity: 0.6; margin-left: 2px; }
+  :where([data-theme="terminal"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    border-color: var(--mi-accent);
+    box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="terminal"]) .mi-button[data-variant="danger"] { color: var(--mi-danger); border-color: var(--mi-danger); }
+  :where([data-theme="terminal"]) .mi-button[data-variant="ghost"] { border-color: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="terminal"]) .mi-button:focus-visible { outline: 1px dashed var(--mi-accent); outline-offset: 2px; }
+
+  /* Surfaces: framed panels with scanlines */
+  :where([data-theme="terminal"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-scan), var(--mi-glass-tint);
+    box-shadow: none;
+  }
+  :where([data-theme="terminal"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="toast"]) {
+    box-shadow: 0 0 0 1px var(--mi-bg), 0 12px 30px -18px var(--mi-glass-shadow);
+  }
+  :where([data-theme="terminal"]) [data-slot="dialog"]::backdrop { background: color-mix(in oklab, var(--mi-bg) 80%, transparent); }
+
+  /* Items: the selected line inverts, like a TUI */
+  :where([data-theme="terminal"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
+  :where([data-theme="terminal"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="terminal"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="terminal"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); color: var(--mi-bg); }
+  :where([data-theme="terminal"]) [data-slot="menu-label"] { text-transform: uppercase; letter-spacing: 0.12em; }
+  :where([data-theme="terminal"]) [data-slot="menu-separator"] { background: var(--mi-border); }
+
+  /* Inputs */
+  :where([data-theme="terminal"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+    font-family: var(--mi-font-mono);
+  }
+  :where([data-theme="terminal"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: none;
+    border-color: var(--mi-accent);
+    box-shadow: var(--mi-glow);
+  }
+  :where([data-theme="terminal"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  :where([data-theme="terminal"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
+
+  /* Checkbox: [x] and [-] */
+  :where([data-theme="terminal"]) [data-slot="checkbox-box"] {
+    width: 16px; height: 16px;
+    border: 1px solid var(--mi-border); border-radius: 0;
+    background: var(--mi-glass-tint-strong); color: var(--mi-accent-fg);
+  }
+  :where([data-theme="terminal"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-accent); border-color: var(--mi-accent); }
+  :where([data-theme="terminal"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: 1px dashed var(--mi-accent); outline-offset: 2px; }
+
+  /* Switch: [ON ] / [ OFF] block */
+  :where([data-theme="terminal"]) [data-slot="switch-track"] {
+    width: 40px; height: 20px; border: 1px solid var(--mi-border); border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="terminal"]) [data-slot="switch-thumb"] {
+    top: 1px; left: 1px; width: 16px; height: 16px; border-radius: 0; background: var(--mi-fg);
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="terminal"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); box-shadow: var(--mi-glow); }
+  :where([data-theme="terminal"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(20px); background: var(--mi-accent-fg); }
+  :where([data-theme="terminal"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: 1px dashed var(--mi-accent); outline-offset: 2px; }
+
+  /* Slider: a progress bar of blocks */
+  :where([data-theme="terminal"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: 10px; border: 1px solid var(--mi-border); border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="terminal"]) [data-slot="slider"]::-moz-range-track {
+    height: 10px; border: 1px solid var(--mi-border); border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="terminal"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 10px; height: 18px; margin-top: -5px; border: 0; border-radius: 0; background: var(--mi-fg);
+  }
+  :where([data-theme="terminal"]) [data-slot="slider"]::-moz-range-thumb { width: 10px; height: 18px; border: 0; border-radius: 0; background: var(--mi-fg); }
+  :where([data-theme="terminal"]) [data-slot="slider"]:focus-visible { outline: 1px dashed var(--mi-accent); outline-offset: 3px; }
+
+  /* Tabs: tab bar of commands */
+  :where([data-theme="terminal"]) [data-slot="tabs-list"] {
+    gap: 0; padding: 0; border: 1px solid var(--mi-border); border-radius: 0; background: transparent; box-shadow: none;
+  }
+  :where([data-theme="terminal"]) [data-slot="tabs-trigger"] {
+    border-radius: 0; color: var(--mi-fg-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  :where([data-theme="terminal"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left: 1px solid var(--mi-border); }
+  :where([data-theme="terminal"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
+  :where([data-theme="terminal"]) [data-slot="tabs-trigger"]:focus-visible { outline: 1px dashed var(--mi-accent); outline-offset: -3px; }
+
+  /* Tooltip and toast read like log lines */
+  :where([data-theme="terminal"]) [data-slot="tooltip"] {
+    border: 1px solid var(--mi-accent); border-radius: 0;
+    background: var(--mi-bg); color: var(--mi-accent); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  :where([data-theme="terminal"]) [data-slot="toast-title"]::before { content: "> "; opacity: 0.7; }
+  :where([data-theme="terminal"]) [data-slot="toast-action"] {
+    border: 1px solid var(--mi-accent); border-radius: 0; background: transparent; color: var(--mi-accent);
+    font-weight: 700; text-transform: uppercase;
+  }
+
+  /* The caret that makes it feel alive */
+  @media (prefers-reduced-motion: no-preference) {
+    :where([data-theme="terminal"]) .mi-button[data-variant="primary"]::after { animation: mi-terminal-caret 1s steps(2, end) infinite; }
+    @keyframes mi-terminal-caret { 50% { opacity: 0.15; } }
+  }
+
+  @media (hover: hover) {
+    :where([data-theme="terminal"]) .mi-button:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 18%, transparent); }
+    :where([data-theme="terminal"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 85%, white); }
+  }
+}

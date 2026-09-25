@@ -11,6 +11,11 @@ export const THEMES: Record<string, string> = {
   brutalist: "styles/brutalist",
   minimal: "styles/minimal",
   urban: "styles/urban",
+  paper: "styles/paper",
+  terminal: "styles/terminal",
+  neon: "styles/neon",
+  system: "vintage/system",
+  aero: "y2k/aero",
 };
 
 const EXTS = [".tsx", ".ts", ".css"];
