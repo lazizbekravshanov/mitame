@@ -29,3 +29,5 @@ secrets*
 site/dist/
 site/.astro/
 .vercel/
+.vercel
+.env*
