@@ -1,0 +1,26 @@
+/* Shared styling for the social shots. These pages exist only to be screenshotted. */
+.shot {
+  display: flex;
+  overflow: hidden;
+  font-family: var(--mi-font-sans);
+  color: var(--mi-fg);
+}
+.shot-card { width: 1200px; height: 630px; align-items: center; gap: 56px; padding: 0 64px; }
+.shot-gallery { width: 1270px; height: 760px; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+.wordmark { font-size: 76px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0; }
+.jp { font-size: 30px; font-weight: 600; opacity: 0.6; margin: 10px 0 0; }
+.tagline { font-size: 30px; line-height: 1.25; margin: 22px 0 0; max-width: 15ch; }
+.sub { font-size: 19px; opacity: 0.72; margin: 18px 0 0; max-width: 28ch; }
+.cmd {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 10px 16px;
+  font-family: var(--mi-font-mono);
+  font-size: 18px;
+  color: #e9edf5;
+  background: #11131a;
+  border-radius: 8px;
+}
+.era-badge { font-size: 17px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.6; }
+.gallery-title { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; margin: 0; }
+.stage { display: flex; align-items: center; justify-content: center; }

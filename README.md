@@ -126,6 +126,8 @@ npm run dev        # playground with every component, http://localhost:5173
 npm test           # components, CLI and generators
 npm run typecheck
 npm run build      # builds the CLI into dist/cli
+npm run social     # renders the social images from the live site
+npm run clip       # records the era switch as a GIF
 ```
 
 ```
@@ -137,6 +139,7 @@ icons/svg/  icons pulled from Figma
 scripts/    token and icon generators, Figma export script
 playground/ local showcase, not shipped
 docs/specs/ design decisions
+docs/launch/ launch copy and asset notes
 ```
 
 ## Roadmap

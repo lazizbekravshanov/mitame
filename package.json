@@ -43,7 +43,9 @@
     "prepublishOnly": "npm run typecheck && npm test && npm run build",
     "site:dev": "astro dev --root site",
     "site:build": "astro build --root site",
-    "site:preview": "astro preview --root site"
+    "site:preview": "astro preview --root site",
+    "social": "npm run site:build && node scripts/build-social.mjs",
+    "clip": "npm run site:build && node scripts/record-eras.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -60,11 +62,14 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "astro": "^7.3.3",
+    "gifenc": "^1.0.3",
     "jsdom": "^30.1.0",
+    "playwright-core": "^1.63.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
+    "upng-js": "^2.1.0",
     "vite": "^8.3.0",
     "vitest": "^5.0.1"
   }

@@ -1,0 +1,21 @@
+---
+import ShotCard from "../../../components/shots/ShotCard";
+import "../../../styles/site.css";
+import "../_shot.css";
+
+export function getStaticPaths() {
+  return ["aqua", "liquid", "platinum"].map((theme) => ({ params: { theme } }));
+}
+const { theme } = Astro.params;
+---
+
+<html lang="en" data-theme={theme} data-mode="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>mitame social card</title>
+  </head>
+  <body style="margin:0">
+    <ShotCard theme={theme!} />
+  </body>
+</html>

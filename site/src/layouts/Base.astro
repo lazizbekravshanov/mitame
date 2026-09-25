@@ -5,11 +5,14 @@ import "../styles/site.css";
 interface Props {
   title: string;
   description: string;
+  /** Social preview, relative to the site root. Defaults to the Aqua card. */
+  image?: string;
   wide?: boolean;
 }
-const { title, description } = Astro.props;
+const { title, description, image = "/social/og.png" } = Astro.props;
 const fullTitle = title === "mitame" ? "mitame 見た目 · old UI, brought back to life" : `${title} · mitame`;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL(image, Astro.site).href : image;
 const path = Astro.url.pathname;
 const nav = [
   { href: "/docs", label: "Docs" },
@@ -30,7 +33,13 @@ const nav = [
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     {canonical && <meta property="og:url" content={canonical} />}
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="mitame 見た目: a Preferences card rendered in the 2001 Aqua theme, next to the wordmark and the command npx mitame add button." />
+    <meta property="og:site_name" content="mitame" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" />
