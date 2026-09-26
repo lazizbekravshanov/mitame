@@ -4,7 +4,7 @@
 
 **Old UI, brought back to life.**
 
-Copy-paste React components that wear any look: 11 themes, from 1-bit 1984 and 2001 Aqua gel to liquid glass, brutalist, terminal and neon.
+Copy-paste React components that wear any look: 18 themes, a timeline from 1-bit 1984 through beveled 1995, Aqua gel and 2012 skeuomorphism to liquid glass, plus brutalist, terminal, neon, ink and more.
 *Mitame* (見た目) is Japanese for "the way it looks". Same code, new 見た目.
 
 [mitame.dev](https://mitame.dev) · [Components](https://mitame.dev/docs/components) · [Themes](https://mitame.dev/themes)

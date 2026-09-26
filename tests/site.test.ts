@@ -61,3 +61,19 @@ describe("social shots", () => {
     expect(script).toContain("meta.json");
   });
 });
+
+describe("the counts in the prose", () => {
+  it("match what actually ships, because a stale number is the first thing a reader checks", () => {
+    const themes = Object.keys(THEMES).length;
+    const blocks = readdirSync(join(root, "registry/blocks")).filter((f) => f.endsWith(".tsx")).length;
+    const components = readdirSync(join(root, "registry/ui")).filter((f) => f.endsWith(".tsx")).length;
+    for (const file of ["README.md", "AGENTS.md"]) {
+      const text = readFileSync(join(root, file), "utf8");
+      const stale = [...text.matchAll(/(\d+) (themes|page blocks|components)\b/g)].filter(([, n, kind]) => {
+        const actual = kind === "themes" ? themes : kind === "components" ? components : blocks;
+        return Number(n) !== actual;
+      });
+      expect(stale.map((m) => m[0]), file).toEqual([]);
+    }
+  });
+});

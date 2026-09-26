@@ -4,7 +4,7 @@ mitame (見た目, "the way it looks") is a copy-paste React component library. 
 
 ## What the project is
 
-- 13 components in `registry/ui`, 3 page blocks in `registry/blocks`, 11 themes in `registry/themes`.
+- 13 components in `registry/ui`, 7 page blocks in `registry/blocks`, 18 themes in `registry/themes`.
 - No runtime dependencies besides React. Dialogs use the native `<dialog>`, menus and popovers use the Popover API, form controls are real form controls. If a feature needs a dependency, that is a reason to think harder, not to add one.
 - The code a user copies is the documentation. Write it the way you would want to read it in someone else's repository.
 
@@ -12,8 +12,8 @@ mitame (見た目, "the way it looks") is a copy-paste React component library. 
 
 ```bash
 npx tsc --noEmit        # types
-npx vitest run          # 85 tests, including the contrast checker
-npm run site:build      # the docs site, 48 pages
+npx vitest run          # the suite, including the contrast checker
+npm run site:build      # the docs site
 ```
 
 `npm test` runs the contrast checker as a test, so a theme change that fails WCAG AA fails the build. `node scripts/contrast.ts` prints the same report with sources, and `--all` adds the values it could not resolve.
@@ -35,6 +35,7 @@ Do not hand-edit these. Change the source and run the generator:
 | `registry/themes/**/*.tokens.css` | `tokens/*.json` (designed in Figma) | `npm run tokens` |
 | `registry/icons/*.tsx` | `icons/svg/*.svg` | `npm run icons` |
 | `registry.json` | the registry itself | `npm run registry` |
+| `registry/meta.json` | `site/src/data` | `npm run meta` |
 
 Each has a test that fails when the committed output drifts from its source.
 
@@ -71,3 +72,9 @@ npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua
 ```
 
 That path needs an existing `components.json` in the target project. `https://mitame.dev/llms.txt` is the machine-readable index of the docs.
+
+## For coding agents
+
+`npx @lazizbekio/mitame mcp` runs an MCP server on stdio with five tools: `list_items`, `get_item` (source plus props and keyboard), `add_items`, `init_project` and `get_theme`. It is hand written rather than built on an SDK, because the package promises no dependencies.
+
+`skills/mitame/SKILL.md` and `.claude-plugin/plugin.json` make this repository a Claude Code plugin, and `.mcp.json` wires that server up when it is installed. Every component page also has a markdown twin at `/docs/components/<name>.md`.
