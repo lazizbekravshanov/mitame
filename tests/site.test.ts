@@ -22,3 +22,10 @@ describe("the site loads every theme", () => {
     }
   });
 });
+
+describe("the themes page", () => {
+  it("shows every theme, so a new one cannot ship invisible", () => {
+    const page = readFileSync(join(root, "site/src/pages/themes.astro"), "utf8");
+    for (const name of Object.keys(THEMES)) expect(page, name).toContain(`id: "${name}"`);
+  });
+});
