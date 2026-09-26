@@ -19,14 +19,17 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run site:build
-      - name: Generated files are up to date with tokens/ and icons/svg/
+      - name: Generated files are up to date with their sources
         run: |
-          npm run tokens && npm run icons
-          git diff --exit-code -- registry/icons 'registry/themes/**/*.tokens.css'
+          npm run tokens && npm run icons && npm run registry
+          git diff --exit-code -- registry/icons registry.json 'registry/themes/**/*.tokens.css'
       - name: CLI works from the packed tarball
         run: |
-          npm pack
+          # npm names a scoped tarball <scope>-<name>-<version>.tgz, so take the
+          # name from npm rather than guessing it.
+          TARBALL="$(npm pack --silent)"
           mkdir -p /tmp/app && cd /tmp/app && npm init -y >/dev/null
-          npm i "$GITHUB_WORKSPACE"/mitame-*.tgz
+          npm i "$GITHUB_WORKSPACE/$TARBALL"
           npx @lazizbekio/mitame init && npx @lazizbekio/mitame add select dialog
           test -f src/components/mitame/ui/select.tsx
+          test -f src/components/mitame/themes/y2k/aqua.tokens.css
