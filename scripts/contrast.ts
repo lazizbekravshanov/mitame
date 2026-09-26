@@ -183,6 +183,14 @@ function withAlpha(hex: string, a: number): string {
   return a >= 1 ? base : base + Math.round(Math.max(0, Math.min(1, a)) * 255).toString(16).padStart(2, "0").toUpperCase();
 }
 
+/**
+ * For a var map built by varsFor: which names that map added from a rule (as
+ * opposed to from the theme block or the tokens), and the same map without
+ * them. Used to substitute a custom property in the scope it was declared in.
+ */
+const LOCAL = new WeakMap<Map<string, string>, Set<string>>();
+const THEME_SCOPE = new WeakMap<Map<string, string>, Map<string, string>>();
+
 const NAMED: Record<string, string> = { white: "#FFFFFF", black: "#000000" };
 
 /** Split on top-level commas, so `rgb(0 0 0 / 1), var(--x)` stays two pieces. */
@@ -221,6 +229,13 @@ function resolveColor(value: string, vars: Map<string, string>, depth = 0): Colo
   const varRef = v.match(/^var\(\s*(--[a-z0-9-]+)\s*(?:,([\s\S]+))?\)$/i);
   if (varRef) {
     const named = vars.get(varRef[1]!);
+    // A property declared on the theme cannot see one declared on a rule
+    // inside it, because substitution happens at the declaration.
+    const declaredLocally = LOCAL.get(vars)?.has(varRef[1]!) ?? true;
+    if (named && !declaredLocally) {
+      const atTheme = THEME_SCOPE.get(vars);
+      if (atTheme) return resolveColor(named, atTheme, depth + 1);
+    }
     // A theme's own var can hold another var (`--mi-tone: var(--mi-accent)`), or
     // a length (`--mi-line: 3px`), which is not a colour at all.
     if (named) return resolveColor(named, vars, depth + 1);
@@ -351,17 +366,23 @@ function colorInShorthand(value: string, vars: Map<string, string>): Color {
   return null;
 }
 
-/** A bare `var(--x)` whose value is itself a gradient, expanded to that gradient. */
-function expandVars(value: string, vars: Map<string, string>, depth = 0): string {
-  if (depth > 6) return value;
+/**
+ * A bare `var(--x)` whose value is itself a gradient, expanded to that gradient,
+ * along with the scope its own var()s have to resolve in. A property declared on
+ * the theme was substituted there, so it cannot see one a rule inside it sets.
+ */
+function expandVars(value: string, vars: Map<string, string>, depth = 0): { text: string; scope: Map<string, string> } {
+  if (depth > 6) return { text: value, scope: vars };
   const m = value.trim().match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/i);
   const held = m ? vars.get(m[1]!) : undefined;
-  return held ? expandVars(held, vars, depth + 1) : value;
+  if (!held) return { text: value, scope: vars };
+  const declaredLocally = LOCAL.get(vars)?.has(m![1]!) ?? true;
+  return expandVars(held, declaredLocally ? vars : (THEME_SCOPE.get(vars) ?? vars), depth + 1);
 }
 
 /** What one background layer paints at a given point down the element. */
-function layerAt(raw: string, t: number, vars: Map<string, string>): Color[] {
-  const layer = expandVars(raw, vars);
+function layerAt(raw: string, t: number, outer: Map<string, string>): Color[] {
+  const { text: layer, scope: vars } = expandVars(raw, outer);
   const flat = resolveColor(layer, vars);
   if (flat && "hex" in flat) return [flat];
   const m = layer.match(/^(repeating-)?(linear|radial|conic)-gradient\(([\s\S]*)\)$/i);
@@ -604,6 +625,8 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
       if (!Object.keys(props).length) return vars;
       const local = new Map(vars);
       for (const [prop, value] of Object.entries(props)) local.set(prop, value);
+      LOCAL.set(local, new Set(Object.keys(props)));
+      THEME_SCOPE.set(local, vars);
       return local;
     };
 
