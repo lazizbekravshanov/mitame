@@ -4,7 +4,7 @@
   --mi-bg: #EDEDED;
   --mi-fg: #1A1A1A;
   --mi-fg-muted: #1A1A1A9F;
-  --mi-accent: #1F6FE0;
+  --mi-accent: #1C65CC;
   --mi-accent-fg: #FFFFFF;
   --mi-danger: #C4302A;
   --mi-success: #1F7A2C;
@@ -46,7 +46,7 @@
     --mi-bg: #1B1E24;
     --mi-fg: #EEF1F5;
     --mi-fg-muted: #EEF1F599;
-    --mi-accent: #1F6FEB;
+    --mi-accent: #1C63D1;
     --mi-danger: #FF6259;
     --mi-success: #4CC75A;
     --mi-warning: #FFB340;
@@ -65,7 +65,7 @@
   --mi-bg: #1B1E24;
   --mi-fg: #EEF1F5;
   --mi-fg-muted: #EEF1F599;
-  --mi-accent: #1F6FEB;
+  --mi-accent: #1C63D1;
   --mi-danger: #FF6259;
   --mi-success: #4CC75A;
   --mi-warning: #FFB340;

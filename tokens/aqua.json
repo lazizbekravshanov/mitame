@@ -6,7 +6,7 @@
     {"name": "color/bg", "type": "COLOR", "values": {"light": "#EDEDED", "dark": "#1B1E24"}},
     {"name": "color/fg", "type": "COLOR", "values": {"light": "#1A1A1A", "dark": "#EEF1F5"}},
     {"name": "color/fg-muted", "type": "COLOR", "values": {"light": "#1A1A1A9F", "dark": "#EEF1F599"}},
-    {"name": "color/accent", "type": "COLOR", "values": {"light": "#1F6FE0", "dark": "#1F6FEB"}},
+    {"name": "color/accent", "type": "COLOR", "values": {"light": "#1C65CC", "dark": "#1C63D1"}},
     {"name": "color/accent-fg", "type": "COLOR", "values": {"light": "#FFFFFF", "dark": "#FFFFFF"}},
     {"name": "color/danger", "type": "COLOR", "values": {"light": "#C4302A", "dark": "#FF6259"}},
     {"name": "color/success", "type": "COLOR", "values": {"light": "#1F7A2C", "dark": "#4CC75A"}},

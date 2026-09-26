@@ -77,6 +77,8 @@ export interface Rule {
   file: string;
   selector: string;
   decls: Record<string, string>;
+  /** The at-rule conditions this rule sits inside, e.g. a colour-scheme query. */
+  media: string[];
 }
 
 /** Every rule in a stylesheet. At-rules contribute the rules inside them. */
@@ -98,7 +100,8 @@ export function parseRules(css: string, file: string): Rule[] {
         decls[part.slice(0, at).trim()] = part.slice(at + 1).trim();
       }
       if (Object.keys(decls).length && !selector.startsWith("@")) {
-        for (const one of expandSelector(selector)) out.push({ file, selector: one.trim(), decls });
+        const media = stack.filter((sel) => sel.startsWith("@"));
+        for (const one of expandSelector(selector)) out.push({ file, selector: one.trim(), decls, media });
       }
       stack.pop();
       buf = "";
@@ -134,6 +137,52 @@ export function expandSelector(selector: string, depth = 0): string[] {
   return branches.flatMap((b) => expandSelector(`${before}${b}${after}`, depth + 1));
 }
 
+// ---- oklab, so `color-mix(in oklab, ...)` resolves the way a browser computes it.
+// Themes lean on color-mix for glass tints, hover states and focus washes, and
+// those are exactly the surfaces text has to survive. Skipping them would mean
+// skipping the checks that matter most.
+
+function srgbToLinear(v: number): number {
+  const c = v / 255;
+  return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+}
+
+function linearToSrgb(v: number): number {
+  const c = v <= 0.0031308 ? v * 12.92 : 1.055 * v ** (1 / 2.4) - 0.055;
+  return Math.min(255, Math.max(0, Math.round(c * 255)));
+}
+
+function toOklab(c: Rgb): [number, number, number] {
+  const r = srgbToLinear(c.r);
+  const g = srgbToLinear(c.g);
+  const b = srgbToLinear(c.b);
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return [
+    0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s,
+    1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s,
+  ];
+}
+
+function fromOklab([L, A, B]: [number, number, number], alpha: number): Rgb {
+  const l = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3;
+  const m = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
+  const s = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
+  return {
+    r: linearToSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    g: linearToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    b: linearToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+    a: alpha,
+  };
+}
+
+function withAlpha(hex: string, a: number): string {
+  const base = hex.slice(0, 7);
+  return a >= 1 ? base : base + Math.round(Math.max(0, Math.min(1, a)) * 255).toString(16).padStart(2, "0").toUpperCase();
+}
+
 const NAMED: Record<string, string> = { white: "#FFFFFF", black: "#000000" };
 
 /** Split on top-level commas, so `rgb(0 0 0 / 1), var(--x)` stays two pieces. */
@@ -156,7 +205,8 @@ function topLevelParts(value: string): string[] {
 type Color = { hex: string } | { unresolved: string } | null;
 
 /** One colour value, resolved through the theme's tokens. null means "no paint". */
-function resolveColor(value: string, vars: Map<string, string>): Color {
+function resolveColor(value: string, vars: Map<string, string>, depth = 0): Color {
+  if (depth > 8) return { unresolved: value };
   const v = value.trim();
   if (!v || ["transparent", "none", "inherit", "currentColor", "currentcolor"].includes(v)) return null;
   if (NAMED[v]) return { hex: NAMED[v]! };
@@ -171,15 +221,119 @@ function resolveColor(value: string, vars: Map<string, string>): Color {
   const varRef = v.match(/^var\(\s*(--[a-z0-9-]+)\s*(?:,([\s\S]+))?\)$/i);
   if (varRef) {
     const named = vars.get(varRef[1]!);
-    if (named) return { hex: named.toUpperCase() };
-    if (varRef[2]) return resolveColor(varRef[2], vars);
-    // A var the theme defines itself: a gradient, a shadow stack, a length.
+    // A theme's own var can hold another var (`--mi-tone: var(--mi-accent)`), or
+    // a length (`--mi-line: 3px`), which is not a colour at all.
+    if (named) return resolveColor(named, vars, depth + 1);
+    if (varRef[2]) return resolveColor(varRef[2], vars, depth + 1);
+    // A var nothing defines as a colour: a gradient, a shadow stack, a length.
     return { unresolved: v };
+  }
+  const mix = v.match(/^color-mix\(\s*in\s+(oklab|srgb)\s*,([\s\S]+)\)$/i);
+  if (mix) {
+    const parts = topLevelParts(mix[2]!);
+    if (parts.length !== 2) return { unresolved: v };
+    const read = (part: string): { color: Color; pct: number | null } => {
+      const m = part.match(/^([\s\S]+?)\s+([\d.]+)%$/) ?? part.match(/^([\d.]+)%\s+([\s\S]+)$/);
+      if (!m) return { color: resolveColor(part, vars, depth + 1), pct: null };
+      const [a, b] = [m[1]!, m[2]!];
+      return /%$/.test(part) ? { color: resolveColor(a, vars, depth + 1), pct: Number(b) } : { color: resolveColor(b, vars, depth + 1), pct: Number(a) };
+    };
+    const one = read(parts[0]!);
+    const two = read(parts[1]!);
+    let p1 = one.pct ?? (two.pct !== null ? 100 - two.pct : 50);
+    p1 = Math.max(0, Math.min(100, p1)) / 100;
+    const p2 = 1 - p1;
+    // `color-mix(in oklab, X 30%, transparent)` is the standard way to write
+    // "X at 30% alpha", and it is how every theme here draws a tint.
+    const isTransparent = (part: string, c: Color) => c === null && /transparent/i.test(part);
+    if (isTransparent(parts[1]!, two.color) && one.color && "hex" in one.color) {
+      return { hex: withAlpha(one.color.hex, parseHex(one.color.hex).a * p1) };
+    }
+    if (isTransparent(parts[0]!, one.color) && two.color && "hex" in two.color) {
+      return { hex: withAlpha(two.color.hex, parseHex(two.color.hex).a * p2) };
+    }
+    if (!one.color || !two.color || !("hex" in one.color) || !("hex" in two.color)) return { unresolved: v };
+    const c1 = parseHex(one.color.hex);
+    const c2 = parseHex(two.color.hex);
+    const alpha = c1.a * p1 + c2.a * p2;
+    if (mix[1]!.toLowerCase() === "srgb") {
+      return { hex: withAlpha(toHex({ r: c1.r * p1 + c2.r * p2, g: c1.g * p1 + c2.g * p2, b: c1.b * p1 + c2.b * p2, a: 1 }), alpha) };
+    }
+    const [l1, a1, b1] = toOklab(c1);
+    const [l2, a2, b2] = toOklab(c2);
+    const mixed = fromOklab([l1 * p1 + l2 * p2, a1 * p1 + a2 * p2, b1 * p1 + b2 * p2], alpha);
+    return { hex: withAlpha(toHex(mixed), alpha) };
   }
   return { unresolved: v };
 }
 
 const BG_KEYWORDS = /\b(no-repeat|repeat(-[xy])?|border-box|padding-box|content-box|center|cover|contain|fixed|scroll|local)\b/g;
+
+/**
+ * A gradient sampled where a label actually sits. A gel button is light at the
+ * top and dark at the bottom; its text covers the middle band, so checking the
+ * extreme top stop would fail a button nobody can read badly.
+ */
+const TEXT_BAND = [0.35, 0.5, 0.65];
+
+interface Stop {
+  color: Rgb;
+  at: number | null;
+}
+
+/** Stops of a linear gradient, with their positions where they are given. */
+function parseStops(inner: string, vars: Map<string, string>): Stop[] | null {
+  const out: Stop[] = [];
+  for (const part of topLevelParts(inner)) {
+    const piece = part.trim();
+    if (/^(to\s|[\d.-]+deg|[\d.-]+turn|circle|ellipse|at\s|from\s|closest|farthest|in\s)/i.test(piece)) continue;
+    const posMatch = piece.match(/\s(-?[\d.]+)%$/);
+    const colorText = posMatch ? piece.slice(0, posMatch.index).trim() : piece;
+    const c = resolveColor(colorText, vars);
+    if (!c) {
+      // `transparent` is a real stop: it reveals whatever is underneath.
+      if (/transparent/i.test(colorText)) out.push({ color: { r: 0, g: 0, b: 0, a: 0 }, at: posMatch ? Number(posMatch[1]) / 100 : null });
+      continue;
+    }
+    if (!("hex" in c)) return null;
+    out.push({ color: parseHex(c.hex), at: posMatch ? Number(posMatch[1]) / 100 : null });
+  }
+  return out.length >= 2 ? out : null;
+}
+
+/** Fill in the positions CSS would imply, then read the gradient at `t`. */
+function sampleGradient(stops: Stop[], t: number): Rgb {
+  const at = stops.map((s) => s.at);
+  if (at[0] === null) at[0] = 0;
+  if (at[at.length - 1] === null) at[at.length - 1] = 1;
+  for (let i = 1; i < at.length - 1; i++) {
+    if (at[i] !== null) continue;
+    let j = i;
+    while (j < at.length && at[j] === null) j++;
+    const from = at[i - 1]!;
+    const to = at[j]!;
+    for (let k = i; k < j; k++) at[k] = from + ((to - from) * (k - i + 1)) / (j - i + 1);
+  }
+  let lo = 0;
+  while (lo < stops.length - 2 && at[lo + 1]! < t) lo++;
+  const a = stops[lo]!.color;
+  const b = stops[lo + 1]!.color;
+  const span = at[lo + 1]! - at[lo]!;
+  const f = span <= 0 ? 0 : Math.max(0, Math.min(1, (t - at[lo]!) / span));
+  return { r: a.r + (b.r - a.r) * f, g: a.g + (b.g - a.g) * f, b: a.b + (b.b - a.b) * f, a: a.a + (b.a - a.a) * f };
+}
+
+/** The colours a gradient paints, so a label over it is checked against each. */
+function gradientStops(value: string, vars: Map<string, string>): Color[] {
+  const m = value.match(/^(repeating-)?(linear|radial|conic)-gradient\(([\s\S]*)\)$/i);
+  if (!m) return [];
+  const stops = parseStops(m[3]!, vars);
+  if (!stops) return [{ unresolved: value.slice(0, 40) }];
+  // A linear gradient is read where the text band crosses it. A radial or conic
+  // one sits behind an icon, so every stop it paints counts.
+  const samples = m[2]!.toLowerCase() === "linear" ? TEXT_BAND.map((t) => sampleGradient(stops, t)) : stops.map((s) => s.color);
+  return samples.map((c) => ({ hex: toHex(c) + (c.a >= 1 ? "" : Math.round(c.a * 255).toString(16).padStart(2, "0").toUpperCase()) }));
+}
 
 /** The bottom paint layer of a `background` / `background-color` value. */
 function resolveSurface(value: string, vars: Map<string, string>): Color {
@@ -195,6 +349,59 @@ function colorInShorthand(value: string, vars: Map<string, string>): Color {
     if (c && "hex" in c) return c;
   }
   return null;
+}
+
+/** A bare `var(--x)` whose value is itself a gradient, expanded to that gradient. */
+function expandVars(value: string, vars: Map<string, string>, depth = 0): string {
+  if (depth > 6) return value;
+  const m = value.trim().match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/i);
+  const held = m ? vars.get(m[1]!) : undefined;
+  return held ? expandVars(held, vars, depth + 1) : value;
+}
+
+/** What one background layer paints at a given point down the element. */
+function layerAt(raw: string, t: number, vars: Map<string, string>): Color[] {
+  const layer = expandVars(raw, vars);
+  const flat = resolveColor(layer, vars);
+  if (flat && "hex" in flat) return [flat];
+  const m = layer.match(/^(repeating-)?(linear|radial|conic)-gradient\(([\s\S]*)\)$/i);
+  if (!m) return flat ? [flat] : [];
+  const stops = parseStops(m[3]!, vars);
+  if (!stops) return [{ unresolved: layer.slice(0, 40) }];
+  if (m[2]!.toLowerCase() !== "linear") {
+    // A radial or conic gradient sits behind an icon rather than a line of
+    // text, so each of its stops is somewhere the glyph can land.
+    return stops.map((x) => ({ hex: toHex(x.color) + (x.color.a >= 1 ? "" : Math.round(x.color.a * 255).toString(16).padStart(2, "0").toUpperCase()) }));
+  }
+  const c = sampleGradient(stops, t);
+  return [{ hex: toHex(c) + (c.a >= 1 ? "" : Math.round(c.a * 255).toString(16).padStart(2, "0").toUpperCase()) }];
+}
+
+/**
+ * Every opaque surface a background value can present where a label sits. The
+ * layers are read at the same point down the element and composited bottom up,
+ * because a gel button is a white gloss over a coloured fill and what the text
+ * has behind it is the two of them together, at the same height.
+ */
+export function surfaceCandidates(value: string, vars: Map<string, string>, page: string): Color[] {
+  const layers = topLevelParts(value).map((l) => l.replace(BG_KEYWORDS, "").trim());
+  if (!layers.length) return [];
+  const out = new Set<string>();
+  const unresolved: Color[] = [];
+  for (const t of TEXT_BAND) {
+    let stack: string[] = [];
+    for (let i = layers.length - 1; i >= 0; i--) {
+      const painted = layerAt(layers[i]!, t, vars);
+      const flats = painted.filter((c): c is { hex: string } => !!c && "hex" in c);
+      for (const c of painted) if (c && "unresolved" in c) unresolved.push(c);
+      if (!flats.length) continue;
+      stack = stack.length ? stack.flatMap((under) => flats.map((over) => flatten(over.hex, under))) : flats.map((c) => flatten(c.hex, page));
+      if (stack.length > 12) stack = stack.slice(0, 12);
+    }
+    for (const c of stack) out.add(c);
+  }
+  if (!out.size) return unresolved.slice(0, 1);
+  return [...out].map((hex) => ({ hex }));
 }
 
 // ---------------------------------------------------------------- the model
@@ -250,10 +457,21 @@ function subjectSlot(selector: string): string | null {
 /** A theme-independent key for a rule, so base.css and the theme merge like the cascade does. */
 function stateKey(selector: string): string {
   return selector
-    .replace(/:where\(\[data-theme(=("[a-z]+"))?\]\)\s*/g, "")
+    .replace(/:where\(([^()]*(\([^()]*\))?[^()]*)\)/g, (_, inner: string) => (/data-theme/.test(inner) ? "" : `:where(${inner})`))
     .replace(/\[data-theme(=("[a-z]+"))?\]\s*/g, "")
+    // A mode-scoped rule overrides its own light counterpart, so they share a key.
+    .replace(/:not\(\[data-mode="(light|dark)"\]\)/g, "")
+    .replace(/\[data-mode="(light|dark)"\]/g, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+/** Which colour scheme a rule applies to, from its media query and its selector. */
+export function ruleMode(rule: Rule): "light" | "dark" | "both" {
+  const text = rule.media.join(" ") + " " + rule.selector;
+  if (/prefers-color-scheme:\s*dark/.test(text) || /\[data-mode="dark"\]/.test(text) || /:not\(\[data-mode="light"\]\)/.test(text)) return "dark";
+  if (/prefers-color-scheme:\s*light/.test(text) || /\[data-mode="light"\]/.test(text) || /:not\(\[data-mode="dark"\]\)/.test(text)) return "light";
+  return "both";
 }
 
 /**
@@ -275,7 +493,9 @@ interface Merged {
   key: string;
   color?: { value: string; source: string };
   background?: { value: string; source: string };
-  rings: { value: string; source: string }[];
+  rings: Record<string, { value: string; source: string }>;
+  /** Custom properties this rule sets, e.g. aqua's `--mi-tone: var(--mi-accent)`. */
+  props: Record<string, string>;
 }
 
 /** Merge rules in cascade order: same state, later file and later rule win. */
@@ -283,13 +503,14 @@ export function mergeRules(rules: Rule[]): Map<string, Merged> {
   const out = new Map<string, Merged>();
   for (const rule of rules) {
     const key = stateKey(rule.selector);
-    const entry = out.get(key) ?? { key, rings: [] };
+    const entry = out.get(key) ?? { key, rings: {}, props: {} };
     const source = `${rule.file.replace(/^.*(themes|blocks)\//, "")} ${rule.selector}`.slice(0, 110);
     if (rule.decls["color"]) entry.color = { value: rule.decls["color"]!, source };
     const bg = rule.decls["background-color"] ?? rule.decls["background"];
     if (bg) entry.background = { value: bg, source };
-    const ring = rule.decls["--mi-ring"] ?? (key.includes(":focus-visible") ? rule.decls["outline"] : undefined);
-    if (ring) entry.rings.push({ value: ring, source });
+    for (const [prop, value] of Object.entries(rule.decls)) if (prop.startsWith("--")) entry.props[prop] = value;
+    if (rule.decls["--mi-ring"]) entry.rings["--mi-ring"] = { value: rule.decls["--mi-ring"]!, source };
+    if (key.includes(":focus-visible") && rule.decls["outline"]) entry.rings["outline"] = { value: rule.decls["outline"]!, source };
     out.set(key, entry);
   }
   return out;
@@ -318,18 +539,25 @@ function varMap(file: TokenFile, mode: "light" | "dark"): Map<string, string> {
 }
 
 export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
-  const merged = mergeRules(rules);
+  const byMode = {
+    light: mergeRules(rules.filter((r) => ruleMode(r) !== "dark")),
+    dark: mergeRules(rules.filter((r) => ruleMode(r) !== "light")),
+  };
+  const merged = byMode.light;
   const out: Check[] = [];
 
-  // Rules that set an ink on a descendant of another slot, e.g. brutalist's
-  // "a filled toast makes its description black". They do not merge with the
-  // slot-keyed rule they override, so a pair they already handle is theirs.
-  const overrides = [...merged.values()]
-    .filter((e) => e.color && allSlots(e.key).size > 1)
-    .map((e) => allSlots(e.key));
-
   for (const mode of ["light", "dark"] as const) {
+    const merged = byMode[mode];
+    // Rules that set an ink on a descendant of another slot, e.g. brutalist's
+    // "a filled toast makes its description black". They do not merge with the
+    // slot-keyed rule they override, so a pair they already handle is theirs.
+    const overrides = [...merged.values()]
+      .filter((e) => e.color && allSlots(e.key).size > 1)
+      .map((e) => allSlots(e.key));
     const vars = varMap(file, mode);
+    // The theme's own block (`:where([data-theme="x"]) { --mi-face: ... }`)
+    // reduces to an empty key once the theme selector is stripped.
+    for (const [prop, value] of Object.entries(merged.get("")?.props ?? {})) if (!vars.has(prop)) vars.set(prop, value);
     const page = vars.get("--mi-bg");
     if (!page) throw new Error(`${file.collection}: no --mi-bg`);
 
@@ -350,6 +578,17 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
      * several, and the ink has to read on all of them. Walking up stops at the
      * first ancestor that paints anything at all.
      */
+    /** The token values plus whatever custom properties this rule and its resting form set. */
+    const varsFor = (entry: Merged | undefined): Map<string, string> => {
+      if (!entry) return vars;
+      const resting = restingKey(entry.key);
+      const props = { ...(resting ? merged.get(resting)?.props : undefined), ...entry.props };
+      if (!Object.keys(props).length) return vars;
+      const local = new Map(vars);
+      for (const [prop, value] of Object.entries(props)) local.set(prop, value);
+      return local;
+    };
+
     const surfacesUnder = (slot: string | null, seen = new Set<string>()): { color: Color; key: string }[] | "inherit" => {
       if (!slot || seen.has(slot)) return "inherit";
       seen.add(slot);
@@ -357,8 +596,7 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
       for (const entry of merged.values()) {
         if (subjectSlot(entry.key) !== slot || !entry.background) continue;
         if (/::(before|after|backdrop|-webkit-|-moz-)/.test(entry.key)) continue;
-        const c = resolveSurface(entry.background.value, vars);
-        if (c) fills.push({ color: c, key: entry.key });
+        for (const c of surfaceCandidates(entry.background.value, varsFor(entry), page)) fills.push({ color: c, key: entry.key });
       }
       if (fills.length) return fills;
       return surfacesUnder(PARENT[slot] ?? null, seen);
@@ -367,7 +605,7 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
     for (const entry of merged.values()) {
       const slot = subjectSlot(entry.key);
 
-      for (const ring of entry.rings) {
+      for (const ring of Object.values(entry.rings)) {
         const seenBands = new Set<string>();
         for (const band of topLevelParts(ring.value)) {
           const c = colorInShorthand(band, vars);
@@ -383,7 +621,7 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
       // hovered row) still shows the slot's resting ink on top of that fill.
       const inkDecl = entry.color ?? (entry.background && slot ? merged.get(`[data-slot="${slot}"]`)?.color : undefined);
       if (!inkDecl) continue;
-      const ink = resolveColor(inkDecl.value, vars);
+      const ink = resolveColor(inkDecl.value, varsFor(entry));
       if (!ink) continue;
       if ("unresolved" in ink) {
         add(`ink ${ink.unresolved} is not a flat colour`, "?", "?", 0, inkDecl.source, true);
@@ -406,13 +644,22 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
         entry.background ??
         (resting ? merged.get(resting)?.background : undefined) ??
         (slot ? merged.get(`[data-slot="${slot}"]`)?.background : undefined);
-      const own = ownBg ? resolveSurface(ownBg.value, vars) : null;
+      const local = varsFor(entry);
+      // A translucent fill shows whatever it sits on, so it is flattened over
+      // the ancestor's surface rather than over the page: aqua's toast action
+      // is a 15% white wash, and it sits on a near black toast.
+      const under = slot ? surfacesUnder(PARENT[slot] ?? null) : "inherit";
+      const bases =
+        under === "inherit"
+          ? [page]
+          : [...new Set(under.map((u) => (u.color && "hex" in u.color ? flatten(u.color.hex, page) : page)))].slice(0, 4);
+      const own = ownBg ? bases.flatMap((base) => surfaceCandidates(ownBg.value, local, base)) : null;
       // `background: none` on the slot itself means "whatever is behind me", so
       // an unpainted slot keeps looking upward rather than assuming the page.
       // Start above the slot: its own states are not surfaces for its resting ink
       // (`:not(:focus)` text never sits on the `:focus` fill), while a descendant's
       // ink genuinely sits on whatever its ancestor painted.
-      const fills = own ? [{ color: own, key: entry.key }] : surfacesUnder(slot ? (PARENT[slot] ?? null) : null);
+      const fills = own && own.length ? own.map((color) => ({ color, key: entry.key })) : surfacesUnder(slot ? (PARENT[slot] ?? null) : null);
 
       if (fills === "inherit") {
         for (const [label, surface] of distinct) add(`ink on the ${label}`, ink.hex, surface, min, inkDecl.source);

@@ -80,7 +80,7 @@
   :where([data-theme="liquid"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]) {
     --mi-tone: var(--mi-accent);
     color: var(--mi-accent-fg);
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.38), rgb(255 255 255 / 0.06) 50%, rgb(255 255 255 / 0) 51%),
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.34), rgb(255 255 255 / 0.04) 26%, rgb(255 255 255 / 0) 51%),
       var(--mi-tone);
     border-color: color-mix(in oklab, var(--mi-tone) 70%, black);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45), 0 1px 2px rgb(0 0 0 / 0.12),
@@ -140,7 +140,7 @@
   }
   :where([data-theme="liquid"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
     border-color: color-mix(in oklab, var(--mi-accent) 70%, black);
-    background: linear-gradient(180deg, rgb(255 255 255 / 0.35), rgb(255 255 255 / 0) 55%), var(--mi-accent);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.35), rgb(255 255 255 / 0) 34%), var(--mi-accent);
   }
   :where([data-theme="liquid"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
 

@@ -20,20 +20,27 @@
     );
     --mi-edge: color-mix(in oklab, var(--mi-fg) 30%, transparent);
     /* The white gel is derived from the page color, so it goes graphite in midnight mode. */
+    --mi-danger-ink: #fff;
     --mi-gel-white: color-mix(in oklab, var(--mi-bg) 70%, white);
-    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.8) 0%, rgb(255 255 255 / 0.3) 48%, rgb(255 255 255 / 0) 50%);
+    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.8) 0%, rgb(255 255 255 / 0.05) 22%, rgb(255 255 255 / 0) 50%);
   }
   @media (prefers-color-scheme: dark) {
     :where([data-theme="aqua"]:not([data-mode="light"])) {
+      --mi-danger-ink: var(--mi-bg);
+      --mi-ring: 0 0 0 2px color-mix(in oklab, var(--mi-accent) 58%, white),
+        0 0 4px 3px color-mix(in oklab, var(--mi-accent) 40%, transparent);
       --mi-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--mi-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
-      --mi-gel-white: color-mix(in oklab, var(--mi-bg) 78%, white);
-      --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
+      --mi-gel-white: color-mix(in oklab, var(--mi-bg) 88%, white);
+      --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.04) 24%, rgb(255 255 255 / 0) 50%);
     }
   }
   :where([data-theme="aqua"][data-mode="dark"]) {
+    --mi-danger-ink: var(--mi-bg);
+    --mi-ring: 0 0 0 2px color-mix(in oklab, var(--mi-accent) 58%, white),
+      0 0 4px 3px color-mix(in oklab, var(--mi-accent) 40%, transparent);
     --mi-pinstripe: repeating-linear-gradient(180deg, color-mix(in oklab, var(--mi-glass-highlight) 22%, transparent) 0 2px, transparent 2px 4px);
-    --mi-gel-white: color-mix(in oklab, var(--mi-bg) 78%, white);
-    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.1) 48%, rgb(255 255 255 / 0) 50%);
+    --mi-gel-white: color-mix(in oklab, var(--mi-bg) 88%, white);
+    --mi-gloss: linear-gradient(180deg, rgb(255 255 255 / 0.35) 0%, rgb(255 255 255 / 0.04) 24%, rgb(255 255 255 / 0) 50%);
   }
 
   /* ---------- Gel: the lickable Aqua material. Set --mi-tone to recolor it. ---------- */
@@ -48,7 +55,7 @@
     --mi-tone: var(--mi-gel-white);
     background:
       var(--mi-gloss),
-      radial-gradient(ellipse 90% 70% at 50% 100%, color-mix(in oklab, var(--mi-tone) 55%, white) 0%, transparent 70%),
+      radial-gradient(ellipse 90% 45% at 50% 100%, color-mix(in oklab, var(--mi-tone) 96%, white) 0%, transparent 70%),
       var(--mi-tone);
     border: 1px solid var(--mi-edge);
     box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.5), 0 1px 2px rgb(0 0 0 / 0.25);
@@ -69,7 +76,12 @@
   :where([data-theme="aqua"]) [data-slot="tabs-trigger"][data-state="active"],
   :where([data-theme="aqua"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
   :where([data-theme="aqua"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { --mi-tone: var(--mi-accent); }
-  :where([data-theme="aqua"]) .mi-button[data-variant="danger"] { --mi-tone: var(--mi-danger); }
+  :where([data-theme="aqua"]) .mi-button[data-variant="danger"] {
+    --mi-tone: var(--mi-danger);
+    /* White reads on the deep light-mode red but not on the bright dark-mode
+       one, and accent-fg belongs to the blue fill, so the red names its own. */
+    color: var(--mi-danger-ink);
+  }
 
   /* ---------- Surfaces: pinstripes under frosted glass ---------- */
   :where([data-theme="aqua"])
@@ -108,11 +120,11 @@
   :where([data-theme="aqua"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
   :where([data-theme="aqua"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
     color: var(--mi-accent-fg);
-    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 70%, white), var(--mi-accent));
+    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 80%, white) 0%, var(--mi-accent) 38%);
   }
   :where([data-theme="aqua"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
   :where([data-theme="aqua"]) [data-slot="menu-item"][data-variant="danger"]:focus {
-    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-danger) 70%, white), var(--mi-danger));
+    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-danger) 80%, white) 0%, var(--mi-danger) 38%);
   }
   :where([data-theme="aqua"]) [data-slot="menu-separator"] { background: var(--mi-border); margin-inline: 0; }
 
@@ -287,7 +299,7 @@
     width: 16px;
     height: 16px;
     border-radius: var(--mi-radius-full);
-    color: rgb(90 10 10 / 0);
+    color: rgb(58 2 2 / 0);
     background:
       radial-gradient(circle at 50% 28%, rgb(255 255 255 / 0.8) 0 18%, transparent 45%),
       radial-gradient(circle at 50% 50%, #ff8a82 0%, #ff5f57 55%, #d8322a 100%);
@@ -295,11 +307,11 @@
     transition: color var(--mi-duration-fast);
   }
   :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] svg { width: 10px; height: 10px; }
-  :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:is(:focus-visible, :hover) { color: rgb(90 10 10 / 0.8); }
+  :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:is(:focus-visible, :hover) { color: rgb(58 2 2 / 0.95); }
   :where([data-theme="aqua"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
   @media (hover: none) {
     /* No hover on touch, so always show the × inside the red light. */
-    :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] { color: rgb(90 10 10 / 0.8); }
+    :where([data-theme="aqua"]) [data-slot="dialog-close-icon"] { color: rgb(58 2 2 / 0.95); }
   }
 
   /* ---------- Toast: smoky translucent notifications ---------- */

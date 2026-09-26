@@ -40,7 +40,7 @@
   }
   :where([data-theme="platinum"]) .mi-button:is([data-variant="primary"], [data-variant="danger"]) {
     color: var(--mi-accent-fg);
-    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-tone) 82%, white), var(--mi-tone));
+    background: linear-gradient(180deg, color-mix(in oklab, var(--mi-tone) 90%, white) 0%, var(--mi-tone) 38%);
     /* The Platinum default button wore a heavier ring. */
     box-shadow: var(--mi-raised), 0 0 0 2px var(--mi-border);
     margin: 2px;
