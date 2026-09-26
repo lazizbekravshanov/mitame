@@ -263,5 +263,51 @@ body {
   padding: 40px 20px;
   border-radius: var(--mi-radius-lg);
 }
+/* sumi: the ground is the point, so it stays empty like the theme does. */
+[data-theme="sumi"] .wallpaper { background: var(--mi-bg); }
+/* bevel: the desktop behind the windows, in the teal everyone remembers. */
+[data-theme="bevel"] .wallpaper {
+  background-color: color-mix(in oklab, #2e7d7d 70%, var(--mi-bg));
+  background-image: radial-gradient(color-mix(in oklab, var(--mi-fg) 10%, transparent) 0.5px, transparent 0.6px);
+  background-size: 4px 4px;
+}
+/* linen: the woven cloth the panels sit on. */
+[data-theme="linen"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, color-mix(in oklab, #ffffff 40%, transparent) 0 1px, transparent 1px 3px);
+}
+/* pixel: the grid the whole theme snaps to. */
+[data-theme="pixel"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 7%, transparent) 0 2px, transparent 2px 16px),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--mi-fg) 7%, transparent) 0 2px, transparent 2px 16px);
+}
+/* clay: soft blooms of the same family the cushions are moulded from. */
+[data-theme="clay"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    radial-gradient(50% 40% at 18% 8%, color-mix(in oklab, var(--mi-accent) 18%, transparent), transparent 70%),
+    radial-gradient(45% 38% at 85% 30%, color-mix(in oklab, var(--mi-accent) 12%, transparent), transparent 70%);
+}
+/* blueprint: the drafting grid, fine with a heavier line every fifth. */
+[data-theme="blueprint"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-accent) 20%, transparent) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--mi-accent) 20%, transparent) 0 1px, transparent 1px 50px),
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-accent) 9%, transparent) 0 1px, transparent 1px 10px),
+    repeating-linear-gradient(90deg, color-mix(in oklab, var(--mi-accent) 9%, transparent) 0 1px, transparent 1px 10px);
+}
+/* notebook: a ruled page with the margin rule down the side. */
+[data-theme="notebook"] .wallpaper {
+  background-color: var(--mi-bg);
+  background-image:
+    linear-gradient(90deg, transparent 0 62px, color-mix(in oklab, var(--mi-danger) 34%, transparent) 62px 63px, transparent 63px),
+    repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-accent) 16%, transparent) 0 1px, transparent 1px 26px);
+}
+
 /* The demo stage gets its own copy of the wallpaper instead of a window onto the page one. */
 .preview.wallpaper { background-attachment: scroll !important; background-position: center; }

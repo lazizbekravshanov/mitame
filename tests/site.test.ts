@@ -77,3 +77,12 @@ describe("the counts in the prose", () => {
     }
   });
 });
+
+describe("era wallpapers", () => {
+  it("every theme has one, or its pages fall back to a flat colour", () => {
+    const css = readFileSync(join(root, "site/src/styles/site.css"), "utf8");
+    for (const name of Object.keys(THEMES)) {
+      expect(css, name).toContain(`[data-theme="${name}"] .wallpaper`);
+    }
+  });
+});
