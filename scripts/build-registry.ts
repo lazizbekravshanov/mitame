@@ -43,7 +43,7 @@ function entry(path: string) {
 }
 
 /** What the CLI prints once the files land. It is the one message an agent reads at the right moment. */
-function docsFor(kind: "ui" | "block" | "theme", name: string, theme?: string): string {
+function docsFor(kind: "ui" | "block" | "theme", name: string): string {
   const importLine =
     kind === "theme"
       ? `Import the CSS once in your global stylesheet, in this order:\n  @import "./components/${DIR}/themes/base.css";\n  @import "./components/${DIR}/themes/${THEMES[name.replace(/^theme-/, "")]}.css";\nThen set the theme on the page: <html data-theme="${name.replace(/^theme-/, "")}">.\nTailwind users: add @import "./components/${DIR}/themes/tailwind.css" after tailwindcss.`
@@ -90,7 +90,9 @@ export function buildRegistry(root: string) {
   }
 
   for (const [theme, path] of Object.entries(THEMES)) {
-    const files = collectFiles(registryRoot, ["themes/base.css", `themes/${path}.css`]);
+    // The Tailwind bridge ships with every theme: the docs tell users to import
+    // it, so it has to be one of the files they actually get.
+    const files = collectFiles(registryRoot, ["themes/base.css", "themes/tailwind.css", `themes/${path}.css`]);
     items.push({
       name: `theme-${theme}`,
       type: "registry:theme",

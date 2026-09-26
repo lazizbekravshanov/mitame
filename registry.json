@@ -687,6 +687,11 @@
           "target": "@components/mitame/themes/base.css"
         },
         {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        },
+        {
           "path": "registry/themes/y2k/aqua.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/y2k/aqua.css"
@@ -724,6 +729,11 @@
           "path": "registry/themes/now/liquid.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/now/liquid.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -743,6 +753,11 @@
           "path": "registry/themes/base.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         },
         {
           "path": "registry/themes/vintage/platinum.css",
@@ -782,6 +797,11 @@
           "path": "registry/themes/styles/brutalist.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/brutalist.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -811,6 +831,11 @@
           "path": "registry/themes/styles/minimal.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/minimal.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -840,6 +865,11 @@
           "path": "registry/themes/styles/urban.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/urban.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -869,6 +899,11 @@
           "path": "registry/themes/styles/paper.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/paper.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -898,6 +933,11 @@
           "path": "registry/themes/styles/terminal.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/terminal.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -927,6 +967,11 @@
           "path": "registry/themes/styles/neon.tokens.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/styles/neon.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         }
       ]
     },
@@ -946,6 +991,11 @@
           "path": "registry/themes/base.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         },
         {
           "path": "registry/themes/vintage/system.css",
@@ -975,6 +1025,11 @@
           "path": "registry/themes/base.css",
           "type": "registry:file",
           "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
         },
         {
           "path": "registry/themes/y2k/aero.css",
