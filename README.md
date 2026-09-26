@@ -101,6 +101,14 @@ npx shadcn@latest add lazizbekravshanov/mitame/sign-in   # blocks too
 
 Pin a version with `...mitame/button#v0.1.1`. That path needs an existing `components.json`; in a project without one, use the mitame CLI above.
 
+**Working with a coding agent?** mitame ships for that case:
+
+```bash
+npx @lazizbekio/mitame mcp     # an MCP server on stdio: list, read source, install
+```
+
+There is also a Claude Code plugin in this repository (a skill plus that MCP server wired up), a machine readable index at [mitame.dev/llms.txt](https://mitame.dev/llms.txt), a markdown twin of every component page at `/docs/components/<name>.md`, and every component's props and keyboard map as data in `registry/meta.json`.
+
 ## Components
 
 Button · Card · TextField · Checkbox · Switch · Slider · Select · Tabs · Menu · Dialog · Popover · Tooltip · Toast, plus 14 icons.

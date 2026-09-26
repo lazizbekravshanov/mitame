@@ -1,0 +1,10 @@
+{
+  "name": "mitame",
+  "description": "Copy-paste React components with 18 themes. Adds the mitame skill and an MCP server that serves the real component source.",
+  "version": "0.1.1",
+  "author": { "name": "Lazizbek Ravshanov", "url": "https://mitame.dev" },
+  "homepage": "https://mitame.dev",
+  "repository": "https://github.com/lazizbekravshanov/mitame",
+  "license": "MIT",
+  "keywords": ["react", "components", "ui", "themes", "design-system"]
+}

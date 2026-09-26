@@ -30,13 +30,19 @@
   },
   "files": [
     "dist",
-    "registry"
+    "registry",
+    "skills",
+    ".claude-plugin",
+    ".mcp.json",
+    "AGENTS.md",
+    "CREDITS.md"
   ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.cli.json",
     "tokens": "node scripts/build-tokens.ts",
     "registry": "node scripts/build-registry.ts",
+    "meta": "node scripts/build-meta.ts",
     "icons": "node scripts/build-icons.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

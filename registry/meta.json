@@ -1,0 +1,703 @@
+{
+  "version": "0.1.1",
+  "components": [
+    {
+      "name": "button",
+      "add": "button",
+      "description": "The gel pill, the glass pill and everything in between.",
+      "native": "<button>",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"primary\" | \"secondary\" | \"ghost\" | \"danger\"",
+          "default": "\"secondary\"",
+          "description": "Visual weight."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"md\"",
+          "description": "Height and padding. Touch screens always get a 44px tap area."
+        },
+        {
+          "name": "type",
+          "type": "\"button\" | \"submit\" | \"reset\"",
+          "default": "\"button\"",
+          "description": "Defaults to button so it never submits a form by accident."
+        },
+        {
+          "name": "...props",
+          "type": "ButtonHTMLAttributes",
+          "description": "Anything a <button> takes."
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "add": "card",
+      "description": "The surface everything sits on: pinstripes in Aqua, liquid glass in Now.",
+      "native": "<div>",
+      "props": [
+        {
+          "name": "Card",
+          "type": "HTMLAttributes<div>",
+          "description": "The surface."
+        },
+        {
+          "name": "CardHeader / CardBody / CardFooter",
+          "type": "HTMLAttributes<div>",
+          "description": "Layout slots."
+        },
+        {
+          "name": "CardTitle",
+          "type": "HTMLAttributes<h3>",
+          "description": "Heading."
+        },
+        {
+          "name": "CardDescription",
+          "type": "HTMLAttributes<p>",
+          "description": "Muted supporting text."
+        }
+      ]
+    },
+    {
+      "name": "text-field",
+      "add": "text-field",
+      "description": "Label, hint and error wired together for screen readers.",
+      "native": "<input>",
+      "props": [
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "Visible label, linked with htmlFor."
+        },
+        {
+          "name": "description",
+          "type": "ReactNode",
+          "description": "Hint under the field, linked with aria-describedby."
+        },
+        {
+          "name": "error",
+          "type": "ReactNode",
+          "description": "Error message. Also sets aria-invalid."
+        },
+        {
+          "name": "icon",
+          "type": "ReactNode",
+          "description": "Leading icon, e.g. <SearchIcon />."
+        },
+        {
+          "name": "...props",
+          "type": "InputHTMLAttributes",
+          "description": "Anything an <input> takes."
+        }
+      ],
+      "notes": [
+        "On touch screens the text is 16px so iOS Safari does not zoom in on focus."
+      ]
+    },
+    {
+      "name": "checkbox",
+      "add": "checkbox",
+      "description": "A real checkbox with a custom box, including the indeterminate dash.",
+      "native": "<input type=\"checkbox\">",
+      "props": [
+        {
+          "name": "indeterminate",
+          "type": "boolean",
+          "default": "false",
+          "description": "Shows a dash. The browser clears it on the next click."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The label."
+        },
+        {
+          "name": "...props",
+          "type": "InputHTMLAttributes",
+          "description": "checked, defaultChecked, onChange, name, disabled…"
+        }
+      ],
+      "keyboard": [
+        [
+          "Space",
+          "Toggle"
+        ]
+      ]
+    },
+    {
+      "name": "switch",
+      "add": "switch",
+      "description": "An on/off toggle. A native checkbox with role switch.",
+      "native": "<input type=\"checkbox\" role=\"switch\">",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The label."
+        },
+        {
+          "name": "...props",
+          "type": "InputHTMLAttributes",
+          "description": "checked, defaultChecked, onChange, name, disabled…"
+        }
+      ],
+      "keyboard": [
+        [
+          "Space",
+          "Toggle"
+        ]
+      ]
+    },
+    {
+      "name": "slider",
+      "add": "slider",
+      "description": "A native range input with a filled track.",
+      "native": "<input type=\"range\">",
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "description": "Controlled or uncontrolled value."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Called with the new number."
+        },
+        {
+          "name": "min / max / step",
+          "type": "number",
+          "default": "0 / 100 / 1",
+          "description": "Range."
+        },
+        {
+          "name": "...props",
+          "type": "InputHTMLAttributes",
+          "description": "Anything an <input> takes."
+        }
+      ],
+      "keyboard": [
+        [
+          "← → ↑ ↓",
+          "Step"
+        ],
+        [
+          "Home / End",
+          "Min / max"
+        ],
+        [
+          "Page Up / Down",
+          "Big step"
+        ]
+      ]
+    },
+    {
+      "name": "select",
+      "add": "select",
+      "description": "The popup button. Opens a listbox in the top layer, works in forms.",
+      "native": "popover + listbox",
+      "props": [
+        {
+          "name": "options",
+          "type": "{ value, label, disabled? }[]",
+          "description": "The choices."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or uncontrolled value."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Called when a choice is made."
+        },
+        {
+          "name": "placeholder",
+          "type": "ReactNode",
+          "default": "\"Select…\"",
+          "description": "Shown when nothing is selected."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Adds a hidden input so the value is sent with forms."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "description": "Disables the button and leaves the value out of forms."
+        },
+        {
+          "name": "aria-label / aria-labelledby",
+          "type": "string",
+          "description": "Give it a name."
+        }
+      ],
+      "keyboard": [
+        [
+          "↓ / ↑ on the button",
+          "Open"
+        ],
+        [
+          "↓ ↑ Home End",
+          "Move"
+        ],
+        [
+          "Type letters",
+          "Jump to a match"
+        ],
+        [
+          "Enter / Space",
+          "Choose"
+        ],
+        [
+          "Esc",
+          "Close"
+        ]
+      ]
+    },
+    {
+      "name": "tabs",
+      "add": "tabs",
+      "description": "A segmented control that switches panels.",
+      "native": "tablist / tab / tabpanel",
+      "props": [
+        {
+          "name": "Tabs value / defaultValue",
+          "type": "string",
+          "description": "The active tab."
+        },
+        {
+          "name": "Tabs onValueChange",
+          "type": "(value: string) => void",
+          "description": "Called when the tab changes."
+        },
+        {
+          "name": "TabsTrigger value",
+          "type": "string",
+          "description": "Which panel it opens."
+        },
+        {
+          "name": "TabsPanel value",
+          "type": "string",
+          "description": "Shown when its value is active."
+        }
+      ],
+      "keyboard": [
+        [
+          "← →",
+          "Move and activate"
+        ],
+        [
+          "Home / End",
+          "First / last"
+        ]
+      ]
+    },
+    {
+      "name": "menu",
+      "add": "menu",
+      "description": "A dropdown of actions.",
+      "native": "popover + menu",
+      "props": [
+        {
+          "name": "Menu open / onOpenChange",
+          "type": "boolean / (open) => void",
+          "description": "Optional control."
+        },
+        {
+          "name": "MenuContent placement",
+          "type": "Placement",
+          "default": "\"bottom-start\"",
+          "description": "Flips when there is no room."
+        },
+        {
+          "name": "MenuItem onSelect",
+          "type": "() => void",
+          "description": "Runs, then the menu closes."
+        },
+        {
+          "name": "MenuItem disabled / variant / icon",
+          "type": "boolean / \"default\" | \"danger\" / ReactNode",
+          "description": "Item options."
+        },
+        {
+          "name": "MenuSeparator / MenuLabel",
+          "type": "HTMLAttributes<div>",
+          "description": "Grouping."
+        }
+      ],
+      "keyboard": [
+        [
+          "↓ / ↑ on the button",
+          "Open"
+        ],
+        [
+          "↓ ↑ Home End",
+          "Move"
+        ],
+        [
+          "Type letters",
+          "Jump"
+        ],
+        [
+          "Enter / Space",
+          "Run"
+        ],
+        [
+          "Esc",
+          "Close"
+        ]
+      ]
+    },
+    {
+      "name": "dialog",
+      "add": "dialog",
+      "description": "A modal on the native <dialog>: focus trap, Escape and inert page for free.",
+      "native": "<dialog> showModal()",
+      "props": [
+        {
+          "name": "Dialog open / defaultOpen / onOpenChange",
+          "type": "boolean / (open) => void",
+          "description": "Control it or let it manage itself."
+        },
+        {
+          "name": "DialogContent dismissible",
+          "type": "boolean",
+          "default": "true",
+          "description": "Close on backdrop click."
+        },
+        {
+          "name": "DialogContent showClose",
+          "type": "boolean",
+          "default": "true",
+          "description": "Show the close button in the corner."
+        },
+        {
+          "name": "DialogTitle / DialogDescription",
+          "type": "HTMLAttributes",
+          "description": "Wired to aria-labelledby and aria-describedby."
+        },
+        {
+          "name": "DialogClose",
+          "type": "HTMLAttributes<button>",
+          "description": "Any button that closes it."
+        }
+      ],
+      "keyboard": [
+        [
+          "Esc",
+          "Close"
+        ],
+        [
+          "Tab",
+          "Stays inside the dialog"
+        ]
+      ],
+      "notes": [
+        "The page behind stops scrolling while a dialog is open."
+      ]
+    },
+    {
+      "name": "popover",
+      "add": "popover",
+      "description": "Floating content next to a button. The browser handles outside clicks and Escape.",
+      "native": "popover API",
+      "props": [
+        {
+          "name": "Popover open / onOpenChange",
+          "type": "boolean / (open) => void",
+          "description": "Optional control."
+        },
+        {
+          "name": "PopoverContent placement",
+          "type": "Placement",
+          "default": "\"bottom\"",
+          "description": "Flips and shifts to stay on screen."
+        }
+      ],
+      "keyboard": [
+        [
+          "Enter / Space on the button",
+          "Toggle"
+        ],
+        [
+          "Esc",
+          "Close"
+        ]
+      ]
+    },
+    {
+      "name": "tooltip",
+      "add": "tooltip",
+      "description": "A short hint. Hover with a mouse, focus with a keyboard, long press on touch.",
+      "native": "popover (manual)",
+      "props": [
+        {
+          "name": "content",
+          "type": "ReactNode",
+          "description": "The hint."
+        },
+        {
+          "name": "children",
+          "type": "ReactElement",
+          "description": "One focusable element, like a Button."
+        },
+        {
+          "name": "placement",
+          "type": "Placement",
+          "default": "\"top\"",
+          "description": "Where it appears."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "400",
+          "description": "Milliseconds before showing on hover."
+        }
+      ],
+      "keyboard": [
+        [
+          "Tab to the element",
+          "Show"
+        ],
+        [
+          "Esc",
+          "Hide"
+        ]
+      ],
+      "notes": [
+        "Never put information only in a tooltip; touch users have to go looking for it."
+      ]
+    },
+    {
+      "name": "toast",
+      "add": "toast",
+      "description": "Notifications from anywhere with toast(), announced to screen readers.",
+      "native": "popover (manual) + aria-live",
+      "props": [
+        {
+          "name": "toast(title | options)",
+          "type": "string | ToastOptions",
+          "description": "Shows a toast, returns its id."
+        },
+        {
+          "name": "toast.success / error / warning",
+          "type": "(title, options?) => id",
+          "description": "Shortcuts for variants."
+        },
+        {
+          "name": "toast.dismiss(id?)",
+          "type": "(id?: number) => void",
+          "description": "Close one, or all."
+        },
+        {
+          "name": "options.duration",
+          "type": "number",
+          "default": "4000",
+          "description": "Use Infinity to keep it until closed."
+        },
+        {
+          "name": "options.action",
+          "type": "{ label, onClick }",
+          "description": "One button, like Undo."
+        },
+        {
+          "name": "Toaster position",
+          "type": "\"top-left\" … \"bottom-right\"",
+          "default": "\"bottom-right\"",
+          "description": "Render <Toaster /> once near the root."
+        }
+      ],
+      "notes": [
+        "Hovering pauses the timer. On phones toasts span the screen."
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "name": "sign-in",
+      "add": "sign-in",
+      "description": "A centered sign in card with email, password, remember me and a magic link fallback.",
+      "uses": [
+        "Card",
+        "TextField",
+        "Checkbox",
+        "Button"
+      ]
+    },
+    {
+      "name": "pricing",
+      "add": "pricing",
+      "description": "Three plans with a monthly and yearly switch, a featured tier and feature lists.",
+      "uses": [
+        "Card",
+        "Switch",
+        "Button"
+      ]
+    },
+    {
+      "name": "dashboard",
+      "add": "dashboard",
+      "description": "Sidebar, search and range filters, stat tiles and a table with share bars.",
+      "uses": [
+        "Card",
+        "TextField",
+        "Select",
+        "Menu",
+        "Tabs",
+        "Button"
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "name": "system",
+      "add": "system",
+      "group": "Eras",
+      "era": "Vintage",
+      "year": "1984",
+      "css": "themes/vintage/system.css"
+    },
+    {
+      "name": "platinum",
+      "add": "platinum",
+      "group": "Eras",
+      "era": "Vintage",
+      "year": "1997",
+      "css": "themes/vintage/platinum.css"
+    },
+    {
+      "name": "aqua",
+      "add": "aqua",
+      "group": "Eras",
+      "era": "Y2K",
+      "year": "2001",
+      "css": "themes/y2k/aqua.css"
+    },
+    {
+      "name": "aero",
+      "add": "aero",
+      "group": "Eras",
+      "era": "Y2K",
+      "year": "2009",
+      "css": "themes/y2k/aero.css"
+    },
+    {
+      "name": "liquid",
+      "add": "liquid",
+      "group": "Eras",
+      "era": "Now",
+      "year": "2026",
+      "css": "themes/now/liquid.css"
+    },
+    {
+      "name": "brutalist",
+      "add": "brutalist",
+      "group": "Styles",
+      "era": "Brutalist",
+      "year": "loud",
+      "css": "themes/styles/brutalist.css"
+    },
+    {
+      "name": "minimal",
+      "add": "minimal",
+      "group": "Styles",
+      "era": "Minimal",
+      "year": "quiet",
+      "css": "themes/styles/minimal.css"
+    },
+    {
+      "name": "urban",
+      "add": "urban",
+      "group": "Styles",
+      "era": "Urban",
+      "year": "night",
+      "css": "themes/styles/urban.css"
+    },
+    {
+      "name": "paper",
+      "add": "paper",
+      "group": "Styles",
+      "era": "Paper",
+      "year": "printed",
+      "css": "themes/styles/paper.css"
+    },
+    {
+      "name": "terminal",
+      "add": "terminal",
+      "group": "Styles",
+      "era": "Terminal",
+      "year": "phosphor",
+      "css": "themes/styles/terminal.css"
+    },
+    {
+      "name": "neon",
+      "add": "neon",
+      "group": "Styles",
+      "era": "Neon",
+      "year": "city",
+      "css": "themes/styles/neon.css"
+    },
+    {
+      "name": "sumi",
+      "add": "sumi",
+      "group": "Styles",
+      "era": "Sumi",
+      "year": "ink",
+      "css": "themes/styles/sumi.css"
+    },
+    {
+      "name": "bevel",
+      "add": "bevel",
+      "group": "Eras",
+      "era": "Vintage",
+      "year": "1995",
+      "css": "themes/vintage/bevel.css"
+    },
+    {
+      "name": "linen",
+      "add": "linen",
+      "group": "Eras",
+      "era": "Y2K",
+      "year": "2012",
+      "css": "themes/y2k/linen.css"
+    },
+    {
+      "name": "pixel",
+      "add": "pixel",
+      "group": "Styles",
+      "era": "Pixel",
+      "year": "arcade",
+      "css": "themes/styles/pixel.css"
+    },
+    {
+      "name": "clay",
+      "add": "clay",
+      "group": "Styles",
+      "era": "Clay",
+      "year": "soft",
+      "css": "themes/styles/clay.css"
+    },
+    {
+      "name": "blueprint",
+      "add": "blueprint",
+      "group": "Styles",
+      "era": "Blueprint",
+      "year": "drafted",
+      "css": "themes/styles/blueprint.css"
+    },
+    {
+      "name": "notebook",
+      "add": "notebook",
+      "group": "Styles",
+      "era": "Notebook",
+      "year": "drawn",
+      "css": "themes/styles/notebook.css"
+    }
+  ]
+}

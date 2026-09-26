@@ -10,6 +10,12 @@
 @import "../../../registry/themes/styles/terminal.css";
 @import "../../../registry/themes/styles/neon.css";
 @import "../../../registry/themes/styles/sumi.css";
+@import "../../../registry/themes/vintage/bevel.css";
+@import "../../../registry/themes/y2k/linen.css";
+@import "../../../registry/themes/styles/pixel.css";
+@import "../../../registry/themes/styles/clay.css";
+@import "../../../registry/themes/styles/blueprint.css";
+@import "../../../registry/themes/styles/notebook.css";
 @import "../../../registry/themes/y2k/aqua.css";
 @import "../../../registry/themes/now/liquid.css";
 @import "../../../registry/themes/tailwind.css";

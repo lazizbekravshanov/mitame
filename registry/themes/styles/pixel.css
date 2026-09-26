@@ -1,0 +1,8 @@
+/* mitame theme: styles / pixel. Placeholder, being written. */
+@import "./pixel.tokens.css";
+
+@layer components {
+  :where([data-theme="pixel"]) {
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+  }
+}

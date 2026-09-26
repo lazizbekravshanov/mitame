@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { THEMES, listItems } from "./registry.ts";
 import { add, init, readConfig, DEFAULT_CONFIG, type CopyResult } from "./commands.ts";
+import { serve } from "./mcp.ts";
 
 // dist/cli/index.js -> ../../registry  (and cli/index.ts -> ../registry when run from source)
 const here = dirname(fileURLToPath(import.meta.url));
@@ -25,6 +26,7 @@ Usage
   npx @lazizbekio/mitame init [--dir src/components/mitame] [--theme <name>]
   npx @lazizbekio/mitame add <item...> [--overwrite]   e.g. add button select dialog
   npx @lazizbekio/mitame list                          components, hooks, icons, themes
+  npx @lazizbekio/mitame mcp                           an MCP server on stdio, for coding agents
 
 Installed as a dependency? The short form works too: npx mitame add button
 
@@ -76,6 +78,10 @@ Next:
       console.log(`\nBlocks need their layout CSS. Import it once, next to the theme:\n  @import "./${dir}/blocks/blocks.css";`);
     }
     return;
+  }
+  if (command === "mcp") {
+    // Speaks MCP over stdin and stdout, so nothing else may be written there.
+    return serve(root, cwd);
   }
   if (command === "list") {
     for (const [kind, items] of Object.entries(listItems(root))) console.log(`${kind}\n  ${items.join("  ")}\n`);

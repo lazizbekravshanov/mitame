@@ -21,8 +21,8 @@ jobs:
       - run: npm run site:build
       - name: Generated files are up to date with their sources
         run: |
-          npm run tokens && npm run icons && npm run registry
-          git diff --exit-code -- registry/icons registry.json 'registry/themes/**/*.tokens.css'
+          npm run tokens && npm run icons && npm run registry && npm run meta
+          git diff --exit-code -- registry/icons registry.json registry/meta.json 'registry/themes/**/*.tokens.css'
       - name: CLI works from the packed tarball
         run: |
           # npm names a scoped tarball <scope>-<name>-<version>.tgz, so take the

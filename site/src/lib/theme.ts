@@ -15,6 +15,12 @@ export const THEMES = [
   { id: "terminal", group: "Styles", era: "Terminal", year: "phosphor", ready: true },
   { id: "neon", group: "Styles", era: "Neon", year: "city", ready: true },
   { id: "sumi", group: "Styles", era: "Sumi", year: "ink", ready: true },
+  { id: "bevel", group: "Eras", era: "Vintage", year: "1995", ready: true },
+  { id: "linen", group: "Eras", era: "Y2K", year: "2012", ready: true },
+  { id: "pixel", group: "Styles", era: "Pixel", year: "arcade", ready: true },
+  { id: "clay", group: "Styles", era: "Clay", year: "soft", ready: true },
+  { id: "blueprint", group: "Styles", era: "Blueprint", year: "drafted", ready: true },
+  { id: "notebook", group: "Styles", era: "Notebook", year: "drawn", ready: true },
 ] as const;
 export const ERAS = THEMES.filter((t) => t.group === "Eras");
 export const STYLES = THEMES.filter((t) => t.group === "Styles");

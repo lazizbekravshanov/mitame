@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { componentName, svgToTsx } from "../scripts/build-icons";
+import { buildMeta } from "../scripts/build-meta";
 import { buildRegistry } from "../scripts/build-registry";
 import { THEMES, cssValue, cssVarName, tokensToCss, type TokenFile } from "../scripts/build-tokens";
 
@@ -87,5 +88,19 @@ describe("registry.json", () => {
         expect(file.path).toMatch(/^registry\//);
       }
     }
+  });
+});
+
+describe("registry/meta.json", () => {
+  const root = join(import.meta.dirname, "..");
+
+  it("is up to date, so the MCP server serves what the docs say", () => {
+    expect(`${JSON.stringify(buildMeta(root), null, 2)}\n`).toBe(readFileSync(join(root, "registry/meta.json"), "utf8"));
+  });
+
+  it("ships in the package, because the site it is generated from does not", () => {
+    const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as { files: string[] };
+    expect(pkg.files).toContain("registry");
+    expect(pkg.files).toContain("skills");
   });
 });

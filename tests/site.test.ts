@@ -29,3 +29,26 @@ describe("the themes page", () => {
     for (const name of Object.keys(THEMES)) expect(page, name).toContain(`id: "${name}"`);
   });
 });
+
+describe("the mitame skill", () => {
+  const skill = readFileSync(join(root, "skills/mitame/SKILL.md"), "utf8");
+
+  it("names every theme, so an agent does not offer a subset", () => {
+    for (const name of Object.keys(THEMES)) expect(skill, name).toContain(`\`${name}\``);
+  });
+
+  it("carries the frontmatter that decides when it loads", () => {
+    expect(skill.startsWith("---\nname: mitame\ndescription: ")).toBe(true);
+    expect(skill).toMatch(/description: .{60,}/);
+  });
+});
+
+describe("markdown twins", () => {
+  it("every component page has one", () => {
+    // The route is one file that builds a page per component, so its existence
+    // plus getStaticPaths over `components` is the guarantee.
+    const route = readFileSync(join(root, "site/src/pages/docs/components/[slug].md.ts"), "utf8");
+    expect(route).toContain("components.map");
+    expect(route).toContain("text/markdown");
+  });
+});

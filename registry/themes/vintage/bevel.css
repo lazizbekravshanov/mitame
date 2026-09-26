@@ -1,0 +1,8 @@
+/* mitame theme: vintage / bevel. Placeholder, being written. */
+@import "./bevel.tokens.css";
+
+@layer components {
+  :where([data-theme="bevel"]) {
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+  }
+}

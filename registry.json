@@ -1010,6 +1010,210 @@
       ]
     },
     {
+      "name": "theme-bevel",
+      "type": "registry:theme",
+      "title": "mitame bevel",
+      "description": "The bevel look: one CSS file of tokens and component styling, keyed by data-theme=\"bevel\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/vintage/bevel.css\";\nThen set the theme on the page: <html data-theme=\"bevel\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        },
+        {
+          "path": "registry/themes/vintage/bevel.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/bevel.css"
+        },
+        {
+          "path": "registry/themes/vintage/bevel.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/bevel.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-linen",
+      "type": "registry:theme",
+      "title": "mitame linen",
+      "description": "The linen look: one CSS file of tokens and component styling, keyed by data-theme=\"linen\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/y2k/linen.css\";\nThen set the theme on the page: <html data-theme=\"linen\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        },
+        {
+          "path": "registry/themes/y2k/linen.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/linen.css"
+        },
+        {
+          "path": "registry/themes/y2k/linen.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/linen.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-pixel",
+      "type": "registry:theme",
+      "title": "mitame pixel",
+      "description": "The pixel look: one CSS file of tokens and component styling, keyed by data-theme=\"pixel\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/pixel.css\";\nThen set the theme on the page: <html data-theme=\"pixel\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/pixel.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/pixel.css"
+        },
+        {
+          "path": "registry/themes/styles/pixel.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/pixel.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-clay",
+      "type": "registry:theme",
+      "title": "mitame clay",
+      "description": "The clay look: one CSS file of tokens and component styling, keyed by data-theme=\"clay\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/clay.css\";\nThen set the theme on the page: <html data-theme=\"clay\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/clay.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/clay.css"
+        },
+        {
+          "path": "registry/themes/styles/clay.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/clay.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-blueprint",
+      "type": "registry:theme",
+      "title": "mitame blueprint",
+      "description": "The blueprint look: one CSS file of tokens and component styling, keyed by data-theme=\"blueprint\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/blueprint.css\";\nThen set the theme on the page: <html data-theme=\"blueprint\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/blueprint.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/blueprint.css"
+        },
+        {
+          "path": "registry/themes/styles/blueprint.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/blueprint.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-notebook",
+      "type": "registry:theme",
+      "title": "mitame notebook",
+      "description": "The notebook look: one CSS file of tokens and component styling, keyed by data-theme=\"notebook\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/notebook.css\";\nThen set the theme on the page: <html data-theme=\"notebook\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/notebook.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/notebook.css"
+        },
+        {
+          "path": "registry/themes/styles/notebook.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/notebook.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        }
+      ]
+    },
+    {
       "name": "theme-system",
       "type": "registry:theme",
       "title": "mitame system",

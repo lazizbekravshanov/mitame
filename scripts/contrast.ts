@@ -769,12 +769,14 @@ export function rulesFor(name: string, root = ROOT): Rule[] {
   });
 }
 
-export function checkAll(root = ROOT): Check[] {
-  return Object.keys(THEMES).flatMap((name) => checkTheme(loadTheme(name, root), rulesFor(name, root)));
+export function checkAll(root = ROOT, only?: string[]): Check[] {
+  const names = only?.length ? only : Object.keys(THEMES);
+  return names.flatMap((name) => checkTheme(loadTheme(name, root), rulesFor(name, root)));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const checks = checkAll();
+  const at = process.argv.indexOf("--theme");
+  const checks = checkAll(undefined, at === -1 ? undefined : process.argv.slice(at + 1).filter((a) => !a.startsWith("--")));
   const enforced = checks.filter((c) => !c.advisory);
   const failures = enforced.filter((c) => !c.passes);
   for (const c of failures) {
