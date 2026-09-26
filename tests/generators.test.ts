@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { componentName, svgToTsx } from "../scripts/build-icons";
+import { buildRegistry } from "../scripts/build-registry";
 import { THEMES, cssValue, cssVarName, tokensToCss, type TokenFile } from "../scripts/build-tokens";
 
 describe("build-tokens", () => {
@@ -65,5 +66,26 @@ describe("build-icons", () => {
     expect(tsx).toContain('stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />');
     expect(tsx).toContain("export function XIcon(");
     expect(tsx).not.toContain("xmlns");
+  });
+});
+
+describe("registry.json", () => {
+  it("is up to date with the registry, so the shadcn CLI installs what ships", () => {
+    const root = join(import.meta.dirname, "..");
+    expect(`${JSON.stringify(buildRegistry(root), null, 2)}\n`).toBe(readFileSync(join(root, "registry.json"), "utf8"));
+  });
+
+  it("gives every file an explicit target, or the shadcn CLI scatters them", () => {
+    // mitame components import each other with relative paths, and the CLI only
+    // rewrites @/-prefixed imports. Without a target the tree breaks.
+    const items = buildRegistry(join(import.meta.dirname, "..")).items as { name: string; files: { path: string; target?: string }[] }[];
+    expect(items.length).toBeGreaterThan(20);
+    for (const item of items) {
+      expect(item.files.length).toBeGreaterThan(0);
+      for (const file of item.files) {
+        expect(file.target, `${item.name} / ${file.path}`).toMatch(/^@components\/mitame\//);
+        expect(file.path).toMatch(/^registry\//);
+      }
+    }
   });
 });

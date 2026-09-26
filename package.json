@@ -36,6 +36,7 @@
     "dev": "vite",
     "build": "tsc -p tsconfig.cli.json",
     "tokens": "node scripts/build-tokens.ts",
+    "registry": "node scripts/build-registry.ts",
     "icons": "node scripts/build-icons.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

@@ -1,0 +1,992 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "mitame",
+  "homepage": "https://mitame.dev",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "The gel pill, the glass pill and everything in between.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "The surface everything sits on: pinstripes in Aqua, liquid glass in Now.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A real checkbox with a custom box, including the indeterminate dash.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/minus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/minus.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/checkbox.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal on the native <dialog>: focus trap, Escape and inert page for free.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/icons/close.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/close.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/dialog.tsx"
+        }
+      ]
+    },
+    {
+      "name": "menu",
+      "type": "registry:ui",
+      "title": "Menu",
+      "description": "A dropdown of actions.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/pointer-focus.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/pointer-focus.ts"
+        },
+        {
+          "path": "registry/ui/menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating content next to a button. The browser handles outside clicks and Escape.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/popover.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/popover.tsx"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "The popup button. Opens a listbox in the top layer, works in forms.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/chevron-down.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/chevron-down.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/pointer-focus.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/pointer-focus.ts"
+        },
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A native range input with a filled track.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/slider.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/slider.tsx"
+        }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "An on/off toggle. A native checkbox with role switch.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/switch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A segmented control that switches panels.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/tabs.tsx"
+        }
+      ]
+    },
+    {
+      "name": "text-field",
+      "type": "registry:ui",
+      "title": "TextField",
+      "description": "Label, hint and error wired together for screen readers.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Notifications from anywhere with toast(), announced to screen readers.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/icons/close.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/close.tsx"
+        },
+        {
+          "path": "registry/icons/error.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/error.tsx"
+        },
+        {
+          "path": "registry/icons/info.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/info.tsx"
+        },
+        {
+          "path": "registry/icons/success.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/success.tsx"
+        },
+        {
+          "path": "registry/icons/warning.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/warning.tsx"
+        },
+        {
+          "path": "registry/ui/toast.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/toast.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A short hint. Hover with a mouse, focus with a keyboard, long press on touch.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.",
+      "files": [
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/tooltip.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sign-in",
+      "type": "registry:block",
+      "title": "Sign in",
+      "description": "A centered sign in card with email, password, remember me and a magic link fallback.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/sign-in.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/sign-in.tsx"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/minus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/minus.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/checkbox.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pricing",
+      "type": "registry:block",
+      "title": "Pricing",
+      "description": "Three plans with a monthly and yearly switch, a featured tier and feature lists.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/pricing.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/pricing.tsx"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/switch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "type": "registry:block",
+      "title": "Dashboard",
+      "description": "Sidebar, search and range filters, stat tiles and a table with share bars.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/dashboard.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/dashboard.tsx"
+        },
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/chevron-down.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/chevron-down.tsx"
+        },
+        {
+          "path": "registry/icons/more.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/more.tsx"
+        },
+        {
+          "path": "registry/icons/search.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/search.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/pointer-focus.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/pointer-focus.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/menu.tsx"
+        },
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/select.tsx"
+        },
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/tabs.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme-aqua",
+      "type": "registry:theme",
+      "title": "mitame aqua",
+      "description": "The aqua look: one CSS file of tokens and component styling, keyed by data-theme=\"aqua\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/y2k/aqua.css\";\nThen set the theme on the page: <html data-theme=\"aqua\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/y2k/aqua.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/aqua.css"
+        },
+        {
+          "path": "registry/themes/y2k/aqua.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/aqua.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-liquid",
+      "type": "registry:theme",
+      "title": "mitame liquid",
+      "description": "The liquid look: one CSS file of tokens and component styling, keyed by data-theme=\"liquid\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/now/liquid.css\";\nThen set the theme on the page: <html data-theme=\"liquid\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/now/liquid.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/now/liquid.css"
+        },
+        {
+          "path": "registry/themes/now/liquid.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/now/liquid.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-platinum",
+      "type": "registry:theme",
+      "title": "mitame platinum",
+      "description": "The platinum look: one CSS file of tokens and component styling, keyed by data-theme=\"platinum\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/vintage/platinum.css\";\nThen set the theme on the page: <html data-theme=\"platinum\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/vintage/platinum.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/platinum.css"
+        },
+        {
+          "path": "registry/themes/vintage/platinum.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/platinum.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-brutalist",
+      "type": "registry:theme",
+      "title": "mitame brutalist",
+      "description": "The brutalist look: one CSS file of tokens and component styling, keyed by data-theme=\"brutalist\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/brutalist.css\";\nThen set the theme on the page: <html data-theme=\"brutalist\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/brutalist.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/brutalist.css"
+        },
+        {
+          "path": "registry/themes/styles/brutalist.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/brutalist.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-minimal",
+      "type": "registry:theme",
+      "title": "mitame minimal",
+      "description": "The minimal look: one CSS file of tokens and component styling, keyed by data-theme=\"minimal\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/minimal.css\";\nThen set the theme on the page: <html data-theme=\"minimal\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/minimal.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/minimal.css"
+        },
+        {
+          "path": "registry/themes/styles/minimal.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/minimal.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-urban",
+      "type": "registry:theme",
+      "title": "mitame urban",
+      "description": "The urban look: one CSS file of tokens and component styling, keyed by data-theme=\"urban\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/urban.css\";\nThen set the theme on the page: <html data-theme=\"urban\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/urban.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/urban.css"
+        },
+        {
+          "path": "registry/themes/styles/urban.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/urban.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-paper",
+      "type": "registry:theme",
+      "title": "mitame paper",
+      "description": "The paper look: one CSS file of tokens and component styling, keyed by data-theme=\"paper\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/paper.css\";\nThen set the theme on the page: <html data-theme=\"paper\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/paper.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/paper.css"
+        },
+        {
+          "path": "registry/themes/styles/paper.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/paper.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-terminal",
+      "type": "registry:theme",
+      "title": "mitame terminal",
+      "description": "The terminal look: one CSS file of tokens and component styling, keyed by data-theme=\"terminal\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/terminal.css\";\nThen set the theme on the page: <html data-theme=\"terminal\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/terminal.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/terminal.css"
+        },
+        {
+          "path": "registry/themes/styles/terminal.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/terminal.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-neon",
+      "type": "registry:theme",
+      "title": "mitame neon",
+      "description": "The neon look: one CSS file of tokens and component styling, keyed by data-theme=\"neon\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/neon.css\";\nThen set the theme on the page: <html data-theme=\"neon\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/neon.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/neon.css"
+        },
+        {
+          "path": "registry/themes/styles/neon.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/neon.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-system",
+      "type": "registry:theme",
+      "title": "mitame system",
+      "description": "The system look: one CSS file of tokens and component styling, keyed by data-theme=\"system\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/vintage/system.css\";\nThen set the theme on the page: <html data-theme=\"system\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/vintage/system.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/system.css"
+        },
+        {
+          "path": "registry/themes/vintage/system.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/vintage/system.tokens.css"
+        }
+      ]
+    },
+    {
+      "name": "theme-aero",
+      "type": "registry:theme",
+      "title": "mitame aero",
+      "description": "The aero look: one CSS file of tokens and component styling, keyed by data-theme=\"aero\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/y2k/aero.css\";\nThen set the theme on the page: <html data-theme=\"aero\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/y2k/aero.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/aero.css"
+        },
+        {
+          "path": "registry/themes/y2k/aero.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/y2k/aero.tokens.css"
+        }
+      ]
+    }
+  ]
+}

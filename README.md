@@ -91,6 +91,16 @@ import { Button } from "@/components/mitame/ui/button";
 
 `add` follows imports, so `select` also brings the hooks and icons it needs. Files you already have are kept, and `--overwrite` replaces only what you name.
 
+**Already using the shadcn CLI?** It can install mitame straight from this repository, into the same `src/components/mitame` tree:
+
+```bash
+npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua
+npx shadcn@latest add lazizbekravshanov/mitame/button
+npx shadcn@latest add lazizbekravshanov/mitame/sign-in   # blocks too
+```
+
+Pin a version with `...mitame/button#v0.1.1`. That path needs an existing `components.json`; in a project without one, use the mitame CLI above.
+
 ## Components
 
 Button · Card · TextField · Checkbox · Switch · Slider · Select · Tabs · Menu · Dialog · Popover · Tooltip · Toast, plus 14 icons.
@@ -171,7 +181,6 @@ docs/launch/ launch copy and asset notes
 
 - Page templates (sign in, pricing, dashboard) in every era
 - More blocks: settings, empty states, marketing hero
-- A registry endpoint so the shadcn CLI can install mitame components
 - Figma Code Connect
 
 ## License
