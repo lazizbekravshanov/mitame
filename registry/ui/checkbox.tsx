@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type InputHTMLAttributes, type ReactNode } from "react";
+import { useLayoutEffect, useMemo, useRef, type InputHTMLAttributes, type ReactNode } from "react";
 import { CheckIcon } from "../icons/check";
 import { MinusIcon } from "../icons/minus";
 import { cn } from "../lib/cn";
@@ -21,11 +21,14 @@ export function Checkbox({ indeterminate = false, children, className, ref, onCh
     if (inner.current) inner.current.indeterminate = indeterminate;
   };
   useLayoutEffect(sync);
+  // A fresh merged ref each render would detach and reattach a caller's
+  // callback ref every time, so keep one for as long as their ref holds.
+  const setInput = useMemo(() => mergeRefs(inner, ref), [ref]);
 
   return (
     <label data-slot="checkbox" data-disabled={props.disabled ? "" : undefined} className={cn("mi-checkbox", className)}>
       <input
-        ref={mergeRefs(inner, ref)}
+        ref={setInput}
         type="checkbox"
         data-slot="checkbox-input"
         {...props}

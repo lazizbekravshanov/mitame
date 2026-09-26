@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -115,5 +116,23 @@ describe("commands", () => {
     add(root, cwd, ["checkbox"], { overwrite: true });
     expect(readFileSync(join(cwd, "ui-kit/ui/checkbox.tsx"), "utf8")).not.toBe("// mine");
     expect(readFileSync(join(cwd, "ui-kit/lib/cn.ts"), "utf8")).toBe("// my cn");
+  });
+});
+
+describe("the CLI's own output", () => {
+  it("points the blocks CSS hint at the configured dir", () => {
+    // The hint was hardcoded to the default dir, so a project that ran
+    // `init --dir ui-kit` was told to import a path that does not exist.
+    const cwd = tmp();
+    const cli = join(import.meta.dirname, "../cli/index.ts");
+    execFileSync(process.execPath, [cli, "init", "--dir", "ui-kit"], { cwd, encoding: "utf8" });
+    const out = execFileSync(process.execPath, [cli, "add", "dashboard"], { cwd, encoding: "utf8" });
+    expect(out).toContain('@import "./ui-kit/blocks/blocks.css";');
+  });
+
+  it("lists every theme it accepts", () => {
+    const cli = join(import.meta.dirname, "../cli/index.ts");
+    const help = execFileSync(process.execPath, [cli, "--help"], { encoding: "utf8" });
+    for (const theme of Object.keys(THEMES)) expect(help).toContain(theme);
   });
 });

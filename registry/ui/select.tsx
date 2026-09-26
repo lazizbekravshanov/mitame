@@ -142,7 +142,7 @@ export function Select({
           </div>
         ))}
       </div>
-      {name && <input type="hidden" name={name} value={current} />}
+      {name && <input type="hidden" name={name} value={current} disabled={disabled} />}
     </div>
   );
 }

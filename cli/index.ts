@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { THEMES, listItems } from "./registry.ts";
-import { add, init, DEFAULT_CONFIG, type CopyResult } from "./commands.ts";
+import { add, init, readConfig, DEFAULT_CONFIG, type CopyResult } from "./commands.ts";
 
 // dist/cli/index.js -> ../../registry  (and cli/index.ts -> ../registry when run from source)
 const here = dirname(fileURLToPath(import.meta.url));
@@ -71,7 +71,9 @@ Next:
     const result = add(root, cwd, rest, { overwrite: values.overwrite });
     report(result);
     if ([...result.written, ...result.reused, ...result.skipped].some((f) => f.endsWith("blocks/blocks.css"))) {
-      console.log("\nBlocks need their layout CSS. Import it once, next to the theme:\n  @import \"./components/mitame/blocks/blocks.css\";");
+      // The path has to be where this project installs, not the default, or the import fails.
+      const dir = readConfig(cwd).dir.replace(/^src\//, "");
+      console.log(`\nBlocks need their layout CSS. Import it once, next to the theme:\n  @import "./${dir}/blocks/blocks.css";`);
     }
     return;
   }

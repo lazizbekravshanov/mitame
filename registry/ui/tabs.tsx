@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useRef, type HTMLAttributes, type ReactNode } from "react";
+import { createContext, useContext, useId, useLayoutEffect, useRef, type HTMLAttributes, type ReactNode } from "react";
 import { useControllable } from "../hooks/use-controllable";
 import { useListNavigation } from "../hooks/use-list-navigation";
 import { cn } from "../lib/cn";
@@ -40,6 +40,15 @@ export function TabsList({ className, onKeyDown, ...props }: HTMLAttributes<HTML
     itemSelector: '[role="tab"]:not(:disabled)',
     orientation: "horizontal",
     onMove: (el) => el.dataset.value && setValue(el.dataset.value),
+  });
+  // A tab list holds exactly one tab stop: the selected tab, or the first
+  // enabled one when the value matches no tab. Only the list can see all of
+  // them, so the list owns it and sets every tabIndex after each render.
+  useLayoutEffect(() => {
+    const tabs = [...(ref.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? [])];
+    const enabled = tabs.filter((tab) => !tab.disabled);
+    const stop = enabled.find((tab) => tab.getAttribute("aria-selected") === "true") ?? enabled[0];
+    for (const tab of tabs) tab.tabIndex = tab === stop ? 0 : -1;
   });
   return (
     <div

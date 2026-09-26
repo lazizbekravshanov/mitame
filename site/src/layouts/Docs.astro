@@ -27,13 +27,13 @@ const all = [...guides, ...components.map((c) => ({ href: `/docs/components/${c.
         </ul>
       </details>
       <nav aria-label="Docs" class="sticky top-24 hidden md:block">
-        <p class="mb-2 text-xs font-semibold tracking-wide text-fy-fg-muted uppercase">Guides</p>
+        <p class="mb-2 text-xs font-semibold tracking-wide text-mi-fg-muted uppercase">Guides</p>
         <ul class="m-0 mb-6 list-none p-0">
           {guides.map((g) => (
             <li><a href={g.href} class="nav-link block py-1" aria-current={path === g.href ? "page" : undefined}>{g.label}</a></li>
           ))}
         </ul>
-        <p class="mb-2 text-xs font-semibold tracking-wide text-fy-fg-muted uppercase">Components</p>
+        <p class="mb-2 text-xs font-semibold tracking-wide text-mi-fg-muted uppercase">Components</p>
         <ul class="m-0 list-none p-0">
           {components.map((c) => (
             <li><a href={`/docs/components/${c.slug}`} class="nav-link block py-1" aria-current={path === `/docs/components/${c.slug}` ? "page" : undefined}>{c.name}</a></li>

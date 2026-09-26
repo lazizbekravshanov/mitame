@@ -1,4 +1,4 @@
-import { createContext, useContext, useId, useRef, useState, type HTMLAttributes, type RefObject } from "react";
+import { createContext, useContext, useEffect, useId, useRef, useState, type HTMLAttributes, type RefObject } from "react";
 import { useAnchorPosition, type Placement } from "../hooks/use-anchor-position";
 import { useMounted } from "../hooks/use-mounted";
 import { usePopover } from "../hooks/use-popover";
@@ -7,6 +7,8 @@ import { cn } from "../lib/cn";
 interface PopoverContext {
   open: boolean;
   setOpen: (open: boolean) => void;
+  /** A parent owns `open`, so the browser has to ask before it shows the popover. */
+  controlled: boolean;
   id: string;
   trigger: RefObject<HTMLButtonElement | null>;
 }
@@ -18,6 +20,10 @@ const usePopoverCtx = () => {
 };
 
 export interface PopoverProps {
+  /**
+   * Controlled open state. Opening waits for your answer, closing does not:
+   * light dismiss and Escape belong to the browser and cannot be canceled.
+   */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   children: React.ReactNode;
@@ -33,7 +39,7 @@ export function Popover({ open: controlled, onOpenChange, children }: PopoverPro
   };
   const id = useId();
   const trigger = useRef<HTMLButtonElement>(null);
-  return <Ctx.Provider value={{ open, setOpen, id, trigger }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ open, setOpen, controlled: controlled !== undefined, id, trigger }}>{children}</Ctx.Provider>;
 }
 
 export function PopoverTrigger({ className, ...props }: HTMLAttributes<HTMLButtonElement>) {
@@ -56,20 +62,39 @@ export function PopoverTrigger({ className, ...props }: HTMLAttributes<HTMLButto
   );
 }
 
-export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
+export interface PopoverContentProps extends Omit<HTMLAttributes<HTMLDivElement>, "id"> {
   placement?: Placement;
 }
 
 /** Lives in the top layer; the browser closes it on outside click and Escape. */
 export function PopoverContent({ placement = "bottom", className, ...props }: PopoverContentProps) {
-  const { open, setOpen, id, trigger } = usePopoverCtx();
+  const { open, setOpen, controlled, id, trigger } = usePopoverCtx();
   const ref = useRef<HTMLDivElement>(null);
   usePopover(ref, open, setOpen);
   useAnchorPosition(trigger, ref, open, placement);
+  const openRef = useRef(open);
+  openRef.current = open;
+  const setOpenRef = useRef(setOpen);
+  setOpenRef.current = setOpen;
+
+  // The trigger's native invoker shows the popover before React hears the click, so a
+  // parent that owns `open` would never get to refuse. `beforetoggle` is cancelable
+  // while showing, so report the click and let the parent's answer open it instead.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !controlled) return;
+    const ask = (e: ToggleEvent) => {
+      if (e.newState !== "open" || openRef.current) return;
+      e.preventDefault();
+      setOpenRef.current(true);
+    };
+    el.addEventListener("beforetoggle", ask);
+    return () => el.removeEventListener("beforetoggle", ask);
+  }, [controlled]);
+
   return (
     <div
       ref={ref}
-      id={id}
       popover="auto"
       role="dialog"
       data-slot="popover-content"
@@ -77,6 +102,8 @@ export function PopoverContent({ placement = "bottom", className, ...props }: Po
       data-state={open ? "open" : "closed"}
       className={className}
       {...props}
+      /* The trigger's popovertarget points at this id, so a caller cannot rename it. */
+      id={id}
     />
   );
 }

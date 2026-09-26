@@ -33,8 +33,10 @@ export function computePosition(
     x = side === "right" ? a.right + GAP : a.left - GAP - f.width;
     y = align === "start" ? a.top : align === "end" ? a.bottom - f.height : a.top + a.height / 2 - f.height / 2;
   }
-  x = Math.min(Math.max(x, MARGIN), viewport.width - f.width - MARGIN);
-  y = Math.min(Math.max(y, MARGIN), viewport.height - f.height - MARGIN);
+  // MARGIN comes last so an element taller or wider than the viewport pins to the
+  // top left edge instead of past it, where the user could never scroll to it.
+  x = Math.max(Math.min(x, viewport.width - f.width - MARGIN), MARGIN);
+  y = Math.max(Math.min(y, viewport.height - f.height - MARGIN), MARGIN);
   return { x, y, side };
 }
 

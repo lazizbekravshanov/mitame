@@ -72,11 +72,21 @@ export interface DialogContentProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 /** A native modal <dialog>: focus trap, Escape and inert page come from the browser. */
-export function DialogContent({ dismissible = true, showClose = true, className, children, ...props }: DialogContentProps) {
+export function DialogContent({
+  dismissible = true,
+  showClose = true,
+  className,
+  children,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledby,
+  "aria-describedby": ariaDescribedby,
+  ...props
+}: DialogContentProps) {
   const { open, setOpen, titleId, descId } = useDialog();
   const ref = useRef<HTMLDialogElement>(null);
   const setOpenRef = useRef(setOpen);
   setOpenRef.current = setOpen;
+  const pressedBackdrop = useRef(false);
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -106,10 +116,23 @@ export function DialogContent({ dismissible = true, showClose = true, className,
       ref={ref}
       data-slot="dialog"
       data-state={open ? "open" : "closed"}
-      aria-labelledby={titleId}
-      aria-describedby={descId}
+      aria-label={ariaLabel}
+      /* aria-labelledby wins over aria-label, so our title only names the dialog when the caller names it no other way. */
+      aria-labelledby={ariaLabelledby ?? (ariaLabel ? undefined : titleId)}
+      aria-describedby={ariaDescribedby ?? descId}
+      // A drag between the panel and the backdrop still clicks the dialog, and a
+      // drag is not a dismiss in either direction. Capture, so a descendant that
+      // stops the event cannot leave the flag behind.
+      onMouseDownCapture={(e) => {
+        pressedBackdrop.current = e.target === e.currentTarget;
+      }}
+      onMouseUpCapture={(e) => {
+        if (e.target !== e.currentTarget) pressedBackdrop.current = false;
+      }}
       onClick={(e) => {
-        if (dismissible && e.target === e.currentTarget) setOpen(false);
+        const onBackdrop = pressedBackdrop.current && e.target === e.currentTarget;
+        pressedBackdrop.current = false;
+        if (dismissible && onBackdrop) setOpen(false);
       }}
     >
       <div data-slot="dialog-panel" className={cn("mi-dialog", className)} {...props}>

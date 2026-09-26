@@ -29,7 +29,8 @@ const emit = () => listeners.forEach((l) => l());
 export function toast(input: ToastOptions | string): number {
   const opts = typeof input === "string" ? { title: input } : input;
   const id = nextId++;
-  items = [...items, { variant: "default", duration: 4000, ...opts, id }];
+  // A caller passing an optional prop straight through sends `undefined`, which must not wipe the defaults.
+  items = [...items, { ...opts, variant: opts.variant ?? "default", duration: opts.duration ?? 4000, id }];
   emit();
   return id;
 }
@@ -62,10 +63,12 @@ export function Toaster({ position = "bottom-right" }: ToasterProps) {
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Hiding the region blows away focus inside it, so a focused toast keeps its place in the top layer.
+    const holdsFocus = el.contains(document.activeElement);
     try {
       // Re-show so the region stays above anything opened after it (like a dialog).
-      if (el.matches(":popover-open")) el.hidePopover();
-      if (list.length) el.showPopover();
+      if (el.matches(":popover-open") && !holdsFocus) el.hidePopover();
+      if (list.length && !holdsFocus) el.showPopover();
     } catch {
       // popover API missing or already shown
     }

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
@@ -16,6 +18,7 @@ import { Tabs, TabsList, TabsPanel, TabsTrigger } from "../registry/ui/tabs";
 import { TextField } from "../registry/ui/text-field";
 import { Toaster, toast } from "../registry/ui/toast";
 import { Tooltip } from "../registry/ui/tooltip";
+import { components } from "../site/src/data/components";
 
 const isOpen = (el: Element) => el.hasAttribute("data-test-popover-open");
 
@@ -452,5 +455,337 @@ describe("Tooltip placement", () => {
     expect(measured.length).toBeGreaterThan(0);
     expect(measured.every(Boolean)).toBe(true);
     vi.useRealTimers();
+  });
+});
+
+describe("computePosition on a small screen", () => {
+  it("pins an element bigger than the viewport to the top left edge, not past it", () => {
+    const phone = { width: 360, height: 640 };
+    const longMenu = { width: 420, height: 700 };
+    expect(computePosition(new DOMRect(40, 300, 80, 30), longMenu, "bottom-start", phone)).toEqual({
+      x: 8,
+      y: 8,
+      side: "bottom",
+    });
+  });
+});
+
+describe("mergeRefs", () => {
+  it("runs a ref callback's cleanup instead of calling it with null", () => {
+    const cleanup = vi.fn();
+    const calls: (HTMLInputElement | null)[] = [];
+    const view = render(
+      <Checkbox
+        ref={(node) => {
+          calls.push(node);
+          return cleanup;
+        }}
+      >
+        Backup
+      </Checkbox>,
+    );
+    expect(calls).toEqual([screen.getByRole("checkbox", { name: "Backup" })]);
+    view.unmount();
+    expect(cleanup).toHaveBeenCalledOnce();
+    expect(calls).toHaveLength(1);
+  });
+
+  it("stays attached to a consumer's ref across renders", async () => {
+    const calls: (HTMLInputElement | null)[] = [];
+    const keep = (node: HTMLInputElement | null) => void calls.push(node);
+    function Host() {
+      const [n, setN] = useState(0);
+      return (
+        <>
+          <Checkbox ref={keep}>Backup</Checkbox>
+          <button onClick={() => setN(n + 1)}>rerender {n}</button>
+        </>
+      );
+    }
+    render(<Host />);
+    await userEvent.click(screen.getByRole("button", { name: "rerender 0" }));
+    expect(calls).toEqual([screen.getByRole("checkbox", { name: "Backup" })]);
+  });
+});
+
+describe("Dialog labelling and dismissal", () => {
+  it("lets the caller's own aria props name and describe the dialog", () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent aria-label="Pick a file" aria-describedby="hint">
+          <DialogTitle>Delete file?</DialogTitle>
+          <p id="hint">Only .png files.</p>
+        </DialogContent>
+      </Dialog>,
+    );
+    const dialog = document.querySelector("dialog")!;
+    expect(screen.getByRole("dialog", { name: "Pick a file" })).toBe(dialog);
+    expect(dialog.hasAttribute("aria-labelledby")).toBe(false);
+    expect(dialog.getAttribute("aria-describedby")).toBe("hint");
+  });
+
+  it("falls back to its own title and description", () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent>
+          <DialogTitle>Delete file?</DialogTitle>
+          <DialogDescription>This cannot be undone.</DialogDescription>
+        </DialogContent>
+      </Dialog>,
+    );
+    const dialog = document.querySelector("dialog")!;
+    expect(document.getElementById(dialog.getAttribute("aria-labelledby")!)!.textContent).toBe("Delete file?");
+    expect(document.getElementById(dialog.getAttribute("aria-describedby")!)!.textContent).toBe("This cannot be undone.");
+  });
+
+  it("stays open when a drag crosses the panel edge, in either direction", () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent>
+          <DialogTitle>Delete file?</DialogTitle>
+        </DialogContent>
+      </Dialog>,
+    );
+    const dialog = document.querySelector("dialog")!;
+    const panel = dialog.querySelector('[data-slot="dialog-panel"]')!;
+
+    // Selecting text in the panel and releasing past its edge.
+    fireEvent.mouseDown(panel);
+    fireEvent.mouseUp(dialog);
+    fireEvent.click(dialog);
+    expect(dialog.hasAttribute("open")).toBe(true);
+
+    // And the same gesture the other way round.
+    fireEvent.mouseDown(dialog);
+    fireEvent.mouseUp(panel);
+    fireEvent.click(dialog);
+    expect(dialog.hasAttribute("open")).toBe(true);
+
+    // A real click on the backdrop still dismisses.
+    fireEvent.mouseDown(dialog);
+    fireEvent.mouseUp(dialog);
+    fireEvent.click(dialog);
+    expect(dialog.hasAttribute("open")).toBe(false);
+  });
+
+  it("does not let a stale press survive into the next click", () => {
+    render(
+      <Dialog defaultOpen>
+        <DialogContent>
+          <DialogTitle>Delete file?</DialogTitle>
+        </DialogContent>
+      </Dialog>,
+    );
+    const dialog = document.querySelector("dialog")!;
+    const panel = dialog.querySelector('[data-slot="dialog-panel"]')!;
+    fireEvent.mouseDown(panel);
+    fireEvent.mouseUp(dialog);
+    fireEvent.click(dialog);
+    // A click with no press of its own must not reuse the last one.
+    fireEvent.click(dialog);
+    expect(dialog.hasAttribute("open")).toBe(true);
+  });
+});
+
+describe("Toast", () => {
+  it("keeps focus inside the region when another toast arrives", () => {
+    render(<Toaster />);
+    act(() => {
+      toast({ title: "First", duration: Infinity, action: { label: "Undo", onClick: () => {} } });
+    });
+    const region = document.querySelector('[data-slot="toaster"]') as HTMLElement;
+    const toggles: string[] = [];
+    region.addEventListener("toggle", (e) => toggles.push((e as Event & { newState: string }).newState));
+    const undo = screen.getByRole("button", { name: "Undo", hidden: true });
+    act(() => undo.focus());
+    act(() => {
+      toast({ title: "Second", duration: Infinity });
+    });
+    expect(toggles).toEqual([]);
+    expect(document.activeElement).toBe(undo);
+    act(() => toast.dismiss());
+  });
+
+  it("falls back to its defaults when a caller passes undefined", () => {
+    vi.useFakeTimers();
+    render(<Toaster />);
+    act(() => {
+      toast({ title: "Loose", variant: undefined, duration: undefined });
+    });
+    expect(screen.getByText("Loose").closest<HTMLElement>('[data-slot="toast"]')!.dataset.variant).toBe("default");
+    act(() => vi.advanceTimersByTime(4100));
+    expect(screen.queryByText("Loose")).toBeNull();
+    vi.useRealTimers();
+  });
+});
+
+describe("Slider in a form", () => {
+  it("resets with the form when uncontrolled", () => {
+    const onValueChange = vi.fn();
+    render(
+      <form>
+        <Slider aria-label="Volume" name="volume" defaultValue={25} onValueChange={onValueChange} />
+        <button type="reset">Reset</button>
+      </form>,
+    );
+    const s = screen.getByRole("slider", { name: "Volume" }) as HTMLInputElement;
+    fireEvent.change(s, { target: { value: "80" } });
+    expect(new FormData(s.form!).get("volume")).toBe("80");
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    expect(s.value).toBe("25");
+    expect(new FormData(s.form!).get("volume")).toBe("25");
+  });
+
+  it("keeps a controlled value through a form reset", () => {
+    function App() {
+      const [v, setV] = useState(40);
+      return (
+        <form>
+          <Slider aria-label="Vol" value={v} onValueChange={setV} />
+          <button type="reset">Reset</button>
+        </form>
+      );
+    }
+    render(<App />);
+    const s = screen.getByRole("slider", { name: "Vol" }) as HTMLInputElement;
+    fireEvent.change(s, { target: { value: "90" } });
+    fireEvent.click(screen.getByRole("button", { name: "Reset" }));
+    expect(s.value).toBe("90");
+  });
+});
+
+describe("a disabled Select is not a successful control", () => {
+  const form = (disabled: boolean) => (
+    <form>
+      <Select aria-label="Fruit" name="fruit" defaultValue="apple" options={[{ value: "apple", label: "Apple" }]} disabled={disabled} />
+    </form>
+  );
+
+  it("submits nothing while disabled", () => {
+    render(form(true));
+    expect([...new FormData(document.querySelector("form")!).keys()]).toEqual([]);
+  });
+
+  it("still submits the value when enabled", () => {
+    render(form(false));
+    expect(new FormData(document.querySelector("form")!).get("fruit")).toBe("apple");
+  });
+});
+
+describe("Tabs keeps exactly one tab in the tab order", () => {
+  const tabs = (defaultValue: string, disabled = false) => (
+    <Tabs defaultValue={defaultValue}>
+      <TabsList>
+        <TabsTrigger value="a" disabled={disabled}>A</TabsTrigger>
+        <TabsTrigger value="b">B</TabsTrigger>
+      </TabsList>
+      <TabsPanel value="a">Panel A</TabsPanel>
+      <TabsPanel value="b">Panel B</TabsPanel>
+    </Tabs>
+  );
+
+  it("hands the tab stop to the first enabled tab when the value matches none", async () => {
+    render(tabs(""));
+    const [a, b] = screen.getAllByRole("tab");
+    expect([a!.tabIndex, b!.tabIndex]).toEqual([0, -1]);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(a);
+  });
+
+  it("skips a disabled first tab", () => {
+    render(tabs("", true));
+    expect(screen.getAllByRole("tab").map((t) => t.tabIndex)).toEqual([-1, 0]);
+  });
+
+  it("gives the tab stop back once a tab is selected", async () => {
+    render(tabs(""));
+    const [a, b] = screen.getAllByRole("tab");
+    await userEvent.click(b!);
+    expect([a!.tabIndex, b!.tabIndex]).toEqual([-1, 0]);
+  });
+});
+
+/** What the browser fires just before it shows a popover. True if the show was canceled. */
+function askToOpen(el: Element) {
+  const e = new Event("beforetoggle", { cancelable: true }) as Event & { newState: string; oldState: string };
+  e.newState = "open";
+  e.oldState = "closed";
+  act(() => {
+    el.dispatchEvent(e);
+  });
+  return e.defaultPrevented;
+}
+
+describe("controlled Popover", () => {
+  it("a parent that keeps open false keeps the popover shut and still hears the click", () => {
+    const onOpenChange = vi.fn();
+    render(
+      <Popover open={false} onOpenChange={onOpenChange}>
+        <PopoverTrigger>Details</PopoverTrigger>
+        <PopoverContent>Hello</PopoverContent>
+      </Popover>,
+    );
+    const content = screen.getByRole("dialog", { hidden: true });
+    expect(askToOpen(content)).toBe(true);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(isOpen(content)).toBe(false);
+  });
+
+  it("opens on the parent's answer, and that show is not vetoed again", async () => {
+    function Controlled() {
+      const [open, setOpen] = useState(false);
+      return (
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger>Details</PopoverTrigger>
+          <PopoverContent>Hello</PopoverContent>
+        </Popover>
+      );
+    }
+    render(<Controlled />);
+    const content = screen.getByRole("dialog", { hidden: true });
+    expect(askToOpen(content)).toBe(true);
+    await waitFor(() => expect(isOpen(content)).toBe(true));
+    expect(askToOpen(content)).toBe(false);
+  });
+});
+
+describe("controlled Menu", () => {
+  it("cannot be opened behind a parent's back", () => {
+    const onOpenChange = vi.fn();
+    render(
+      <Menu open={false} onOpenChange={onOpenChange}>
+        <MenuTrigger>Actions</MenuTrigger>
+        <MenuContent>
+          <MenuItem>Copy</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+    const content = screen.getByRole("menu", { hidden: true });
+    expect(askToOpen(content)).toBe(true);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(isOpen(content)).toBe(false);
+  });
+});
+
+describe("docs prop tables", () => {
+  const docProps = (slug: string) => components.find((c) => c.slug === slug)!.props.map((p) => p.name);
+
+  it("documents the passthrough wherever a component forwards input attributes", () => {
+    // The Slider demo on the page passes aria-label, which only arrives through the spread.
+    expect(docProps("slider")).toContain("...props");
+    expect(docProps("text-field")).toContain("...props");
+  });
+
+  it("documents Select's disabled prop, which no passthrough row implies", () => {
+    expect(docProps("select")).toContain("disabled");
+  });
+
+  it("only uses token utilities the Tailwind bridge generates", () => {
+    const root = join(import.meta.dirname, "..");
+    const layout = readFileSync(join(root, "site/src/layouts/Docs.astro"), "utf8");
+    const bridge = readFileSync(join(root, "registry/themes/tailwind.css"), "utf8");
+    const used = [...layout.matchAll(/\b(?:text|bg|border)-((?:mi|fy)-[a-z-]+)\b/g)].map((m) => m[1]);
+    expect(used.length).toBeGreaterThan(0);
+    for (const token of used) expect(bridge).toContain(`--color-${token}:`);
   });
 });
