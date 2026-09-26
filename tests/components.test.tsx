@@ -369,3 +369,88 @@ describe("server rendering", () => {
     expect(trigger.getAttribute("popovertarget")).toBe(screen.getByRole("menu", { hidden: true }).id);
   });
 });
+
+describe("a caller's props compose with the component's own handlers", () => {
+  const tabs = (list: Record<string, unknown> = {}, trigger: Record<string, unknown> = {}) => (
+    <Tabs defaultValue="a">
+      <TabsList {...list}>
+        <TabsTrigger value="a">A</TabsTrigger>
+        <TabsTrigger value="b" {...trigger}>B</TabsTrigger>
+      </TabsList>
+      <TabsPanel value="a">Panel A</TabsPanel>
+      <TabsPanel value="b">Panel B</TabsPanel>
+    </Tabs>
+  );
+
+  it("Tabs still navigates and activates", async () => {
+    const onKeyDown = vi.fn();
+    const onClick = vi.fn();
+    render(tabs({ onKeyDown }, { onClick }));
+    await userEvent.click(screen.getByRole("tab", { name: "B" }));
+    expect(onClick).toHaveBeenCalledOnce();
+    expect(screen.getByRole("tabpanel").textContent).toBe("Panel B");
+
+    screen.getByRole("tab", { name: "B" }).focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(onKeyDown).toHaveBeenCalled();
+    expect(screen.getByRole("tabpanel").textContent).toBe("Panel A");
+  });
+
+  it("preventDefault in a caller's handler opts out of the built-in behavior", async () => {
+    render(tabs({}, { onClick: (e: { preventDefault: () => void }) => e.preventDefault() }));
+    await userEvent.click(screen.getByRole("tab", { name: "B" }));
+    expect(screen.getByRole("tabpanel").textContent).toBe("Panel A");
+  });
+
+  it("MenuItem runs the caller's onClick and still selects", async () => {
+    const onClick = vi.fn();
+    const onSelect = vi.fn();
+    render(
+      <Menu>
+        <MenuTrigger>Actions</MenuTrigger>
+        <MenuContent>
+          <MenuItem onSelect={onSelect} onClick={onClick}>Copy</MenuItem>
+        </MenuContent>
+      </Menu>,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Actions" }));
+    await userEvent.click(screen.getByRole("menuitem", { name: "Copy", hidden: true }));
+    expect(onClick).toHaveBeenCalledOnce();
+    expect(onSelect).toHaveBeenCalledOnce();
+  });
+});
+
+describe("Checkbox indeterminate", () => {
+  it("keeps the dash after a click, because the prop is the source of truth", async () => {
+    const onChange = vi.fn();
+    render(<Checkbox indeterminate onChange={onChange}>Pick</Checkbox>);
+    const input = screen.getByRole("checkbox") as HTMLInputElement;
+    expect(input.indeterminate).toBe(true);
+    await userEvent.click(input);
+    expect(onChange).toHaveBeenCalledOnce();
+    // The browser clears it on click; the component puts it back.
+    expect(input.indeterminate).toBe(true);
+  });
+});
+
+describe("Tooltip placement", () => {
+  it("measures the tip only after it is shown, never while it is display:none", () => {
+    vi.useFakeTimers();
+    render(
+      <Tooltip content="Saves the file" delay={100}>
+        <Button>Save</Button>
+      </Tooltip>,
+    );
+    const tip = screen.getByRole("tooltip", { hidden: true });
+    const measured: boolean[] = [];
+    tip.getBoundingClientRect = () => {
+      measured.push(isOpen(tip));
+      return { x: 0, y: 0, width: 120, height: 28, top: 0, left: 0, right: 120, bottom: 28, toJSON: () => ({}) } as DOMRect;
+    };
+    fireEvent.pointerEnter(screen.getByRole("button", { name: "Save" }), { pointerType: "mouse" });
+    act(() => vi.advanceTimersByTime(150));
+    expect(measured.length).toBeGreaterThan(0);
+    expect(measured.every(Boolean)).toBe(true);
+    vi.useRealTimers();
+  });
+});

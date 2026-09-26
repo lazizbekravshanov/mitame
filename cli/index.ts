@@ -3,11 +3,21 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { THEMES, listItems } from "./registry.ts";
-import { add, init, type CopyResult } from "./commands.ts";
+import { add, init, DEFAULT_CONFIG, type CopyResult } from "./commands.ts";
 
 // dist/cli/index.js -> ../../registry  (and cli/index.ts -> ../registry when run from source)
 const here = dirname(fileURLToPath(import.meta.url));
 const root = here.endsWith(join("dist", "cli")) ? join(here, "../../registry") : join(here, "../registry");
+
+// Built from THEMES so the list cannot drift from what ships.
+const themeHelp = ["vintage", "y2k", "now", "styles"]
+  .map((group) => {
+    const names = Object.entries(THEMES)
+      .filter(([, path]) => path.startsWith(`${group}/`))
+      .map(([name]) => (name === DEFAULT_CONFIG.theme ? `${name} (default)` : name));
+    return `  ${group.padEnd(9)}${names.join("  ")}`;
+  })
+  .join("\n");
 
 const HELP = `mitame: copy-paste components, any look
 
@@ -19,8 +29,7 @@ Usage
 Installed as a dependency? The short form works too: npx mitame add button
 
 Themes
-  eras    platinum (1997), aqua (2001, default), liquid (2026)
-  styles  brutalist, minimal, urban
+${themeHelp}
 
 Files land in your project and are yours to edit. Existing files are
 skipped unless you pass --overwrite.`;

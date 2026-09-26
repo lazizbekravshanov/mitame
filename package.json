@@ -45,7 +45,8 @@
     "site:build": "astro build --root site",
     "site:preview": "astro preview --root site",
     "social": "npm run site:build && node scripts/build-social.mjs",
-    "clip": "npm run site:build && node scripts/record-eras.mjs"
+    "clip": "npm run site:build && node scripts/record-eras.mjs",
+    "contrast": "node scripts/contrast.ts"
   },
   "engines": {
     "node": ">=20"

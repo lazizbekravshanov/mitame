@@ -7,7 +7,7 @@
 
 @layer components {
   :where([data-theme="liquid"]) {
-    --mi-ring: 0 0 0 3px color-mix(in oklab, var(--mi-accent) 38%, transparent);
+    --mi-ring: 0 0 0 2px var(--mi-accent), 0 0 0 5px color-mix(in oklab, var(--mi-accent) 30%, transparent);
     --mi-sheen: linear-gradient(180deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 55%);
     --mi-rim: inset 0 1px 0 0 var(--mi-glass-highlight), inset 0 -1px 0 0 rgb(255 255 255 / 0.1),
       inset 0 0 0 0.5px var(--mi-glass-edge);

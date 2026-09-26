@@ -3,12 +3,12 @@
   color-scheme: light;
   --mi-bg: #F4F1E6;
   --mi-fg: #2A2416;
-  --mi-fg-muted: #2A2416A6;
-  --mi-accent: #B45309;
-  --mi-accent-fg: #F4F1E6;
+  --mi-fg-muted: #2A2416AD;
+  --mi-accent: #A24B08;
+  --mi-accent-fg: #FFFFFF;
   --mi-danger: #B02A1F;
   --mi-success: #2F6B33;
-  --mi-warning: #9A6B00;
+  --mi-warning: #855C00;
   --mi-border: #2A241640;
   --mi-glass-tint: #EFEBDD;
   --mi-glass-tint-strong: #E8E3D2;

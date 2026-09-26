@@ -5,7 +5,7 @@ type DivProps = HTMLAttributes<HTMLDivElement>;
 
 /** The glass surface everything else sits on. */
 export function Card({ className, ...props }: DivProps) {
-  return <div data-slot="card" className={cn("fy-card", className)} {...props} />;
+  return <div data-slot="card" className={cn("mi-card", className)} {...props} />;
 }
 
 export function CardHeader({ className, ...props }: DivProps) {

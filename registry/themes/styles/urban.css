@@ -10,6 +10,7 @@
 
 @layer components {
   :where([data-theme="urban"]) {
+    --mi-slider-track-h: 6px;
     --mi-ease: cubic-bezier(0.2, 0.9, 0.1, 1);
     --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-accent);
     --mi-grain: repeating-linear-gradient(0deg, color-mix(in oklab, var(--mi-fg) 4%, transparent) 0 1px, transparent 1px 3px);
@@ -50,7 +51,7 @@
     color: var(--mi-accent-fg);
     box-shadow: var(--mi-glow);
   }
-  :where([data-theme="urban"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: #fff; }
+  :where([data-theme="urban"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: var(--mi-bg); }
   :where([data-theme="urban"]) .mi-button[data-variant="ghost"] { background: transparent; color: var(--mi-fg-muted); }
   :where([data-theme="urban"]) .mi-button:active:not(:disabled) { scale: 0.97; }
   :where([data-theme="urban"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
@@ -81,7 +82,7 @@
     color: var(--mi-accent-fg);
   }
   :where([data-theme="urban"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
-  :where([data-theme="urban"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); color: #fff; }
+  :where([data-theme="urban"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: var(--mi-danger); color: var(--mi-bg); }
   :where([data-theme="urban"]) [data-slot="menu-label"] {
     font-family: var(--mi-font-mono);
     text-transform: uppercase;
@@ -143,12 +144,12 @@
 
   /* ---------- Slider ---------- */
   :where([data-theme="urban"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 6px;
+    height: var(--mi-slider-track-h);
     border-radius: var(--mi-radius-full);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 16%, transparent) var(--mi-slider-fill));
   }
   :where([data-theme="urban"]) [data-slot="slider"]::-moz-range-track {
-    height: 6px;
+    height: var(--mi-slider-track-h);
     border-radius: var(--mi-radius-full);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 16%, transparent) var(--mi-slider-fill));
   }
@@ -190,11 +191,13 @@
   :where([data-theme="urban"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
 
   /* ---------- Tooltip and toast ---------- */
+  /* Inverted, with the acid kept as the edge: the green as text on the page
+     is 3.4:1, the page colour on the ink is 17:1. */
   :where([data-theme="urban"]) [data-slot="tooltip"] {
     border: 1px solid var(--mi-accent);
     border-radius: var(--mi-radius-full);
-    background: var(--mi-bg);
-    color: var(--mi-accent);
+    background: var(--mi-fg);
+    color: var(--mi-bg);
     font-family: var(--mi-font-mono);
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -204,7 +207,7 @@
     border: 1px solid var(--mi-accent);
     border-radius: var(--mi-radius-full);
     background: transparent;
-    color: var(--mi-accent);
+    color: var(--mi-fg);
     font-weight: 800;
     text-transform: uppercase;
   }
@@ -213,6 +216,6 @@
   @media (hover: hover) {
     :where([data-theme="urban"]) .mi-button[data-variant="secondary"]:hover:not(:disabled) { background: var(--mi-glass-tint-strong); border-color: var(--mi-accent); }
     :where([data-theme="urban"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-accent) 88%, white); }
-    :where([data-theme="urban"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-accent); }
+    :where([data-theme="urban"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-fg); }
   }
 }

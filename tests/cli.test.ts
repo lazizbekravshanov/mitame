@@ -16,6 +16,7 @@ describe("registry", () => {
     expect(resolveItem(root, "aqua")).toBe("themes/y2k/aqua.css");
     expect(resolveItem(root, "check")).toBe("icons/check.tsx");
     expect(resolveItem(root, "use-popover")).toBe("hooks/use-popover.ts");
+    expect(resolveItem(root, "cn")).toBe("lib/cn.ts");
     expect(() => resolveItem(root, "nope")).toThrow(/Unknown item/);
   });
 
@@ -57,6 +58,14 @@ describe("registry", () => {
     expect(importedFromCode.length).toBeGreaterThan(0);
     for (const file of importedFromCode) {
       expect(readFileSync(join(root, file), "utf8")).toContain("@layer theme, base, components, utilities;");
+    }
+  });
+
+  it("every item `list` prints can be added by that name", () => {
+    // `mitame list` is the discovery surface: if it prints a name, `add <name>`
+    // has to resolve it. lib/ was printed but not resolvable once.
+    for (const [kind, items] of Object.entries(listItems(root))) {
+      for (const item of items) expect(() => resolveItem(root, item.includes("/") ? `${kind}/${item}` : item)).not.toThrow();
     }
   });
 

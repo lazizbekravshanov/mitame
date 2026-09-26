@@ -9,6 +9,7 @@
 
 @layer components {
   :where([data-theme="platinum"]) {
+    --mi-slider-track-h: 8px;
     /* Bevels: light from the top left, shade to the bottom right. */
     --mi-raised: inset 1px 1px 0 0 var(--mi-glass-highlight), inset -1px -1px 0 0 var(--mi-glass-edge);
     --mi-pressed: inset 1px 1px 0 0 var(--mi-glass-edge), inset -1px -1px 0 0 var(--mi-glass-highlight);
@@ -161,14 +162,14 @@
 
   /* ---------- Slider: sunken groove, raised square knob ---------- */
   :where([data-theme="platinum"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 8px;
+    height: var(--mi-slider-track-h);
     border: 1px solid var(--mi-border);
     border-radius: 0;
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
     box-shadow: var(--mi-sunken);
   }
   :where([data-theme="platinum"]) [data-slot="slider"]::-moz-range-track {
-    height: 8px;
+    height: var(--mi-slider-track-h);
     border: 1px solid var(--mi-border);
     border-radius: 0;
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));

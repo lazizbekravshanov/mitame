@@ -30,7 +30,14 @@
   .mi-auth-divider::before,
   .mi-auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--mi-border); }
   .mi-auth-foot { text-align: center; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
-  .mi-auth-foot a { color: var(--mi-accent); }
+  /* Accent as link text fails 4.5:1 in several themes; accent as the underline
+     keeps the colour without putting it in the text. */
+  .mi-auth-foot a {
+    color: var(--mi-fg);
+    text-decoration-color: var(--mi-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
+  }
 
   /* ---------- pricing ---------- */
   .mi-price-grid { display: grid; gap: var(--mi-space-5); grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
@@ -68,4 +75,15 @@
     .mi-dash-side { border-right: 0; border-bottom: 1px solid var(--mi-border); }
     .mi-dash-nav { flex-direction: row; overflow-x: auto; }
   }
+  /* brutalist paints its status colours as flat fills, so as small text they
+     drop to 1.3:1. Same information, drawn the way that theme draws things. */
+  :where([data-theme="brutalist"]) .mi-price-list svg { color: var(--mi-fg); }
+  /* The default delta is a rise; only a fall carries data-down. */
+  :where([data-theme="brutalist"]) .mi-dash-delta {
+    padding: 0 4px;
+    border: 1px solid var(--mi-border);
+    background: var(--mi-success);
+    color: #000;
+  }
+  :where([data-theme="brutalist"]) .mi-dash-delta[data-down] { background: var(--mi-danger); color: #000; }
 }

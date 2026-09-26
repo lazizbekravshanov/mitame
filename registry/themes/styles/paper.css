@@ -10,9 +10,10 @@
 
 @layer components {
   :where([data-theme="paper"]) {
+    --mi-slider-track-h: 2px;
     --mi-paper-serif: "Newsreader", "Source Serif 4", Charter, "Iowan Old Style", Georgia, serif;
     --mi-ease: cubic-bezier(0.32, 0.72, 0, 1);
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px color-mix(in oklab, var(--mi-accent) 45%, transparent);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-accent);
     --mi-rule: 1px solid var(--mi-border);
   }
 
@@ -104,11 +105,11 @@
   :where([data-theme="paper"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(16px); }
   :where([data-theme="paper"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
   :where([data-theme="paper"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 2px;
+    height: var(--mi-slider-track-h);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
   }
   :where([data-theme="paper"]) [data-slot="slider"]::-moz-range-track {
-    height: 2px;
+    height: var(--mi-slider-track-h);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
   }
   :where([data-theme="paper"]) [data-slot="slider"]::-webkit-slider-thumb {

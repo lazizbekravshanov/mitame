@@ -29,6 +29,7 @@ export function resolveItem(root: string, name: string): string {
     `themes/${THEMES[clean] ?? clean}`,
     `icons/${clean}`,
     `hooks/${clean}`,
+    `lib/${clean}`,
   ];
   for (const c of candidates) {
     for (const ext of EXTS) {

@@ -4,11 +4,11 @@
   --mi-bg: #EFEFEA;
   --mi-fg: #0B0B0C;
   --mi-fg-muted: #0B0B0CA6;
-  --mi-accent: #BEFF00;
+  --mi-accent: #698C00;
   --mi-accent-fg: #0B0B0C;
-  --mi-danger: #FF3B30;
-  --mi-success: #00A862;
-  --mi-warning: #C98200;
+  --mi-danger: #CE1F15;
+  --mi-success: #007A49;
+  --mi-warning: #925F00;
   --mi-border: #0B0B0C26;
   --mi-glass-tint: #FFFFFF;
   --mi-glass-tint-strong: #FFFFFF;
@@ -46,6 +46,7 @@
     --mi-bg: #0B0B0C;
     --mi-fg: #F2F2F2;
     --mi-fg-muted: #9A9AA2;
+    --mi-accent: #BEFF00;
     --mi-danger: #FF5A5F;
     --mi-success: #3DF5A0;
     --mi-warning: #FFC53D;
@@ -63,6 +64,7 @@
   --mi-bg: #0B0B0C;
   --mi-fg: #F2F2F2;
   --mi-fg-muted: #9A9AA2;
+  --mi-accent: #BEFF00;
   --mi-danger: #FF5A5F;
   --mi-success: #3DF5A0;
   --mi-warning: #FFC53D;

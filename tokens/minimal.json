@@ -5,7 +5,7 @@
   "tokens": [
     {"name": "color/bg", "type": "COLOR", "values": {"light": "#FFFFFF", "dark": "#0B0B0C"}},
     {"name": "color/fg", "type": "COLOR", "values": {"light": "#111111", "dark": "#F2F2F2"}},
-    {"name": "color/fg-muted", "type": "COLOR", "values": {"light": "#8A8A8A", "dark": "#8F8F96"}},
+    {"name": "color/fg-muted", "type": "COLOR", "values": {"light": "#727272", "dark": "#8F8F96"}},
     {"name": "color/accent", "type": "COLOR", "values": {"light": "#111111", "dark": "#F2F2F2"}},
     {"name": "color/accent-fg", "type": "COLOR", "values": {"light": "#FFFFFF", "dark": "#0B0B0C"}},
     {"name": "color/danger", "type": "COLOR", "values": {"light": "#C0392B", "dark": "#E4796F"}},

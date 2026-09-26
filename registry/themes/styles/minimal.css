@@ -8,6 +8,7 @@
 
 @layer components {
   :where([data-theme="minimal"]) {
+    --mi-slider-track-h: 1px;
     --mi-ease: cubic-bezier(0.4, 0, 0.2, 1);
     --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 3px var(--mi-fg);
   }
@@ -128,11 +129,11 @@
 
   /* ---------- Slider: a hairline and a dot ---------- */
   :where([data-theme="minimal"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 1px;
+    height: var(--mi-slider-track-h);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
   }
   :where([data-theme="minimal"]) [data-slot="slider"]::-moz-range-track {
-    height: 1px;
+    height: var(--mi-slider-track-h);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
   }
   :where([data-theme="minimal"]) [data-slot="slider"]::-webkit-slider-thumb {

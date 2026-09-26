@@ -19,7 +19,7 @@ export function TextField({ label, description, error, icon, id, className, ...p
   const describedBy = [props["aria-describedby"], descId, errId].filter(Boolean).join(" ") || undefined;
 
   return (
-    <div data-slot="field" data-invalid={error ? "" : undefined} className={cn("fy-field", className)}>
+    <div data-slot="field" data-invalid={error ? "" : undefined} className={cn("mi-field", className)}>
       {label && (
         <label data-slot="field-label" htmlFor={inputId}>
           {label}

@@ -118,7 +118,7 @@ export interface MenuItemProps extends Omit<HTMLAttributes<HTMLDivElement>, "onS
   variant?: "default" | "danger";
 }
 
-export function MenuItem({ onSelect, disabled, icon, variant = "default", className, children, ...props }: MenuItemProps) {
+export function MenuItem({ onSelect, disabled, icon, variant = "default", className, children, onClick, onKeyDown, ...props }: MenuItemProps) {
   const { setOpen, trigger } = useMenu();
   const activate = () => {
     if (disabled) return;
@@ -134,15 +134,20 @@ export function MenuItem({ onSelect, disabled, icon, variant = "default", classN
       data-slot="menu-item"
       data-variant={variant}
       className={className}
-      onClick={activate}
       {...pointerFocus}
+      {...props}
+      onClick={(e) => {
+        onClick?.(e);
+        if (!e.defaultPrevented) activate();
+      }}
       onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (e.defaultPrevented) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           activate();
         }
       }}
-      {...props}
     >
       {icon && <span data-slot="menu-item-icon">{icon}</span>}
       <span data-slot="menu-item-label">{children}</span>

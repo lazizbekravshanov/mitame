@@ -11,8 +11,8 @@
   :where([data-theme="aqua"]) {
     --mi-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
     /* Aqua's focus ring was a soft blue glow, not a hard outline. */
-    --mi-ring: 0 0 0 1px color-mix(in oklab, var(--mi-accent) 70%, transparent),
-      0 0 3px 3px color-mix(in oklab, var(--mi-accent) 45%, transparent);
+    --mi-ring: 0 0 0 2px var(--mi-accent),
+      0 0 4px 3px color-mix(in oklab, var(--mi-accent) 45%, transparent);
     --mi-pinstripe: repeating-linear-gradient(
       180deg,
       color-mix(in oklab, var(--mi-glass-highlight) 55%, transparent) 0 2px,

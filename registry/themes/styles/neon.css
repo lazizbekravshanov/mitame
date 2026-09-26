@@ -8,6 +8,7 @@
 
 @layer components {
   :where([data-theme="neon"]) {
+    --mi-slider-track-h: 6px;
     --mi-cyan: #22d3ee;
     --mi-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
     --mi-glow: 0 0 18px -2px color-mix(in oklab, var(--mi-accent) 75%, transparent);
@@ -105,12 +106,12 @@
 
   /* Slider with a lit fill */
   :where([data-theme="neon"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 6px; border-radius: var(--mi-radius-full);
+    height: var(--mi-slider-track-h); border-radius: var(--mi-radius-full);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
     box-shadow: var(--mi-glow-soft);
   }
   :where([data-theme="neon"]) [data-slot="slider"]::-moz-range-track {
-    height: 6px; border-radius: var(--mi-radius-full);
+    height: var(--mi-slider-track-h); border-radius: var(--mi-radius-full);
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), color-mix(in oklab, var(--mi-fg) 14%, transparent) var(--mi-slider-fill));
     box-shadow: var(--mi-glow-soft);
   }

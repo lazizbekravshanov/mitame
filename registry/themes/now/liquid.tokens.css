@@ -3,12 +3,12 @@
   color-scheme: light;
   --mi-bg: #F2F3F7;
   --mi-fg: #111318;
-  --mi-fg-muted: #11131894;
-  --mi-accent: #2F6BFF;
+  --mi-fg-muted: #11131898;
+  --mi-accent: #2E68F8;
   --mi-accent-fg: #FFFFFF;
-  --mi-danger: #E5484D;
-  --mi-success: #2FA36B;
-  --mi-warning: #D99A00;
+  --mi-danger: #D12C31;
+  --mi-success: #2C7C55;
+  --mi-warning: #926500;
   --mi-border: #1113181F;
   --mi-glass-tint: #FFFFFF8C;
   --mi-glass-tint-strong: #FFFFFFC7;
@@ -47,6 +47,7 @@
     --mi-fg: #F4F5F8;
     --mi-fg-muted: #F4F5F899;
     --mi-accent: #5B8CFF;
+    --mi-accent-fg: #0E0F13;
     --mi-danger: #FF6369;
     --mi-success: #3DD68C;
     --mi-warning: #FFC53D;
@@ -66,6 +67,7 @@
   --mi-fg: #F4F5F8;
   --mi-fg-muted: #F4F5F899;
   --mi-accent: #5B8CFF;
+  --mi-accent-fg: #0E0F13;
   --mi-danger: #FF6369;
   --mi-success: #3DD68C;
   --mi-warning: #FFC53D;

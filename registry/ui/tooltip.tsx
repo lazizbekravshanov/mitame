@@ -1,6 +1,7 @@
 import {
   cloneElement,
   useEffect,
+  useLayoutEffect,
   useId,
   useRef,
   useState,
@@ -49,9 +50,9 @@ export function Tooltip({ content, children, placement = "top", delay = 400 }: T
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const id = useId();
 
-  useAnchorPosition(anchor, tip, open, placement);
-
-  useEffect(() => {
+  // Show it first: a popover that is still display:none measures 0x0, and the
+  // placement maths would then drop the tip on top of its own anchor.
+  useLayoutEffect(() => {
     const el = tip.current;
     if (!el) return;
     try {
@@ -60,6 +61,11 @@ export function Tooltip({ content, children, placement = "top", delay = 400 }: T
     } catch {
       // already in the requested state
     }
+  }, [open]);
+
+  useAnchorPosition(anchor, tip, open, placement);
+
+  useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);

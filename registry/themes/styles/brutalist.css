@@ -9,6 +9,7 @@
 
 @layer components {
   :where([data-theme="brutalist"]) {
+    --mi-slider-track-h: 14px;
     --mi-line: 3px;
     --mi-hard: 6px 6px 0 0 var(--mi-glass-shadow);
     --mi-hard-sm: 4px 4px 0 0 var(--mi-glass-shadow);
@@ -40,7 +41,7 @@
   :where([data-theme="brutalist"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: var(--mi-accent-fg); }
   :where([data-theme="brutalist"]) .mi-button[data-variant="ghost"] { border-color: transparent; background: transparent; box-shadow: none; }
   :where([data-theme="brutalist"]) .mi-button:active:not(:disabled) { translate: 4px 4px; box-shadow: 0 0 0 0 var(--mi-glass-shadow); }
-  :where([data-theme="brutalist"]) .mi-button:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+  :where([data-theme="brutalist"]) .mi-button:focus-visible { outline: var(--mi-line) solid var(--mi-fg); outline-offset: 3px; }
 
   /* ---------- Surfaces ---------- */
   :where([data-theme="brutalist"])
@@ -84,6 +85,11 @@
     box-shadow: var(--mi-hard-sm);
   }
   :where([data-theme="brutalist"]) [data-slot="field-error"] {
+    align-self: flex-start;
+    padding: 2px 6px;
+    border: var(--mi-line) solid var(--mi-border);
+    background: var(--mi-danger);
+    color: #000;
     font-weight: 800;
     text-transform: uppercase;
   }
@@ -100,7 +106,7 @@
   }
   :where([data-theme="brutalist"]) [data-slot="checkbox-box"] > svg { width: 14px; height: 14px; stroke-width: 3; }
   :where([data-theme="brutalist"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-accent); }
-  :where([data-theme="brutalist"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+  :where([data-theme="brutalist"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: var(--mi-line) solid var(--mi-fg); outline-offset: 3px; }
 
   :where([data-theme="brutalist"]) [data-slot="switch-track"] {
     width: 52px;
@@ -120,17 +126,17 @@
   }
   :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
   :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(26px); }
-  :where([data-theme="brutalist"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 3px; }
+  :where([data-theme="brutalist"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-line) solid var(--mi-fg); outline-offset: 3px; }
 
   /* ---------- Slider ---------- */
   :where([data-theme="brutalist"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 14px;
+    height: var(--mi-slider-track-h);
     border: var(--mi-line) solid var(--mi-border);
     border-radius: 0;
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
   }
   :where([data-theme="brutalist"]) [data-slot="slider"]::-moz-range-track {
-    height: 14px;
+    height: var(--mi-slider-track-h);
     border: var(--mi-line) solid var(--mi-border);
     border-radius: 0;
     background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint) var(--mi-slider-fill));
@@ -150,7 +156,7 @@
     border-radius: 0;
     background: var(--mi-fg);
   }
-  :where([data-theme="brutalist"]) [data-slot="slider"]:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: 4px; }
+  :where([data-theme="brutalist"]) [data-slot="slider"]:focus-visible { outline: var(--mi-line) solid var(--mi-fg); outline-offset: 4px; }
 
   /* ---------- Tabs ---------- */
   :where([data-theme="brutalist"]) [data-slot="tabs-list"] {
@@ -169,7 +175,7 @@
   }
   :where([data-theme="brutalist"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left: var(--mi-line) solid var(--mi-border); }
   :where([data-theme="brutalist"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
-  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"]:focus-visible { outline: var(--mi-line) solid var(--mi-accent); outline-offset: -3px; }
+  :where([data-theme="brutalist"]) [data-slot="tabs-trigger"]:focus-visible { outline: var(--mi-line) solid var(--mi-fg); outline-offset: -3px; }
 
   /* ---------- Tooltip and toast ---------- */
   :where([data-theme="brutalist"]) [data-slot="tooltip"] {

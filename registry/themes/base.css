@@ -12,6 +12,10 @@
     color: var(--mi-fg);
     -webkit-font-smoothing: antialiased;
   }
+  /* Zero specificity, so a theme's own :where([data-theme="x"]) block wins. */
+  :where([data-theme]) {
+    --mi-slider-track-h: 6px;
+  }
 
   /* Top layer floating surfaces (popovers). Undo the UA centering. */
   [data-mi-floating] {
@@ -67,6 +71,8 @@
     font: inherit; font-size: var(--mi-text-md); color: inherit; outline: none;
   }
   [data-slot="field-icon"] + [data-slot="field-input"] { padding-left: 34px; }
+  [data-slot="field-input"]:disabled,
+  [data-slot="select-trigger"]:disabled { cursor: not-allowed; opacity: 0.5; }
   [data-slot="field-description"],
   [data-slot="field-error"] { margin: 0; font-size: var(--mi-text-xs); }
   [data-slot="field-description"] { color: var(--mi-fg-muted); }
@@ -99,9 +105,12 @@
   [data-slot="slider"] {
     appearance: none; -webkit-appearance: none; width: 100%; height: 20px; margin: 0; background: transparent; cursor: pointer;
   }
-  [data-slot="slider"]::-webkit-slider-runnable-track { height: 6px; }
-  [data-slot="slider"]::-moz-range-track { height: 6px; }
-  [data-slot="slider"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -7px; }
+  [data-slot="slider"]::-webkit-slider-runnable-track { height: var(--mi-slider-track-h); }
+  [data-slot="slider"]::-moz-range-track { height: var(--mi-slider-track-h); }
+  [data-slot="slider"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 20px; height: 20px;
+    margin-top: calc((var(--mi-slider-track-h) - 20px) / 2);
+  }
   [data-slot="slider"]::-moz-range-thumb { width: 20px; height: 20px; }
   [data-slot="slider"]:disabled { cursor: not-allowed; opacity: 0.5; }
 
@@ -143,7 +152,10 @@
     font-size: var(--mi-text-sm); font-weight: 550; color: inherit; cursor: pointer;
   }
   [data-slot="tabs-trigger"]:disabled { cursor: not-allowed; opacity: 0.45; }
+  /* The panel is in the tab sequence so keyboard users land in the content:
+     it keeps a visible ring. [data-theme] outranks a theme's :where() rules. */
   [data-slot="tabs-panel"] { outline: none; }
+  [data-theme] [data-slot="tabs-panel"]:focus-visible { outline: 2px solid var(--mi-fg); outline-offset: 3px; }
 
   /* Popover + Tooltip */
   [data-slot="popover-content"] { display: none; padding: var(--mi-space-4); min-width: 220px; color: var(--mi-fg); }
@@ -209,12 +221,11 @@
   :root:has([data-slot="dialog"][open]) { overflow: hidden; }
 
   @media (pointer: coarse) {
-    /* 44px touch targets. Controls keep their look; an invisible ::after grows the hit area. */
-    .mi-button,
-    [data-slot="tabs-trigger"],
-    [data-slot="toast-action"],
-    [data-slot="toast-close"] { position: relative; }
-    :is(.mi-button, [data-slot="tabs-trigger"], [data-slot="dialog-close-icon"], [data-slot="toast-action"], [data-slot="toast-close"])::after {
+    /* 44px touch targets. Controls keep their look; an invisible ::after grows the hit area.
+       Every selector here is prefixed with [data-theme] so it outranks the
+       :where([data-theme="x"]) rules a theme uses: touch size is not negotiable. */
+    [data-theme] :is(.mi-button, [data-slot="tabs-trigger"], [data-slot="toast-action"], [data-slot="toast-close"]) { position: relative; }
+    [data-theme] :is(.mi-button, [data-slot="tabs-trigger"], [data-slot="dialog-close-icon"], [data-slot="toast-action"], [data-slot="toast-close"])::after {
       content: "";
       position: absolute;
       top: 50%;
@@ -224,15 +235,17 @@
       translate: -50% -50%;
     }
     /* Fields: taller, and 16px text so iOS Safari does not zoom in on focus. */
-    [data-slot="field-input"],
-    [data-slot="select-trigger"] { height: 44px; font-size: max(16px, var(--mi-text-md)); }
-    [data-slot="select-item"],
-    [data-slot="menu-item"] { min-height: 44px; }
-    [data-slot="checkbox"],
-    [data-slot="switch"] { min-height: 44px; }
-    [data-slot="slider"] { height: 44px; }
-    [data-slot="slider"]::-webkit-slider-thumb { width: 28px; height: 28px; margin-top: -11px; }
-    [data-slot="slider"]::-moz-range-thumb { width: 28px; height: 28px; }
+    [data-theme] :is([data-slot="field-input"], [data-slot="select-trigger"]) { height: 44px; font-size: max(16px, var(--mi-text-md)); }
+    [data-theme] :is([data-slot="select-item"], [data-slot="menu-item"]) { min-height: 44px; }
+    [data-theme] :is([data-slot="checkbox"], [data-slot="switch"]) { min-height: 44px; }
+    [data-theme] [data-slot="slider"] { height: 44px; }
+    /* The thumb is the drag target, so it grows past 24px whatever the theme drew.
+       Themes publish their track thickness as --mi-slider-track-h; the thumb
+       stays centred on it. Radius is left alone, so square thumbs stay square. */
+    [data-theme] [data-slot="slider"]::-webkit-slider-thumb {
+      width: 26px; height: 26px; margin-top: calc((var(--mi-slider-track-h) - 26px) / 2);
+    }
+    [data-theme] [data-slot="slider"]::-moz-range-thumb { width: 26px; height: 26px; }
   }
 
   @media (max-width: 480px) {

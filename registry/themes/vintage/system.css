@@ -9,6 +9,7 @@
 
 @layer components {
   :where([data-theme="system"]) {
+    --mi-slider-track-h: 8px;
     /* 50% dither, the only "gray" a 1-bit screen has */
     --mi-dither: repeating-conic-gradient(var(--mi-fg) 0% 25%, transparent 0% 50%) 0 0 / 2px 2px;
     --mi-drop: 2px 2px 0 0 var(--mi-fg);
@@ -97,11 +98,11 @@
 
   /* Slider: dither groove, black knob */
   :where([data-theme="system"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: 8px; border: 1px solid var(--mi-fg); border-radius: 0;
+    height: var(--mi-slider-track-h); border: 1px solid var(--mi-fg); border-radius: 0;
     background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-dither), var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="slider"]::-moz-range-track {
-    height: 8px; border: 1px solid var(--mi-fg); border-radius: 0;
+    height: var(--mi-slider-track-h); border: 1px solid var(--mi-fg); border-radius: 0;
     background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-dither), var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="slider"]::-webkit-slider-thumb {

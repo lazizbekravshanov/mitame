@@ -27,13 +27,13 @@ export function Tabs({ value, defaultValue = "", onValueChange, className, ...pr
   const baseId = useId();
   return (
     <Ctx.Provider value={{ value: current, setValue, baseId }}>
-      <div data-slot="tabs" className={cn("fy-tabs", className)} {...props} />
+      <div data-slot="tabs" className={cn("mi-tabs", className)} {...props} />
     </Ctx.Provider>
   );
 }
 
 /** The segmented control. Arrow keys move between tabs and activate them. */
-export function TabsList({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function TabsList({ className, onKeyDown, ...props }: HTMLAttributes<HTMLDivElement>) {
   const { setValue } = useTabs();
   const ref = useRef<HTMLDivElement>(null);
   const nav = useListNavigation(ref, {
@@ -41,7 +41,19 @@ export function TabsList({ className, ...props }: HTMLAttributes<HTMLDivElement>
     orientation: "horizontal",
     onMove: (el) => el.dataset.value && setValue(el.dataset.value),
   });
-  return <div ref={ref} role="tablist" data-slot="tabs-list" className={className} onKeyDown={nav.onKeyDown} {...props} />;
+  return (
+    <div
+      ref={ref}
+      role="tablist"
+      data-slot="tabs-list"
+      className={className}
+      {...props}
+      onKeyDown={(e) => {
+        onKeyDown?.(e);
+        if (!e.defaultPrevented) nav.onKeyDown(e);
+      }}
+    />
+  );
 }
 
 export interface TabsTriggerProps extends HTMLAttributes<HTMLButtonElement> {
@@ -50,7 +62,7 @@ export interface TabsTriggerProps extends HTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
-export function TabsTrigger({ value, className, ...props }: TabsTriggerProps) {
+export function TabsTrigger({ value, className, onClick, ...props }: TabsTriggerProps) {
   const ctx = useTabs();
   const active = ctx.value === value;
   return (
@@ -65,8 +77,11 @@ export function TabsTrigger({ value, className, ...props }: TabsTriggerProps) {
       data-state={active ? "active" : "inactive"}
       data-slot="tabs-trigger"
       className={className}
-      onClick={() => ctx.setValue(value)}
       {...props}
+      onClick={(e) => {
+        onClick?.(e);
+        if (!e.defaultPrevented) ctx.setValue(value);
+      }}
     />
   );
 }
