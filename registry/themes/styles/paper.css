@@ -63,6 +63,8 @@
   :where([data-theme="paper"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
     background: color-mix(in oklab, var(--mi-accent) 12%, transparent);
     color: var(--mi-fg);
+    /* A 12% wash is 1.25:1 against an unfocused row: the margin rule is the cue. */
+    box-shadow: inset 3px 0 0 0 var(--mi-accent);
   }
   :where([data-theme="paper"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
   :where([data-theme="paper"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 12%, transparent); color: var(--mi-danger); }

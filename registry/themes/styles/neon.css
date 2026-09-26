@@ -67,7 +67,7 @@
   :where([data-theme="neon"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
     background: color-mix(in oklab, var(--mi-accent) 22%, transparent);
     color: var(--mi-fg);
-    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--mi-accent) 50%, transparent);
+    box-shadow: inset 0 0 0 1px var(--mi-accent);
   }
   :where([data-theme="neon"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
   :where([data-theme="neon"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 25%, transparent); }

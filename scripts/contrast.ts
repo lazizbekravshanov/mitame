@@ -496,6 +496,9 @@ interface Merged {
   rings: Record<string, { value: string; source: string }>;
   /** Custom properties this rule sets, e.g. aqua's `--mi-tone: var(--mi-accent)`. */
   props: Record<string, string>;
+  /** What a state draws to mark itself, when it is not just a fill. */
+  outline?: { value: string; source: string };
+  shadow?: { value: string; source: string };
 }
 
 /** Merge rules in cascade order: same state, later file and later rule win. */
@@ -509,6 +512,8 @@ export function mergeRules(rules: Rule[]): Map<string, Merged> {
     const bg = rule.decls["background-color"] ?? rule.decls["background"];
     if (bg) entry.background = { value: bg, source };
     for (const [prop, value] of Object.entries(rule.decls)) if (prop.startsWith("--")) entry.props[prop] = value;
+    if (rule.decls["outline"] && rule.decls["outline"] !== "none") entry.outline = { value: rule.decls["outline"]!, source };
+    if (rule.decls["box-shadow"] && rule.decls["box-shadow"] !== "none") entry.shadow = { value: rule.decls["box-shadow"]!, source };
     if (rule.decls["--mi-ring"]) entry.rings["--mi-ring"] = { value: rule.decls["--mi-ring"]!, source };
     if (key.includes(":focus-visible") && rule.decls["outline"]) entry.rings["outline"] = { value: rule.decls["outline"]!, source };
     out.set(key, entry);
@@ -536,6 +541,19 @@ function varMap(file: TokenFile, mode: "light" | "dark"): Map<string, string> {
   const out = new Map<string, string>();
   for (const t of file.tokens) if (t.type === "COLOR") out.set(cssVarName(t.name), String(t.values[mode]));
   return out;
+}
+
+/**
+ * Whether a focus state also repaints its text. If it does, the fill is not the
+ * only thing telling a user where they are, so it does not have to carry the
+ * 3:1 on its own. Aqua's selected row turns white on blue; minimal's just gets
+ * a slightly paler grey, and that one is the problem.
+ */
+function changesInk(merged: Map<string, Merged>, entry: Merged, slot: string): boolean {
+  const focusInk = entry.color?.value;
+  if (!focusInk) return false;
+  const resting = merged.get(`[data-slot="${slot}"]`)?.color?.value ?? merged.get(`[data-slot="${PARENT[slot] ?? ""}"]`)?.color?.value;
+  return !resting || resting.trim() !== focusInk.trim();
 }
 
 export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
@@ -620,6 +638,36 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
       // A state that paints a fill but declares no ink (the checked checkbox, the
       // hovered row) still shows the slot's resting ink on top of that fill.
       const inkDecl = entry.color ?? (entry.background && slot ? merged.get(`[data-slot="${slot}"]`)?.color : undefined);
+      // WCAG 1.4.11: a state a user has to see must differ from the resting
+      // state by 3:1 when colour is the only thing that changes. The focused
+      // row in a menu is the case that matters, because base.css takes the
+      // browser outline away and the fill is then the whole indicator.
+      if (slot && /:focus/.test(entry.key) && !Object.keys(entry.rings).length && !changesInk(merged, entry, slot)) {
+        // The indicator is whatever the state draws: an outline, a bar drawn as
+        // an inset shadow, or, failing those, the fill itself.
+        // A variant's focus rule often sets only its own fill, while the mark is
+        // drawn by the plainer focus rule that also matches the element.
+        const generic = [...merged.values()].find(
+          (e) => e !== entry && subjectSlot(e.key) === slot && /:focus/.test(e.key) && (e.outline ?? e.shadow),
+        );
+        const mark = entry.outline ?? entry.shadow ?? generic?.outline ?? generic?.shadow;
+        const drawn = mark ? colorInShorthand(mark.value, varsFor(entry)) : null;
+        const restingEntry = merged.get(`[data-slot="${slot}"]`);
+        const resting = restingEntry?.background;
+        const restingFill = resting ? surfaceCandidates(resting.value, varsFor(restingEntry), page) : null;
+        const under = restingFill && restingFill.length ? restingFill.map((color) => ({ color })) : surfacesUnder(PARENT[slot] ?? null);
+        const indicator = drawn && "hex" in drawn ? [drawn] : entry.background ? surfaceCandidates(entry.background.value, varsFor(entry), page) : [];
+        if (under !== "inherit" && indicator.length) {
+          for (const b of under) {
+            if (!b.color || !("hex" in b.color)) continue;
+            for (const f of indicator) {
+              if (!f || !("hex" in f)) continue;
+              add(drawn ? "focus mark against the resting row" : "focus fill against the resting row", f.hex, b.color.hex, UI, (mark ?? entry.background)!.source);
+            }
+          }
+        }
+      }
+
       if (!inkDecl) continue;
       const ink = resolveColor(inkDecl.value, varsFor(entry));
       if (!ink) continue;

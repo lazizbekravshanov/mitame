@@ -64,6 +64,8 @@
   :where([data-theme="minimal"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
     background: color-mix(in oklab, var(--mi-fg) 6%, transparent);
     color: var(--mi-fg);
+    /* The wash is 1.13:1 against an unfocused row, so the rule carries the state. */
+    box-shadow: inset 2px 0 0 0 var(--mi-fg);
   }
   :where([data-theme="minimal"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
   :where([data-theme="minimal"]) [data-slot="menu-item"][data-variant="danger"]:focus { background: color-mix(in oklab, var(--mi-danger) 10%, transparent); color: var(--mi-danger); }
