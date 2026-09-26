@@ -10,12 +10,16 @@
 @layer components {
   :where([data-theme="system"]) {
     --mi-slider-track-h: 8px;
-    /* 50% dither, the only "gray" a 1-bit screen has */
+    /* Dither is the only "gray" a 1-bit screen has, so it needs more than one
+       density: 50% reads as disabled, 25% as merely behind. */
     --mi-dither: repeating-conic-gradient(var(--mi-fg) 0% 25%, transparent 0% 50%) 0 0 / 2px 2px;
+    --mi-dither-light: radial-gradient(var(--mi-fg) 0.5px, transparent 0.6px) 0 0 / 3px 3px;
     --mi-drop: 2px 2px 0 0 var(--mi-fg);
   }
 
-  :where([data-theme="system"]) * { transition: none !important; }
+  /* Nothing animates in 1984. Scoped to mitame's own parts and without
+     !important, so a page can still animate its own elements. */
+  :where([data-theme="system"]) :is([data-slot], .mi-button) { transition: none; }
   :where([data-theme="system"]) :is([data-slot="card-title"], [data-slot="dialog-title"], [data-slot="field-label"]) { font-weight: 700; }
   /* No gray text on a 1-bit screen: muted text is just smaller */
   :where([data-theme="system"]) :is([data-slot="card-description"], [data-slot="field-description"], [data-slot="toast-description"]) {
@@ -25,13 +29,15 @@
 
   /* Buttons: rounded-rect outline, inverts when pressed */
   :where([data-theme="system"]) .mi-button {
-    border: 1px solid var(--mi-fg);
+    border: 1px solid var(--mi-border);
     border-radius: 6px;
     background: var(--mi-bg);
     color: var(--mi-fg);
     font-weight: 400;
   }
-  :where([data-theme="system"]) .mi-button[data-variant="primary"] { box-shadow: 0 0 0 2px var(--mi-bg), 0 0 0 3px var(--mi-fg); margin: 3px; }
+  /* The default button wore a second rounded rect outside it. outline draws
+     there without taking layout space, which margin did, staggering footers. */
+  :where([data-theme="system"]) .mi-button[data-variant="primary"] { outline: 1px solid var(--mi-fg); outline-offset: 2px; }
   :where([data-theme="system"]) .mi-button[data-variant="ghost"] { border-color: transparent; }
   :where([data-theme="system"]) .mi-button:active:not(:disabled) { background: var(--mi-fg); color: var(--mi-bg); }
   :where([data-theme="system"]) .mi-button:disabled { opacity: 1; background: var(--mi-dither), var(--mi-bg); }
@@ -40,7 +46,7 @@
   /* Surfaces: white boxes, black hairline, hard shadow */
   :where([data-theme="system"])
     :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
-    border: 1px solid var(--mi-fg);
+    border: 1px solid var(--mi-border);
     border-radius: 0;
     background: var(--mi-bg);
     box-shadow: var(--mi-drop);
@@ -48,7 +54,7 @@
   :where([data-theme="system"]) [data-slot="dialog-panel"] { border-width: 2px; box-shadow: 3px 3px 0 0 var(--mi-fg); }
   :where([data-theme="system"]) [data-slot="dialog"]::backdrop { background: transparent; }
   :where([data-theme="system"]) [data-slot="dialog-close-icon"] {
-    width: 13px; height: 13px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg);
+    width: 13px; height: 13px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg);
   }
   :where([data-theme="system"]) [data-slot="dialog-close-icon"] svg { width: 9px; height: 9px; }
 
@@ -63,13 +69,17 @@
 
   /* Inputs: a box with a blinking block caret */
   :where([data-theme="system"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border: 1px solid var(--mi-fg);
+    border: 1px solid var(--mi-border);
     border-radius: 0;
     background: var(--mi-bg);
     color: var(--mi-fg);
     caret-color: var(--mi-fg);
   }
   :where([data-theme="system"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible { outline: 2px solid var(--mi-fg); outline-offset: -3px; }
+  /* danger is the same ink as everything else on a 1-bit screen, so an invalid
+     field says so with a doubled border instead of a colour. */
+  :where([data-theme="system"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-width: 2px; }
+  :where([data-theme="system"]) [data-slot="field-error"] { font-weight: 700; }
   :where([data-theme="system"]) [data-slot="select-trigger"] { position: relative; padding-right: 28px; }
   :where([data-theme="system"]) [data-slot="select-chevron"] { display: none; }
   :where([data-theme="system"]) [data-slot="select-trigger"]::after {
@@ -79,18 +89,21 @@
 
   /* Checkbox: square with a fat check */
   :where([data-theme="system"]) [data-slot="checkbox-box"] {
-    width: 13px; height: 13px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg);
+    width: 13px; height: 13px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg);
   }
   :where([data-theme="system"]) [data-slot="checkbox-box"] > svg { width: 11px; height: 11px; stroke-width: 2.5; }
-  :where([data-theme="system"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-bg); }
+  :where([data-theme="system"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-fg);
+    color: var(--mi-bg);
+  }
   :where([data-theme="system"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: 2px dotted var(--mi-fg); outline-offset: 2px; }
 
   /* Switch: a slider box, since 1984 had no switches */
   :where([data-theme="system"]) [data-slot="switch-track"] {
-    width: 36px; height: 18px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-dither), var(--mi-bg);
+    width: 36px; height: 18px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-dither), var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="switch-thumb"] {
-    top: 1px; left: 1px; width: 14px; height: 14px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg);
+    top: 1px; left: 1px; width: 14px; height: 14px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-fg); }
   :where([data-theme="system"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(18px); }
@@ -98,36 +111,44 @@
 
   /* Slider: dither groove, black knob */
   :where([data-theme="system"]) [data-slot="slider"]::-webkit-slider-runnable-track {
-    height: var(--mi-slider-track-h); border: 1px solid var(--mi-fg); border-radius: 0;
+    height: var(--mi-slider-track-h); border: 1px solid var(--mi-border); border-radius: 0;
     background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-dither), var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="slider"]::-moz-range-track {
-    height: var(--mi-slider-track-h); border: 1px solid var(--mi-fg); border-radius: 0;
+    height: var(--mi-slider-track-h); border: 1px solid var(--mi-border); border-radius: 0;
     background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-dither), var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="slider"]::-webkit-slider-thumb {
-    width: 12px; height: 18px; margin-top: -6px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg);
+    width: 12px; height: 18px; margin-top: -6px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg);
   }
   :where([data-theme="system"]) [data-slot="slider"]::-moz-range-thumb {
-    width: 12px; height: 18px; border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg);
+    width: 12px; height: 18px; border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg);
   }
 
   /* Tabs */
   :where([data-theme="system"]) [data-slot="tabs-list"] {
-    gap: 0; padding: 0; border-radius: 0; border-bottom: 1px solid var(--mi-fg); background: transparent; box-shadow: none;
+    gap: 0; padding: 0; border-radius: 0; border-bottom: 1px solid var(--mi-border); background: transparent; box-shadow: none;
   }
   :where([data-theme="system"]) [data-slot="tabs-trigger"] {
-    border: 1px solid var(--mi-fg); border-bottom: 0; border-radius: 4px 4px 0 0; margin-right: 2px;
-    background: var(--mi-dither), var(--mi-bg); color: var(--mi-fg);
+    border: 1px solid var(--mi-border); border-bottom: 0; border-radius: 4px 4px 0 0; margin-right: 2px;
+    background: var(--mi-dither-light), var(--mi-bg); color: var(--mi-fg);
   }
   :where([data-theme="system"]) [data-slot="tabs-trigger"][data-state="active"] { background: var(--mi-bg); font-weight: 700; }
 
+  /* Everything else that takes focus, so nothing falls back to the browser's
+     blue ring in a theme with no colour in it. */
+  :where([data-theme="system"])
+    :is([data-slot="tabs-trigger"], [data-slot="slider"], [data-slot="dialog-close-icon"], [data-slot="toast-action"], [data-slot="toast-close"]):focus-visible {
+    outline: 2px dotted var(--mi-fg);
+    outline-offset: 2px;
+  }
+
   /* Balloon help and notices */
   :where([data-theme="system"]) [data-slot="tooltip"] {
-    border: 1px solid var(--mi-fg); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg); box-shadow: var(--mi-drop);
+    border: 1px solid var(--mi-border); border-radius: 0; background: var(--mi-bg); color: var(--mi-fg); box-shadow: var(--mi-drop);
   }
   :where([data-theme="system"]) [data-slot="toast-action"] {
-    border: 1px solid var(--mi-fg); border-radius: 6px; background: var(--mi-bg); color: var(--mi-fg);
+    border: 1px solid var(--mi-border); border-radius: 6px; background: var(--mi-bg); color: var(--mi-fg);
   }
-  :where([data-theme="system"]) [data-slot="toast-close"] { border: 1px solid var(--mi-fg); border-radius: 0; color: var(--mi-fg); }
+  :where([data-theme="system"]) [data-slot="toast-close"] { border: 1px solid var(--mi-border); border-radius: 0; color: var(--mi-fg); }
 }
