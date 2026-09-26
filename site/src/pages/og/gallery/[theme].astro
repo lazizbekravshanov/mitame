@@ -1,10 +1,12 @@
 ---
 import ShotGallery from "../../../components/shots/ShotGallery";
+import { THEMES } from "../../../lib/theme";
 import "../../../styles/site.css";
 import "../_shot.css";
 
+// Every theme gets a shot page, so the social script can photograph all of them.
 export function getStaticPaths() {
-  return ["aqua", "liquid", "platinum", "system", "aero", "brutalist", "minimal", "urban", "paper", "terminal", "neon"].map((theme) => ({ params: { theme } }));
+  return THEMES.map((t) => ({ params: { theme: t.id } }));
 }
 const { theme } = Astro.params;
 ---

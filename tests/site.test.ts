@@ -52,3 +52,12 @@ describe("markdown twins", () => {
     expect(route).toContain("text/markdown");
   });
 });
+
+describe("social shots", () => {
+  it("has a shot page for every theme, generated rather than listed", () => {
+    const page = readFileSync(join(root, "site/src/pages/og/gallery/[theme].astro"), "utf8");
+    expect(page).toContain("THEMES.map");
+    const script = readFileSync(join(root, "scripts/build-social.mjs"), "utf8");
+    expect(script).toContain("meta.json");
+  });
+});
