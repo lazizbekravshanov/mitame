@@ -1,8 +1,486 @@
-/* mitame theme: y2k / linen. Placeholder, being written. */
+/*
+ * mitame theme: Y2K / linen (2012)
+ * The last year interfaces pretended to be objects. The ground is woven cloth,
+ * panels are paper basted along the edge with a dashed thread, controls are
+ * glossy pills and the bar across the top of a sheet is brushed metal.
+ * Four decisions carry it. The weave is two threads a hair either side of the
+ * ground, so it reads as cloth and not as noise. Raised and pressed are the same
+ * two lines in the other order, a light one along the top inside and a dark one
+ * along the bottom, which is what makes a control look lifted or pushed in. The
+ * gloss is spent before a third of the way down, so a label always sits on the
+ * colour itself. And type is letterpressed, light under the glyphs on a light
+ * ground and shadow above them on a dark one.
+ * Dark mode is the same materials in slate: cloth woven darker, gloss cut to a
+ * fifth, and the accent ink flipped to charcoal so the dyed fills stay bright.
+ * Tokens come from Figma (linen.tokens.css).
+ */
 @import "./linen.tokens.css";
 
 @layer components {
   :where([data-theme="linen"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    --mi-slider-track-h: 10px;
+    --mi-ease: cubic-bezier(0.25, 0.7, 0.3, 1);
+    /* The thread sews the panels and it also draws focus, so a focused control
+       looks basted rather than outlined. */
+    --mi-thread: var(--mi-accent);
+    --mi-stitch: color-mix(in oklab, white 88%, transparent);
+    /* Cloth: a light warp crossing a dark weft, each a hair either side of the
+       ground, so the eye reads texture instead of stripes. The threads are two
+       layers rather than one bundle, which keeps the ground under them readable
+       as the flat colour it is. */
+    --mi-warp: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.24) 0 1px, transparent 1px 3px);
+    --mi-weft: repeating-linear-gradient(180deg, rgb(0 0 0 / 0.045) 0 1px, transparent 1px 3px);
+    /* The shine stops at a third, which is above every label in the library. */
+    --mi-gloss: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.6) 0%,
+      rgb(255 255 255 / 0.26) 15%,
+      rgb(255 255 255 / 0.05) 28%,
+      rgb(255 255 255 / 0) 34%
+    );
+    --mi-face: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--mi-bg) 44%, white) 0%,
+      color-mix(in oklab, var(--mi-bg) 90%, white) 100%
+    );
+    --mi-brushed: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--mi-bg) 34%, white) 0%,
+      color-mix(in oklab, var(--mi-bg) 72%, white) 52%,
+      color-mix(in oklab, var(--mi-bg) 96%, white) 100%
+    );
+    --mi-grain: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.16) 0 1px, rgb(0 0 0 / 0.045) 1px 2px);
+    --mi-raised: inset 0 1px 0 var(--mi-glass-highlight), inset 0 -1px 0 var(--mi-glass-edge),
+      0 1px 2px var(--mi-glass-shadow);
+    --mi-pressed: inset 0 2px 3px -1px color-mix(in oklab, black 40%, transparent),
+      inset 0 -1px 0 var(--mi-glass-highlight);
+    --mi-letterpress: 0 1px 0 rgb(255 255 255 / 0.8);
+    --mi-letterpress-fill: 0 -1px 0 rgb(0 0 0 / 0.3);
+    /* A glyph takes a filter, not a text shadow, so icons are engraved this way. */
+    --mi-engrave: drop-shadow(0 1px 0 rgb(255 255 255 / 0.85));
+  }
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="linen"]:not([data-mode="light"])) {
+      --mi-stitch: color-mix(in oklab, white 16%, transparent);
+      --mi-warp: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 3px);
+      --mi-weft: repeating-linear-gradient(180deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+      --mi-gloss: linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.14) 0%,
+        rgb(255 255 255 / 0.06) 16%,
+        rgb(255 255 255 / 0) 32%
+      );
+      --mi-face: linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--mi-bg) 82%, white) 0%,
+        color-mix(in oklab, var(--mi-bg) 96%, white) 100%
+      );
+      --mi-brushed: linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--mi-bg) 80%, white) 0%,
+        color-mix(in oklab, var(--mi-bg) 92%, white) 52%,
+        var(--mi-bg) 100%
+      );
+      --mi-grain: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.06) 0 1px, rgb(0 0 0 / 0.12) 1px 2px);
+      /* On a dark ground the light comes from under the glyph, so the shadow
+         goes above it and the fills carry a pale line below instead. */
+      --mi-letterpress: 0 -1px 0 rgb(0 0 0 / 0.6);
+      --mi-letterpress-fill: 0 1px 0 rgb(255 255 255 / 0.22);
+      --mi-engrave: drop-shadow(0 -1px 0 rgb(0 0 0 / 0.55));
+    }
+  }
+  :where([data-theme="linen"][data-mode="dark"]) {
+    --mi-stitch: color-mix(in oklab, white 16%, transparent);
+    --mi-warp: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.045) 0 1px, transparent 1px 3px);
+    --mi-weft: repeating-linear-gradient(180deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+    --mi-gloss: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.14) 0%,
+      rgb(255 255 255 / 0.06) 16%,
+      rgb(255 255 255 / 0) 32%
+    );
+    --mi-face: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--mi-bg) 82%, white) 0%,
+      color-mix(in oklab, var(--mi-bg) 96%, white) 100%
+    );
+    --mi-brushed: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--mi-bg) 80%, white) 0%,
+      color-mix(in oklab, var(--mi-bg) 92%, white) 52%,
+      var(--mi-bg) 100%
+    );
+    --mi-grain: repeating-linear-gradient(180deg, rgb(255 255 255 / 0.06) 0 1px, rgb(0 0 0 / 0.12) 1px 2px);
+    --mi-letterpress: 0 -1px 0 rgb(0 0 0 / 0.6);
+    --mi-letterpress-fill: 0 1px 0 rgb(255 255 255 / 0.22);
+    --mi-engrave: drop-shadow(0 -1px 0 rgb(0 0 0 / 0.55));
+  }
+
+  /* ---------- The ground ----------
+     A page background belongs to the host document, which is why the weave is
+     laid on the body as well: that is the surface a theme can dress without
+     fighting whatever the page already sets on the root. */
+  :where([data-theme="linen"]),
+  :where([data-theme="linen"]) body {
+    background: var(--mi-warp), var(--mi-weft), var(--mi-bg);
+  }
+
+  /* ---------- Panels: paper on cloth, basted along the edge ---------- */
+  :where([data-theme="linen"])
+    :is(
+      [data-slot="card"],
+      [data-slot="dialog-panel"],
+      [data-slot="popover-content"],
+      [data-slot="toast"],
+      [data-slot="tooltip"]
+    ) {
+    /* The stitch is drawn by ::before, so the paper has to be its container. */
+    position: relative;
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-glass-tint);
+    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 10px 22px -12px var(--mi-glass-shadow);
+  }
+  :where([data-theme="linen"])
+    :is(
+      [data-slot="card"],
+      [data-slot="dialog-panel"],
+      [data-slot="popover-content"],
+      [data-slot="toast"],
+      [data-slot="tooltip"]
+    )::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed var(--mi-stitch);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  :where([data-theme="linen"]) [data-slot="card"] { border-radius: var(--mi-radius-lg); }
+  :where([data-theme="linen"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-shadow: var(--mi-letterpress);
+  }
+
+  /* A sheet that scrolls cannot hold a stitch, it would slide with the rows, so
+     the menus get a plain line in the same thread instead. */
+  :where([data-theme="linen"]) :is([data-slot="select-content"], [data-slot="menu-content"]) {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: inset 0 0 0 1px var(--mi-stitch), 0 12px 26px -14px var(--mi-glass-shadow);
+  }
+  :where([data-theme="linen"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
+    border-radius: var(--mi-radius-sm);
+  }
+  :where([data-theme="linen"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    --mi-tone: var(--mi-accent);
+  }
+  :where([data-theme="linen"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="linen"]) [data-slot="menu-item"][data-variant="danger"]:focus { --mi-tone: var(--mi-danger); }
+  /* A seam rather than a line: one dark thread with a pale one under it. */
+  :where([data-theme="linen"]) [data-slot="menu-separator"] {
+    background: var(--mi-border);
+    box-shadow: 0 1px 0 var(--mi-glass-highlight);
+  }
+  :where([data-theme="linen"]) [data-slot="menu-label"] {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-shadow: var(--mi-letterpress);
+  }
+
+  /* Popovers, menus and tooltips fade the way a physical thing settles. */
+  :where([data-theme="linen"])
+    :is(
+      [data-slot="select-content"],
+      [data-slot="menu-content"],
+      [data-slot="popover-content"],
+      [data-slot="tooltip"]
+    ) {
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), translate var(--mi-duration-fast) var(--mi-ease),
+      display var(--mi-duration-fast) allow-discrete, overlay var(--mi-duration-fast) allow-discrete;
+    opacity: 0;
+    translate: 0 -4px;
+  }
+  :where([data-theme="linen"])
+    :is(
+      [data-slot="select-content"],
+      [data-slot="menu-content"],
+      [data-slot="popover-content"],
+      [data-slot="tooltip"]
+    ):popover-open {
+    opacity: 1;
+    translate: 0 0;
+    @starting-style {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+
+  /* ---------- Controls: glossy pills ---------- */
+  :where([data-theme="linen"])
+    :is(.mi-button, [data-slot="select-trigger"], [data-slot="toast-action"], [data-slot="dialog-close-icon"]) {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-gloss), var(--mi-face);
+    box-shadow: var(--mi-raised);
+    color: var(--mi-fg);
+    font-weight: 600;
+    text-shadow: var(--mi-letterpress);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease), filter var(--mi-duration-fast) var(--mi-ease);
+  }
+  /* ---------- Dyed: everything that carries a colour is painted once here ----------
+     The lift stops a quarter of the way down and the bottom darkens instead, so
+     the middle, where a label lands, is the tone itself. The gradient is written
+     out at the point of use because a var() inside a custom property is
+     substituted where that property is declared, and --mi-tone only exists down
+     here on the control.
+     Dark mode flips the accent ink to charcoal, and charcoal is also what reads
+     on the lighter red, so every dyed thing takes the same ink in both modes. */
+  :where([data-theme="linen"])
+    :is(
+      .mi-button:is([data-variant="primary"], [data-variant="danger"]),
+      [data-slot="select-item"]:focus:not([aria-disabled="true"]),
+      [data-slot="menu-item"]:focus:not([aria-disabled="true"]),
+      [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
+      [data-slot="switch-input"]:checked + [data-slot="switch-track"],
+      [data-slot="tabs-trigger"][data-state="active"]
+    ) {
+    background: var(--mi-gloss),
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--mi-tone) 76%, white) 0%,
+        var(--mi-tone) 26%,
+        color-mix(in oklab, var(--mi-tone) 92%, black) 100%
+      );
+    border-color: color-mix(in oklab, var(--mi-tone) 60%, black);
+    color: var(--mi-accent-fg);
+    text-shadow: var(--mi-letterpress-fill);
+  }
+  /* Tones live in their own rules so :is() specificity never lets teal beat red. */
+  :where([data-theme="linen"]) .mi-button[data-variant="primary"] { --mi-tone: var(--mi-accent); }
+  :where([data-theme="linen"]) .mi-button[data-variant="danger"] { --mi-tone: var(--mi-danger); }
+  :where([data-theme="linen"]) .mi-button[data-variant="ghost"] {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  /* Pressed is the raised pair the other way up, so the pill sinks into the cloth. */
+  :where([data-theme="linen"]) .mi-button:active:not(:disabled) {
+    box-shadow: var(--mi-pressed);
+    filter: brightness(0.97);
+  }
+  :where([data-theme="linen"]) .mi-button[data-variant="ghost"]:active:not(:disabled) { box-shadow: none; }
+
+  /* ---------- Focus: a basting thread around whatever holds it ---------- */
+  :where([data-theme="linen"])
+    :is(
+      .mi-button,
+      [data-slot="select-trigger"],
+      [data-slot="tabs-trigger"],
+      [data-slot="field-input"],
+      [data-slot="slider"],
+      [data-slot="toast-action"],
+      [data-slot="toast-close"],
+      [data-slot="dialog-close-icon"]
+    ):focus-visible {
+    outline: 2px dashed var(--mi-thread);
+    outline-offset: 2px;
+  }
+  :where([data-theme="linen"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"],
+  :where([data-theme="linen"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] {
+    outline: 2px dashed var(--mi-thread);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Field: pressed into the surface ---------- */
+  :where([data-theme="linen"]) [data-slot="field-label"] {
+    font-weight: 600;
+    text-shadow: var(--mi-letterpress);
+  }
+  :where([data-theme="linen"]) [data-slot="field-input"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-pressed);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="linen"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  :where([data-theme="linen"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
+    border-color: var(--mi-danger);
+    box-shadow: var(--mi-pressed), 0 0 0 2px color-mix(in oklab, var(--mi-danger) 30%, transparent);
+  }
+  :where([data-theme="linen"]) [data-slot="field-error"] { text-shadow: var(--mi-letterpress); }
+  :where([data-theme="linen"]) :is([data-slot="field-icon"], [data-slot="select-chevron"]) { filter: var(--mi-engrave); }
+
+  /* ---------- Select ---------- */
+  :where([data-theme="linen"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox: pressed paper, dyed once it is ticked ---------- */
+  :where([data-theme="linen"]) [data-slot="checkbox-box"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-gloss), var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-pressed);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="linen"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    --mi-tone: var(--mi-accent);
+    box-shadow: var(--mi-raised);
+  }
+
+  /* ---------- Switch: a stitched trough and a knob with its own gloss ---------- */
+  :where([data-theme="linen"]) [data-slot="switch-track"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-pressed);
+    transition: background var(--mi-duration) var(--mi-ease), border-color var(--mi-duration) var(--mi-ease);
+  }
+  /* The stitch sits under the knob, which is why both of them carry a z-index. */
+  :where([data-theme="linen"]) [data-slot="switch-track"]::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 3px;
+    border: 1px dashed var(--mi-stitch);
+    border-radius: var(--mi-radius-full);
+    pointer-events: none;
+  }
+  /* The trough stays pressed when it fills, because a switch that is on is still
+     a groove with something in it. */
+  :where([data-theme="linen"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    --mi-tone: var(--mi-accent);
+  }
+  :where([data-theme="linen"]) [data-slot="switch-thumb"] {
+    z-index: 1;
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-gloss), var(--mi-face);
+    box-shadow: var(--mi-raised);
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+
+  /* ---------- Slider: a pressed groove with a knob riding it ---------- */
+  :where([data-theme="linen"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)),
+      var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-pressed), inset 0 0 0 1px var(--mi-border);
+  }
+  :where([data-theme="linen"]) [data-slot="slider"]::-moz-range-track {
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)),
+      var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-pressed), inset 0 0 0 1px var(--mi-border);
+  }
+  :where([data-theme="linen"]) [data-slot="slider"]::-webkit-slider-thumb {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-gloss), var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="linen"]) [data-slot="slider"]::-moz-range-thumb {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-gloss), var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+
+  /* ---------- Tabs: a metal trough with one segment dyed ---------- */
+  :where([data-theme="linen"]) [data-slot="tabs-list"] {
+    border: 1px solid var(--mi-border);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-grain), var(--mi-brushed);
+    box-shadow: var(--mi-pressed);
+  }
+  :where([data-theme="linen"]) [data-slot="tabs-trigger"] {
+    border-radius: var(--mi-radius-full);
+    color: var(--mi-fg-muted);
+    text-shadow: var(--mi-letterpress);
+    transition: color var(--mi-duration-fast) var(--mi-ease);
+  }
+  /* The edge of the active segment is an inset line, not a border, so the row
+     does not shift by two pixels every time the selection moves. */
+  :where([data-theme="linen"]) [data-slot="tabs-trigger"][data-state="active"] {
+    --mi-tone: var(--mi-accent);
+    box-shadow: var(--mi-raised), inset 0 0 0 1px color-mix(in oklab, var(--mi-tone) 60%, black);
+  }
+
+  /* ---------- Tooltip: a small paper tag ---------- */
+  :where([data-theme="linen"]) [data-slot="tooltip"] {
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+  }
+
+  /* ---------- Dialog: brushed metal across the top of the sheet ---------- */
+  :where([data-theme="linen"]) [data-slot="dialog-panel"] {
+    border-radius: var(--mi-radius-lg);
+    /* The bar is a background layer rather than a box of its own, so nothing
+       inside the panel has to move to make room for it. */
+    background: var(--mi-grain) top / 100% 58px no-repeat, var(--mi-brushed) top / 100% 58px no-repeat,
+      var(--mi-glass-tint-strong);
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 22px 50px -18px var(--mi-glass-shadow);
+  }
+  :where([data-theme="linen"]) [data-slot="dialog"]::backdrop {
+    background: rgb(18 15 12 / 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  :where([data-theme="linen"]) [data-slot="dialog"] {
+    transition: opacity var(--mi-duration) var(--mi-ease), translate var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
+    opacity: 0;
+    translate: 0 -10px;
+  }
+  :where([data-theme="linen"]) [data-slot="dialog"][open] {
+    opacity: 1;
+    translate: 0 0;
+    @starting-style {
+      opacity: 0;
+      translate: 0 -10px;
+    }
+  }
+  :where([data-theme="linen"]) [data-slot="dialog-close-icon"] { color: var(--mi-fg-muted); }
+  :where([data-theme="linen"]) :is([data-slot="dialog-close-icon"], [data-slot="toast-close"]) svg {
+    filter: var(--mi-engrave);
+  }
+
+  /* ---------- Toast: a paper slip with the same stitched edge ---------- */
+  :where([data-theme="linen"]) [data-slot="toast"] {
+    background: var(--mi-glass-tint-strong);
+    box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 14px 30px -16px var(--mi-glass-shadow);
+    animation: mi-linen-toast-in var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="linen"]) [data-slot="toast-title"] { text-shadow: var(--mi-letterpress); }
+  :where([data-theme="linen"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: var(--mi-accent); }
+  :where([data-theme="linen"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="linen"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="linen"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+  :where([data-theme="linen"]) [data-slot="toast-close"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Hover (real pointers only) ---------- */
+  @media (hover: hover) {
+    :where([data-theme="linen"])
+      :is(.mi-button, [data-slot="select-trigger"], [data-slot="toast-action"], [data-slot="dialog-close-icon"]):hover:not(:disabled) {
+      filter: brightness(1.03);
+    }
+    :where([data-theme="linen"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--mi-fg) 8%, transparent);
+    }
+    :where([data-theme="linen"]) [data-slot="tabs-trigger"]:not([data-state="active"]):hover:not(:disabled) {
+      color: var(--mi-fg);
+    }
+  }
+
+  @keyframes mi-linen-toast-in {
+    from {
+      opacity: 0;
+      translate: 0 6px;
+    }
   }
 }

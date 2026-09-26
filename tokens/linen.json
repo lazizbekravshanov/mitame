@@ -10,32 +10,32 @@
       "name": "color/bg",
       "type": "COLOR",
       "values": {
-        "light": "#EDEDED",
-        "dark": "#1B1E24"
+        "light": "#D9D4CA",
+        "dark": "#22262B"
       }
     },
     {
       "name": "color/fg",
       "type": "COLOR",
       "values": {
-        "light": "#1A1A1A",
-        "dark": "#EEF1F5"
+        "light": "#241F1B",
+        "dark": "#E8E6E1"
       }
     },
     {
       "name": "color/fg-muted",
       "type": "COLOR",
       "values": {
-        "light": "#1A1A1A9F",
-        "dark": "#EEF1F599"
+        "light": "#241F1BB3",
+        "dark": "#E8E6E1A8"
       }
     },
     {
       "name": "color/accent",
       "type": "COLOR",
       "values": {
-        "light": "#1C65CC",
-        "dark": "#1C63D1"
+        "light": "#1C6A6E",
+        "dark": "#3AA5A9"
       }
     },
     {
@@ -43,30 +43,30 @@
       "type": "COLOR",
       "values": {
         "light": "#FFFFFF",
-        "dark": "#FFFFFF"
+        "dark": "#10161A"
       }
     },
     {
       "name": "color/danger",
       "type": "COLOR",
       "values": {
-        "light": "#C4302A",
-        "dark": "#FF6259"
+        "light": "#A62C22",
+        "dark": "#FF7A70"
       }
     },
     {
       "name": "color/success",
       "type": "COLOR",
       "values": {
-        "light": "#1F7A2C",
-        "dark": "#4CC75A"
+        "light": "#1B622F",
+        "dark": "#5BC46B"
       }
     },
     {
       "name": "color/warning",
       "type": "COLOR",
       "values": {
-        "light": "#925C00",
+        "light": "#8A5600",
         "dark": "#FFB340"
       }
     },
@@ -74,24 +74,24 @@
       "name": "color/border",
       "type": "COLOR",
       "values": {
-        "light": "#00000038",
-        "dark": "#FFFFFF26"
+        "light": "#00000030",
+        "dark": "#00000073"
       }
     },
     {
       "name": "glass/tint",
       "type": "COLOR",
       "values": {
-        "light": "#FFFFFFB3",
-        "dark": "#2A2E36B3"
+        "light": "#F2EDE3F2",
+        "dark": "#2C3138F2"
       }
     },
     {
       "name": "glass/tint-strong",
       "type": "COLOR",
       "values": {
-        "light": "#F6F6F6EB",
-        "dark": "#252930EB"
+        "light": "#FBF8F1F7",
+        "dark": "#33383FF7"
       }
     },
     {
@@ -99,51 +99,27 @@
       "type": "COLOR",
       "values": {
         "light": "#FFFFFF",
-        "dark": "#FFFFFF40"
+        "dark": "#FFFFFF33"
       }
     },
     {
       "name": "glass/edge",
       "type": "COLOR",
       "values": {
-        "light": "#FFFFFFCC",
-        "dark": "#FFFFFF1F"
+        "light": "#0000002E",
+        "dark": "#00000080"
       }
     },
     {
       "name": "glass/shadow",
       "type": "COLOR",
       "values": {
-        "light": "#00000059",
-        "dark": "#000000A6"
+        "light": "#0000004D",
+        "dark": "#000000B8"
       }
     },
     {
       "name": "glass/blur",
-      "type": "FLOAT",
-      "values": {
-        "light": 14,
-        "dark": 14
-      }
-    },
-    {
-      "name": "glass/saturate",
-      "type": "FLOAT",
-      "values": {
-        "light": 140,
-        "dark": 130
-      }
-    },
-    {
-      "name": "radius/sm",
-      "type": "FLOAT",
-      "values": {
-        "light": 6,
-        "dark": 6
-      }
-    },
-    {
-      "name": "radius/md",
       "type": "FLOAT",
       "values": {
         "light": 10,
@@ -151,11 +127,35 @@
       }
     },
     {
+      "name": "glass/saturate",
+      "type": "FLOAT",
+      "values": {
+        "light": 110,
+        "dark": 105
+      }
+    },
+    {
+      "name": "radius/sm",
+      "type": "FLOAT",
+      "values": {
+        "light": 5,
+        "dark": 5
+      }
+    },
+    {
+      "name": "radius/md",
+      "type": "FLOAT",
+      "values": {
+        "light": 9,
+        "dark": 9
+      }
+    },
+    {
       "name": "radius/lg",
       "type": "FLOAT",
       "values": {
-        "light": 12,
-        "dark": 12
+        "light": 13,
+        "dark": 13
       }
     },
     {
@@ -266,16 +266,16 @@
       "name": "text/xl",
       "type": "FLOAT",
       "values": {
-        "light": 18,
-        "dark": 18
+        "light": 19,
+        "dark": 19
       }
     },
     {
       "name": "font/sans",
       "type": "STRING",
       "values": {
-        "light": "Lucida Grande",
-        "dark": "Lucida Grande"
+        "light": "Helvetica Neue",
+        "dark": "Helvetica Neue"
       }
     },
     {
@@ -290,16 +290,16 @@
       "name": "motion/duration-fast",
       "type": "FLOAT",
       "values": {
-        "light": 150,
-        "dark": 150
+        "light": 140,
+        "dark": 140
       }
     },
     {
       "name": "motion/duration",
       "type": "FLOAT",
       "values": {
-        "light": 250,
-        "dark": 250
+        "light": 240,
+        "dark": 240
       }
     }
   ]

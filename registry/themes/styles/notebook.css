@@ -1,8 +1,380 @@
-/* mitame theme: styles / notebook. Placeholder, being written. */
+/*
+ * mitame theme: Styles / notebook
+ * A UI sketched in a ruled notebook before anyone built it. Four decisions
+ * carry the whole thing.
+ * Every box is drawn rather than printed, which in CSS means a different
+ * radius on each corner so no two turns of the pen agree.
+ * Surfaces are ruled paper with a margin line down the left in red biro.
+ * The accent is never a fill, it is a marker band behind the words, tilted a
+ * degree off level, and the ink on that band is always the dark token.
+ * Focus goes round twice, a second stroke just outside the first.
+ * Dark mode is not the same page dimmed, it is a blackboard: chalk lines on
+ * slate and the margin rule in pale chalk. The marker band turns into a chalk
+ * smudge, and a smudge is more opaque than a highlighter, so its alpha climbs.
+ * The paper itself is published as --mi-ruled and --mi-margin-rule, because a
+ * page painted with the same stock the components sit on is half the look and
+ * a theme cannot reach your body element.
+ * Tokens come from Figma (notebook.tokens.css).
+ */
 @import "./notebook.tokens.css";
 
 @layer components {
   :where([data-theme="notebook"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    --mi-slider-track-h: 3px;
+    --mi-ease: cubic-bezier(0.2, 0.75, 0.3, 1);
+    /* The single most important trick here. Four unequal corners, and the
+       slash form gives each one a different horizontal and vertical radius,
+       so the turn is an ellipse rather than a quarter circle. Read fast, it
+       looks like a rectangle somebody drew freehand. */
+    --mi-drawn-lg: 16px 7px 13px 9px / 8px 15px 9px 12px;
+    --mi-drawn: 10px 4px 8px 5px / 5px 9px 4px 8px;
+    /* The second pass disagrees with the first on purpose. */
+    --mi-drawn-alt: 4px 9px 5px 8px / 8px 4px 9px 5px;
+    --mi-drawn-sm: 6px 3px 5px 4px / 3px 6px 3px 5px;
+    --mi-drawn-xs: 4px 2px 3px 2px / 2px 4px 2px 3px;
+    --mi-line: 1.5px solid var(--mi-border);
+    /* Red biro, for the margin rule and for ticks. Not --mi-danger, because
+       marking a box done is not an error. */
+    --mi-pen: #CE3F4C;
+    --mi-rule-ink: color-mix(in oklab, var(--mi-fg) 11%, transparent);
+    --mi-rule-line: color-mix(in oklab, var(--mi-fg) 22%, transparent);
+    --mi-ruled: repeating-linear-gradient(180deg, transparent 0 25px, var(--mi-rule-ink) 25px 26px);
+    --mi-margin-rule: linear-gradient(
+      90deg,
+      transparent 0 26px,
+      color-mix(in oklab, var(--mi-pen) 72%, transparent) 26px 27.5px,
+      transparent 27.5px
+    );
+    /* 178.4deg instead of 180deg is what makes the band sit askew: the stops
+       stay level with each other and the whole band tilts across the word. */
+    --mi-marker: linear-gradient(
+      178.4deg,
+      transparent 0%,
+      color-mix(in oklab, var(--mi-accent) 52%, transparent) 20%,
+      color-mix(in oklab, var(--mi-accent) 52%, transparent) 82%,
+      transparent 100%
+    );
+    --mi-marker-strong: linear-gradient(
+      178.4deg,
+      transparent 0%,
+      color-mix(in oklab, var(--mi-accent) 72%, transparent) 14%,
+      color-mix(in oklab, var(--mi-accent) 72%, transparent) 86%,
+      transparent 100%
+    );
+    /* One soft offset, down and to the right, as if the sheet were lifting. */
+    --mi-lift: 2px 5px 12px -6px var(--mi-glass-shadow);
+    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 3.5px var(--mi-fg);
+  }
+
+  /* Chalk does not behave like ink. It sits heavier on the board, so the ruled
+     lines and the marker band both need more of it to read at all. */
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="notebook"]:not([data-mode="light"])) {
+      --mi-pen: #E7A9B4;
+      --mi-rule-ink: color-mix(in oklab, var(--mi-fg) 15%, transparent);
+      --mi-rule-line: color-mix(in oklab, var(--mi-fg) 26%, transparent);
+      --mi-marker: linear-gradient(
+        178.4deg,
+        transparent 0%,
+        color-mix(in oklab, var(--mi-accent) 75%, transparent) 20%,
+        color-mix(in oklab, var(--mi-accent) 75%, transparent) 82%,
+        transparent 100%
+      );
+      --mi-marker-strong: linear-gradient(
+        178.4deg,
+        transparent 0%,
+        color-mix(in oklab, var(--mi-accent) 92%, transparent) 14%,
+        color-mix(in oklab, var(--mi-accent) 92%, transparent) 86%,
+        transparent 100%
+      );
+    }
+  }
+  :where([data-theme="notebook"][data-mode="dark"]) {
+    --mi-pen: #E7A9B4;
+    --mi-rule-ink: color-mix(in oklab, var(--mi-fg) 15%, transparent);
+    --mi-rule-line: color-mix(in oklab, var(--mi-fg) 26%, transparent);
+    --mi-marker: linear-gradient(
+      178.4deg,
+      transparent 0%,
+      color-mix(in oklab, var(--mi-accent) 75%, transparent) 20%,
+      color-mix(in oklab, var(--mi-accent) 75%, transparent) 82%,
+      transparent 100%
+    );
+    --mi-marker-strong: linear-gradient(
+      178.4deg,
+      transparent 0%,
+      color-mix(in oklab, var(--mi-accent) 92%, transparent) 14%,
+      color-mix(in oklab, var(--mi-accent) 92%, transparent) 86%,
+      transparent 100%
+    );
+  }
+
+  /* ---------- Type: sans for reading, mono where a marker would go ---------- */
+  :where([data-theme="notebook"]) :is([data-slot="card-title"], [data-slot="dialog-title"], [data-slot="toast-title"]) {
+    font-family: var(--mi-font-mono);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  :where([data-theme="notebook"]) [data-slot="field-label"] {
+    font-family: var(--mi-font-mono);
+    font-size: var(--mi-text-xs);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--mi-fg);
+  }
+  :where([data-theme="notebook"]) [data-slot="menu-label"] {
+    font-family: var(--mi-font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Buttons: a box drawn around a word, twice down one side ---------- */
+  :where([data-theme="notebook"]) .mi-button {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn);
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 500;
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), color var(--mi-duration-fast) var(--mi-ease);
+  }
+  /* The pen went round a second time and did not land on its own line. Only
+     the right and bottom edges are drawn, which is where a hand loses the
+     thread. base.css owns ::after on buttons for touch targets, so this is
+     ::before and nothing else may claim it. */
+  :where([data-theme="notebook"]) .mi-button:not([data-variant="ghost"])::before {
+    content: "";
+    position: absolute;
+    inset: 3px -3px -3px 3px;
+    border: 1.5px solid var(--mi-border);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-radius: var(--mi-drawn-alt);
+    pointer-events: none;
+  }
+  :where([data-theme="notebook"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-marker);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="notebook"]) .mi-button[data-variant="danger"] {
+    border-color: var(--mi-danger);
+    color: var(--mi-danger);
+  }
+  :where([data-theme="notebook"]) .mi-button[data-variant="danger"]::before { border-color: transparent var(--mi-danger) var(--mi-danger) transparent; }
+  :where([data-theme="notebook"]) .mi-button[data-variant="ghost"] { border-color: transparent; color: var(--mi-fg-muted); }
+  /* Circled: the first stroke is the border, the second one sits outside it. */
+  :where([data-theme="notebook"]) .mi-button:focus-visible { outline: 1.5px solid var(--mi-fg); outline-offset: 3px; }
+
+  /* ---------- Surfaces: ruled stock, and a margin down the left ---------- */
+  :where([data-theme="notebook"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn-lg);
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-lift);
+  }
+  /* A card and a dialog are pages, so they get the rules and the margin. The
+     small floating surfaces are torn corners and stay blank, because 26px
+     rules behind a 32px menu row read as a printing fault. */
+  :where([data-theme="notebook"]) :is([data-slot="card"], [data-slot="dialog-panel"]) {
+    background: var(--mi-margin-rule), var(--mi-ruled), var(--mi-glass-tint);
+    padding-left: var(--mi-space-8);
+  }
+  :where([data-theme="notebook"]) [data-slot="popover-content"] { background: var(--mi-ruled), var(--mi-glass-tint); }
+  :where([data-theme="notebook"]) [data-slot="toast"] { background: var(--mi-glass-tint-strong); }
+  /* A ::backdrop cannot count on inheriting custom properties, so it declares
+     its own wash: thinned ink on paper, and a damp cloth on the board. */
+  :where([data-theme="notebook"]) [data-slot="dialog"]::backdrop { background: rgb(27 36 48 / 0.28); }
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="notebook"]:not([data-mode="light"])) [data-slot="dialog"]::backdrop { background: rgb(8 12 11 / 0.58); }
+  }
+  :where([data-theme="notebook"][data-mode="dark"]) [data-slot="dialog"]::backdrop { background: rgb(8 12 11 / 0.58); }
+  :where([data-theme="notebook"]) [data-slot="dialog-close-icon"] {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn-xs);
+    background: transparent;
+    color: var(--mi-fg-muted);
+  }
+  :where([data-theme="notebook"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { padding: var(--mi-space-2); }
+
+  /* ---------- Items: the row you are on gets highlighted and underlined ---------- */
+  :where([data-theme="notebook"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: var(--mi-drawn-sm); }
+  :where([data-theme="notebook"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-marker);
+    color: var(--mi-accent-fg);
+    /* The band alone is 1.2:1 against an unhighlighted row, so the pen line
+       under it is the part that actually says where you are. */
+    box-shadow: inset 0 -1.5px 0 0 var(--mi-fg);
+  }
+  :where([data-theme="notebook"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="notebook"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: color-mix(in oklab, var(--mi-danger) 12%, transparent);
+    color: var(--mi-danger);
+    box-shadow: inset 0 -1.5px 0 0 var(--mi-danger);
+  }
+  /* A pen line, lifted every few millimetres the way a ruler wobbles. */
+  :where([data-theme="notebook"]) [data-slot="menu-separator"] {
+    background: repeating-linear-gradient(90deg, var(--mi-border) 0 6px, transparent 6px 10px);
+  }
+  :where([data-theme="notebook"]) [data-slot="select-item-check"] { color: var(--mi-pen); }
+  /* On the band the tick has to go dark, because chalk pink on a chalk smudge
+     is 1.2:1 and the board colour is 6.7:1. */
+  :where([data-theme="notebook"]) [data-slot="select-item"]:focus [data-slot="select-item-check"] { color: var(--mi-accent-fg); }
+
+  /* ---------- Inputs: a drawn box with a line to write on ---------- */
+  :where([data-theme="notebook"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+  }
+  /* The faint line the text sits on, held near the baseline of a 36px field. */
+  :where([data-theme="notebook"]) [data-slot="field-input"] {
+    background:
+      linear-gradient(180deg, transparent 0 calc(100% - 11px), var(--mi-rule-line) calc(100% - 11px) calc(100% - 9.5px), transparent calc(100% - 9.5px)),
+      var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="notebook"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: 1.5px solid var(--mi-fg);
+    outline-offset: 2px;
+    border-color: var(--mi-fg);
+  }
+  :where([data-theme="notebook"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
+    border-color: var(--mi-danger);
+    /* Corrected in red, straight under the box. */
+    box-shadow: 0 3px 0 -1.5px var(--mi-danger);
+  }
+  :where([data-theme="notebook"]) [data-slot="field-error"] { font-weight: 500; }
+  :where([data-theme="notebook"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox: the tick overshoots the box ---------- */
+  :where([data-theme="notebook"]) [data-slot="checkbox-box"] {
+    width: 18px;
+    height: 18px;
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn-xs);
+    background: var(--mi-glass-tint-strong);
+  }
+  /* Drawn at 22px inside an 18px box, so the stroke runs past two corners the
+     way a tick does when you are not being careful. */
+  :where([data-theme="notebook"]) [data-slot="checkbox-box"] > svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.5;
+  }
+  :where([data-theme="notebook"]) [data-slot="checkbox-check"] {
+    color: var(--mi-pen);
+    rotate: -5deg;
+    translate: 2px -2px;
+  }
+  :where([data-theme="notebook"]) [data-slot="checkbox-dash"] { color: var(--mi-pen); rotate: -3deg; }
+  :where([data-theme="notebook"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { border-color: var(--mi-fg); }
+  :where([data-theme="notebook"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+
+  /* ---------- Switch: a drawn slot with a drawn block in it ---------- */
+  :where([data-theme="notebook"]) [data-slot="switch-track"] {
+    width: 44px;
+    height: 22px;
+    border: var(--mi-line);
+    border-radius: 12px 9px 11px 10px / 10px 12px 9px 11px;
+    background: var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="notebook"]) [data-slot="switch-thumb"] {
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 7px 4px 6px 5px / 5px 6px 4px 7px;
+    background: var(--mi-fg-muted);
+    box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease), background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="notebook"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-marker); }
+  :where([data-theme="notebook"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(24px);
+    background: var(--mi-fg);
+  }
+  :where([data-theme="notebook"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* ---------- Slider: a ruled line with a bead drawn on it ---------- */
+  :where([data-theme="notebook"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    border-radius: 2px 1px 2px 1px;
+    background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), var(--mi-rule-line) var(--mi-slider-fill));
+  }
+  :where([data-theme="notebook"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    border-radius: 2px 1px 2px 1px;
+    background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), var(--mi-rule-line) var(--mi-slider-fill));
+  }
+  :where([data-theme="notebook"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: calc((var(--mi-slider-track-h) - 18px) / 2);
+    border: var(--mi-line);
+    border-radius: 8px 5px 7px 6px / 6px 8px 5px 7px;
+    background: var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="notebook"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: var(--mi-line);
+    border-radius: 8px 5px 7px 6px / 6px 8px 5px 7px;
+    background: var(--mi-glass-tint-strong);
+  }
+  :where([data-theme="notebook"]) [data-slot="slider"]:focus-visible { outline: none; }
+  :where([data-theme="notebook"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="notebook"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
+
+  /* ---------- Tabs: words on a ruled line, one of them highlighted ---------- */
+  :where([data-theme="notebook"]) [data-slot="tabs-list"] {
+    gap: var(--mi-space-4);
+    padding: 0 0 6px;
+    border-radius: 0;
+    border-bottom: var(--mi-line);
+    background: transparent;
+    box-shadow: none;
+  }
+  :where([data-theme="notebook"]) [data-slot="tabs-trigger"] {
+    padding: 0 var(--mi-space-2);
+    /* Almost square, because a marker stroke stops where the hand stops. A
+       rounded end would turn the band into a chip, which is a fill again. */
+    border-radius: 3px 1px 2px 1px;
+    background: transparent;
+    color: var(--mi-fg-muted);
+    font-weight: 500;
+  }
+  :where([data-theme="notebook"]) [data-slot="tabs-trigger"][data-state="active"] {
+    background: var(--mi-marker);
+    color: var(--mi-accent-fg);
+    box-shadow: none;
+  }
+  :where([data-theme="notebook"]) [data-slot="tabs-trigger"]:focus-visible { outline: 1.5px solid var(--mi-fg); outline-offset: 2px; }
+
+  /* ---------- Tooltip and toast: notes left in the margin ---------- */
+  :where([data-theme="notebook"]) [data-slot="tooltip"] {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn-sm);
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+    box-shadow: var(--mi-lift);
+  }
+  :where([data-theme="notebook"]) [data-slot="toast-action"] {
+    border: var(--mi-line);
+    border-radius: var(--mi-drawn-sm);
+    background: var(--mi-marker);
+    color: var(--mi-accent-fg);
+    font-weight: 500;
+  }
+  :where([data-theme="notebook"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="notebook"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="notebook"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+
+  @media (hover: hover) {
+    :where([data-theme="notebook"]) .mi-button:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-fg) 6%, transparent); }
+    /* Pressing harder on the marker is the whole hover state. */
+    :where([data-theme="notebook"]) .mi-button[data-variant="primary"]:hover:not(:disabled) { background: var(--mi-marker-strong); }
+    :where([data-theme="notebook"]) .mi-button[data-variant="danger"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-danger) 10%, transparent); }
+    :where([data-theme="notebook"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-fg); }
+    :where([data-theme="notebook"]) [data-slot="dialog-close-icon"]:hover { color: var(--mi-fg); }
   }
 }

@@ -10,32 +10,32 @@
       "name": "color/bg",
       "type": "COLOR",
       "values": {
-        "light": "#FFFFFF",
-        "dark": "#0B0B0C"
+        "light": "#E6E2F4",
+        "dark": "#16131F"
       }
     },
     {
       "name": "color/fg",
       "type": "COLOR",
       "values": {
-        "light": "#111111",
-        "dark": "#F2F2F2"
+        "light": "#241F3A",
+        "dark": "#EDEAF6"
       }
     },
     {
       "name": "color/fg-muted",
       "type": "COLOR",
       "values": {
-        "light": "#727272",
-        "dark": "#8F8F96"
+        "light": "#5C5580",
+        "dark": "#A49CC0"
       }
     },
     {
       "name": "color/accent",
       "type": "COLOR",
       "values": {
-        "light": "#111111",
-        "dark": "#F2F2F2"
+        "light": "#5E3AD6",
+        "dark": "#AA98FA"
       }
     },
     {
@@ -43,62 +43,62 @@
       "type": "COLOR",
       "values": {
         "light": "#FFFFFF",
-        "dark": "#0B0B0C"
+        "dark": "#1A1428"
       }
     },
     {
       "name": "color/danger",
       "type": "COLOR",
       "values": {
-        "light": "#C0392B",
-        "dark": "#E4796F"
+        "light": "#AC2440",
+        "dark": "#F08897"
       }
     },
     {
       "name": "color/success",
       "type": "COLOR",
       "values": {
-        "light": "#2E7D5B",
-        "dark": "#6FC79E"
+        "light": "#136A51",
+        "dark": "#63CFA6"
       }
     },
     {
       "name": "color/warning",
       "type": "COLOR",
       "values": {
-        "light": "#8A6D1F",
-        "dark": "#D4B25C"
+        "light": "#82530E",
+        "dark": "#DCAF5E"
       }
     },
     {
       "name": "color/border",
       "type": "COLOR",
       "values": {
-        "light": "#E6E6E6",
-        "dark": "#232326"
+        "light": "#D3CCEA",
+        "dark": "#2C2740"
       }
     },
     {
       "name": "glass/tint",
       "type": "COLOR",
       "values": {
-        "light": "#FFFFFF",
-        "dark": "#0F0F11"
+        "light": "#F4F2FC",
+        "dark": "#211D2E"
       }
     },
     {
       "name": "glass/tint-strong",
       "type": "COLOR",
       "values": {
-        "light": "#FAFAFA",
-        "dark": "#141416"
+        "light": "#E2DDF3",
+        "dark": "#1A1726"
       }
     },
     {
       "name": "glass/highlight",
       "type": "COLOR",
       "values": {
-        "light": "#FFFFFF",
+        "light": "#FFFFFFCC",
         "dark": "#FFFFFF12"
       }
     },
@@ -106,16 +106,16 @@
       "name": "glass/edge",
       "type": "COLOR",
       "values": {
-        "light": "#EFEFEF",
-        "dark": "#232326"
+        "light": "#4C3A8A52",
+        "dark": "#00000099"
       }
     },
     {
       "name": "glass/shadow",
       "type": "COLOR",
       "values": {
-        "light": "#00000014",
-        "dark": "#00000066"
+        "light": "#5B47A559",
+        "dark": "#000000A6"
       }
     },
     {
@@ -138,24 +138,24 @@
       "name": "radius/sm",
       "type": "FLOAT",
       "values": {
-        "light": 2,
-        "dark": 2
+        "light": 14,
+        "dark": 14
       }
     },
     {
       "name": "radius/md",
       "type": "FLOAT",
       "values": {
-        "light": 3,
-        "dark": 3
+        "light": 20,
+        "dark": 20
       }
     },
     {
       "name": "radius/lg",
       "type": "FLOAT",
       "values": {
-        "light": 4,
-        "dark": 4
+        "light": 28,
+        "dark": 28
       }
     },
     {
@@ -290,16 +290,16 @@
       "name": "motion/duration-fast",
       "type": "FLOAT",
       "values": {
-        "light": 120,
-        "dark": 120
+        "light": 140,
+        "dark": 140
       }
     },
     {
       "name": "motion/duration",
       "type": "FLOAT",
       "values": {
-        "light": 180,
-        "dark": 180
+        "light": 260,
+        "dark": 260
       }
     }
   ]

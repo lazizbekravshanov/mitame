@@ -1,8 +1,317 @@
-/* mitame theme: styles / pixel. Placeholder, being written. */
+/*
+ * mitame theme: Styles / pixel
+ * An arcade cabinet UI drawn on a coarse grid. Four decisions carry it: radius
+ * is zero and every edge is two pixels of flat colour, corners are notched with
+ * a small square of the page colour the way a pixel artist rounds them, depth is
+ * one hard offset block that vanishes when a control is pressed, and focus is a
+ * dashed rectangle that reads like a selection marquee.
+ * Light is the printed instruction card, dark is the screen itself.
+ * Text keeps its antialiasing, because small monospace loses its counters
+ * without it. The grid is drawn by the boxes, not by the glyphs.
+ * Tokens come from Figma (pixel.tokens.css).
+ */
 @import "./pixel.tokens.css";
 
 @layer components {
   :where([data-theme="pixel"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    --mi-slider-track-h: 8px;
+    /* Depth is a single block with no softness, offset by the grid step. A
+       pressed control moves into it, so the shadow is the whole of the depth. */
+    --mi-drop: 2px 2px 0 0 var(--mi-glass-shadow);
+    --mi-drop-lg: 4px 4px 0 0 var(--mi-glass-shadow);
+    /* The lit top edge of a raised face, and the dark top left of a recessed
+       one. Both are drawn just inside the frame, as layers rather than inset
+       shadows, because a shadow would paint over the frame itself. */
+    --mi-lip: linear-gradient(var(--mi-glass-highlight) 0 0) 2px 2px / calc(100% - 4px) 2px no-repeat;
+    --mi-well:
+      linear-gradient(var(--mi-glass-edge) 0 0) 2px 2px / calc(100% - 4px) 2px no-repeat,
+      linear-gradient(var(--mi-glass-edge) 0 0) 2px 2px / 2px calc(100% - 4px) no-repeat;
+    /* The frame colour, so a state can repaint the outline without repainting
+       the eight layers below. */
+    --mi-edge: var(--mi-border);
+    /* The drawn box: four two pixel bars for the frame, and over them four two
+       pixel squares of the page colour, one per corner. A real border would
+       paint above the background and bury the corners, so the frame is drawn in
+       the background too. The notch is always the page colour, because that is
+       the surface a sprite is cut out of. */
+    --mi-box:
+      linear-gradient(var(--mi-bg) 0 0) 0 0 / 2px 2px no-repeat,
+      linear-gradient(var(--mi-bg) 0 0) 100% 0 / 2px 2px no-repeat,
+      linear-gradient(var(--mi-bg) 0 0) 0 100% / 2px 2px no-repeat,
+      linear-gradient(var(--mi-bg) 0 0) 100% 100% / 2px 2px no-repeat,
+      linear-gradient(var(--mi-edge) 0 0) 0 0 / 100% 2px no-repeat,
+      linear-gradient(var(--mi-edge) 0 0) 0 100% / 100% 2px no-repeat,
+      linear-gradient(var(--mi-edge) 0 0) 0 0 / 2px 100% no-repeat,
+      linear-gradient(var(--mi-edge) 0 0) 100% 0 / 2px 100% no-repeat;
+    /* Anything that slides runs in a groove of alternating two pixel blocks, so
+       the slider and the switch read as the same mechanism. */
+    --mi-groove: repeating-linear-gradient(90deg, var(--mi-glass-edge) 0 2px, var(--mi-glass-tint) 2px 4px);
+    --mi-face: var(--mi-glass-tint);
+    --mi-face-lit: color-mix(in oklab, var(--mi-glass-highlight) 55%, var(--mi-glass-tint));
+    --mi-accent-lit: color-mix(in oklab, var(--mi-accent) 80%, white);
+    /* The one gradient the look allows: two hard stops, a lit half over a plain
+       half, which is how a sprite is shaded. */
+    --mi-accent-face: linear-gradient(180deg, var(--mi-accent-lit) 0%, var(--mi-accent-lit) 50%, var(--mi-accent) 50%, var(--mi-accent) 100%);
+    --mi-marquee: 2px dashed var(--mi-fg);
+    /* Motion lands on frames, not on curves. */
+    --mi-ease: steps(3, end);
+  }
+
+  /* Type: the monospace token, small, with tracking, so it reads as a bitmap
+     face without shipping one. */
+  :where([data-theme="pixel"]) {
+    font-family: var(--mi-font-mono);
+    letter-spacing: 0.04em;
+  }
+  :where([data-theme="pixel"]) :is([data-slot="card-title"], [data-slot="dialog-title"], [data-slot="toast-title"]) {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  :where([data-theme="pixel"]) [data-slot="field-label"] {
+    font-size: var(--mi-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* ---------- Buttons: a block that depresses ---------- */
+  :where([data-theme="pixel"]) .mi-button {
+    border: 0;
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-lip), var(--mi-face);
+    box-shadow: var(--mi-drop);
+    color: var(--mi-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: translate var(--mi-duration-fast) var(--mi-ease), box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="pixel"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-box), var(--mi-lip), var(--mi-accent-face);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="pixel"]) .mi-button[data-variant="danger"] {
+    background: var(--mi-box), var(--mi-lip), var(--mi-danger);
+    color: var(--mi-bg);
+  }
+  /* A ghost has no block to press, so it has no shadow to lose either. */
+  :where([data-theme="pixel"]) .mi-button[data-variant="ghost"] {
+    background: none;
+    box-shadow: none;
+    color: var(--mi-fg-muted);
+  }
+  :where([data-theme="pixel"]) .mi-button:active:not(:disabled) { translate: 2px 2px; box-shadow: none; }
+  :where([data-theme="pixel"]) .mi-button:focus-visible { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  /* ---------- Surfaces: flat panels, notched frame, one hard block under ---------- */
+  :where([data-theme="pixel"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"], [data-slot="tabs-list"]) {
+    border: 0;
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-face);
+    box-shadow: var(--mi-drop-lg);
+  }
+  /* The tabs sit right against their frame, two pixels in, so the row of tabs
+     reads as one strip rather than as buttons in a tray. */
+  :where([data-theme="pixel"]) [data-slot="tabs-list"] { gap: 0; padding: 2px; box-shadow: var(--mi-drop); }
+  /* The backdrop dims in a checkerboard rather than a wash, because a screen
+     drawn in whole pixels has no way to paint half of one. */
+  :where([data-theme="pixel"]) [data-slot="dialog"]::backdrop {
+    background: repeating-conic-gradient(color-mix(in oklab, var(--mi-glass-shadow) 82%, transparent) 0% 25%, transparent 0% 50%) 0 0 / 4px 4px;
+  }
+  /* Abort, in the alarm colour, so the way out of a dialog is the loudest thing in it. */
+  :where([data-theme="pixel"]) [data-slot="dialog-close-icon"] {
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-lip), var(--mi-danger);
+    color: var(--mi-bg);
+  }
+  :where([data-theme="pixel"]) [data-slot="dialog-close-icon"] > svg { stroke-width: 3; }
+  :where([data-theme="pixel"]) [data-slot="dialog-close-icon"]:focus-visible { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  /* ---------- Menus and selects: a flat panel with one solid highlight row ---------- */
+  :where([data-theme="pixel"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
+  :where([data-theme="pixel"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="pixel"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="pixel"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: var(--mi-danger);
+    color: var(--mi-bg);
+  }
+  :where([data-theme="pixel"]) [data-slot="menu-separator"] {
+    height: 2px;
+    margin-inline: 0;
+    background: var(--mi-border);
+  }
+  :where([data-theme="pixel"]) [data-slot="menu-label"] {
+    color: var(--mi-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  /* ---------- Inputs: the inset block, so a field reads as cut into the panel ---------- */
+  :where([data-theme="pixel"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    border: 0;
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-well), var(--mi-glass-tint-strong);
+    color: var(--mi-fg);
+  }
+  :where([data-theme="pixel"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    outline: var(--mi-marquee);
+    outline-offset: 2px;
+  }
+  :where([data-theme="pixel"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  /* The icon is drawn in the same ink as the frame, because here an icon is just
+     more line art on the same grid. */
+  :where([data-theme="pixel"]) [data-slot="field-icon"] { color: var(--mi-fg); }
+  :where([data-theme="pixel"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
+    --mi-edge: var(--mi-danger);
+  }
+  :where([data-theme="pixel"]) [data-slot="field-error"] {
+    color: var(--mi-danger);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  /* The alarm glyph is a filled square, the smallest sprite in the set. */
+  :where([data-theme="pixel"]) [data-slot="field-error"]::before {
+    content: "!";
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 4px;
+    background: var(--mi-danger);
+    color: var(--mi-bg);
+  }
+
+  /* ---------- Checkbox: an empty square that fills with a chunky glyph ---------- */
+  :where([data-theme="pixel"]) [data-slot="checkbox-box"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-well), var(--mi-glass-tint-strong);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="pixel"]) [data-slot="checkbox-box"] > svg { width: 12px; height: 12px; stroke-width: 4; }
+  :where([data-theme="pixel"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-box), var(--mi-lip), var(--mi-accent);
+  }
+  :where([data-theme="pixel"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  /* ---------- Switch: a block that hops along its groove ---------- */
+  :where([data-theme="pixel"]) [data-slot="switch-track"] {
+    width: 44px;
+    height: 22px;
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-groove);
+  }
+  :where([data-theme="pixel"]) [data-slot="switch-thumb"] {
+    top: 2px;
+    left: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 0;
+    background: var(--mi-fg);
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="pixel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    background: var(--mi-box), var(--mi-lip), var(--mi-accent);
+  }
+  :where([data-theme="pixel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(22px); }
+  :where([data-theme="pixel"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  /* ---------- Slider: the groove fills with accent up to the handle ----------
+     The track and the handle are the two parts too small to notch, so they keep
+     a plain frame. */
+  :where([data-theme="pixel"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    border: 2px solid var(--mi-border);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-groove);
+  }
+  :where([data-theme="pixel"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    border: 2px solid var(--mi-border);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), transparent var(--mi-slider-fill)), var(--mi-groove);
+  }
+  :where([data-theme="pixel"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 12px;
+    height: 20px;
+    margin-top: -6px;
+    border: 2px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-lip), var(--mi-face);
+  }
+  :where([data-theme="pixel"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 12px;
+    height: 20px;
+    border: 2px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-lip), var(--mi-face);
+  }
+  :where([data-theme="pixel"]) [data-slot="slider"]:focus-visible { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  /* ---------- Tabs: one cell of the strip lights up ---------- */
+  :where([data-theme="pixel"]) [data-slot="tabs-trigger"] {
+    border-radius: 0;
+    color: var(--mi-fg-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  :where([data-theme="pixel"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left: 2px solid var(--mi-border); }
+  :where([data-theme="pixel"]) [data-slot="tabs-trigger"][data-state="active"] {
+    background: var(--mi-lip), var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="pixel"]) [data-slot="tabs-trigger"]:focus-visible { outline: var(--mi-marquee); outline-offset: -4px; }
+
+  /* ---------- Tooltip and toast ---------- */
+  :where([data-theme="pixel"]) [data-slot="tooltip"] {
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-accent);
+    box-shadow: var(--mi-drop);
+    color: var(--mi-accent-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  :where([data-theme="pixel"]) [data-slot="toast"][data-variant="success"] { background: var(--mi-box), var(--mi-success); color: var(--mi-bg); }
+  :where([data-theme="pixel"]) [data-slot="toast"][data-variant="error"] { background: var(--mi-box), var(--mi-danger); color: var(--mi-bg); }
+  :where([data-theme="pixel"]) [data-slot="toast"][data-variant="warning"] { background: var(--mi-box), var(--mi-warning); color: var(--mi-bg); }
+  :where([data-theme="pixel"]) [data-slot="toast"]:is([data-variant="success"], [data-variant="error"], [data-variant="warning"])
+    :is([data-slot="toast-icon"], [data-slot="toast-description"], [data-slot="toast-close"]) { color: var(--mi-bg); }
+  /* The action keeps the page colour on every variant, so it reads as its own
+     little screen set into the bar. */
+  :where([data-theme="pixel"]) [data-slot="toast-action"] {
+    border-radius: 0;
+    background: var(--mi-box), var(--mi-lip), var(--mi-bg);
+    box-shadow: var(--mi-drop);
+    color: var(--mi-fg);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  :where([data-theme="pixel"]) [data-slot="toast-action"]:active { translate: 2px 2px; box-shadow: none; }
+  :where([data-theme="pixel"]) :is([data-slot="toast-action"], [data-slot="toast-close"]):focus-visible { outline: var(--mi-marquee); outline-offset: 2px; }
+
+  @media (hover: hover) {
+    /* Hover repaints the frame instead of moving the block, so pointing at a
+       control and pressing it stay two different events. */
+    :where([data-theme="pixel"]) .mi-button:hover:not(:disabled) {
+      --mi-edge: var(--mi-accent);
+    }
+    :where([data-theme="pixel"]) .mi-button[data-variant="primary"]:hover:not(:disabled) {
+      background: var(--mi-box), var(--mi-lip), var(--mi-accent-lit);
+    }
+    :where([data-theme="pixel"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      --mi-edge: var(--mi-accent);
+      background: var(--mi-box), var(--mi-lip), var(--mi-face);
+      box-shadow: var(--mi-drop);
+      color: var(--mi-fg);
+    }
   }
 }

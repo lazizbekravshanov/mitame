@@ -1,8 +1,371 @@
-/* mitame theme: styles / clay. Placeholder, being written. */
+/*
+ * mitame theme: Styles / clay
+ * Claymorphism: every part is a moulded cushion, so the shape says press me
+ * before the label does. Four decisions carry the whole theme.
+ *
+ * The signature is a double inner shadow. A light one at the top left and a
+ * tinted dark one at the bottom right inflate a flat rectangle, and a large
+ * tinted drop shadow lifts it off the ground. The drop is violet rather than
+ * grey, because grey over a pastel ground goes muddy.
+ *
+ * Two surface tones do all the modelling. The cushion tone sits proud and the
+ * hollow tone sits sunk, so an input, a switch groove and a tab tray are holes
+ * in the same material the buttons are made of.
+ *
+ * Pressing swaps the two inner shadows, and the easing overshoots, because a
+ * cushion gives and comes back. Nothing carries a border and no radius is under
+ * fourteen pixels, since the form has to come from light rather than lines.
+ *
+ * The ink stays genuinely dark. A pastel ground and a tinted shadow both make
+ * text look more readable than it measures, so the softness lives in the shapes
+ * and never in the contrast.
+ *
+ * Dark mode is the same cushions in deep desaturated plum. The inner highlight
+ * drops from nearly opaque white to a trace of it, the inner shade and the drop
+ * go close to black, and the surfaces stay lighter than the ground so the
+ * cushions still catch light.
+ * Tokens come from Figma (clay.tokens.css).
+ */
 @import "./clay.tokens.css";
 
 @layer components {
   :where([data-theme="clay"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    /* A groove has to be deep enough to read as a hole. */
+    --mi-slider-track-h: 12px;
+    --mi-ease: cubic-bezier(0.34, 1.52, 0.64, 1);
+    /* The focus mark is a soft halo, because a hard outline would be the only
+       sharp edge in the theme. The first band is the page colour, so the halo
+       never touches the control it belongs to. */
+    --mi-ring: 0 0 0 3px var(--mi-bg), 0 0 10px 4px var(--mi-accent);
+
+    /* Raised and pushed in. Same two shadows, swapped. */
+    --mi-puff: inset 3px 3px 6px var(--mi-glass-highlight), inset -4px -5px 10px var(--mi-glass-edge);
+    --mi-dent: inset 4px 5px 10px var(--mi-glass-edge), inset -3px -3px 7px var(--mi-glass-highlight);
+    /* A knob or a checkbox is smaller than the blur of the full pair, which
+       would swallow it, so small parts get the modelling at their own scale. */
+    --mi-puff-sm: inset 2px 2px 3px var(--mi-glass-highlight), inset -2px -3px 5px var(--mi-glass-edge);
+    --mi-dent-sm: inset 2px 3px 5px var(--mi-glass-edge), inset -2px -2px 4px var(--mi-glass-highlight);
+    --mi-drop: 0 18px 30px -14px var(--mi-glass-shadow);
+    --mi-drop-sm: 0 8px 14px -8px var(--mi-glass-shadow);
+    --mi-drop-lift: 0 16px 24px -10px var(--mi-glass-shadow);
+
+    /* A knob rides on the accent once its control is on, and in light mode the
+       cushion tone is already far lighter than the accent. */
+    --mi-knob: var(--mi-glass-tint);
+  }
+  /* Dark mode inverts that: the cushion tone is darker than the accent, and a
+     knob that dark under a near black shadow reads as a hole punched in the
+     track, so it is lifted off the surface until it reads as an object. */
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="clay"]:not([data-mode="light"])) { --mi-knob: color-mix(in oklab, var(--mi-glass-tint) 80%, var(--mi-fg)); }
+  }
+  :where([data-theme="clay"][data-mode="dark"]) { --mi-knob: color-mix(in oklab, var(--mi-glass-tint) 80%, var(--mi-fg)); }
+
+  :where([data-theme="clay"]) { font-weight: 500; }
+  :where([data-theme="clay"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) { font-weight: 700; letter-spacing: -0.01em; }
+  /* Labels keep the full ink. Fading them is the first thing that goes wrong on
+     a pastel ground. */
+  :where([data-theme="clay"]) [data-slot="field-label"] { font-weight: 650; }
+  :where([data-theme="clay"]) [data-slot="menu-label"] { letter-spacing: 0.06em; }
+
+  /* ---------- Buttons: cushions, and one of them is coloured ---------- */
+  :where([data-theme="clay"]) .mi-button {
+    border: 0;
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint);
+    color: var(--mi-fg);
+    font-weight: 600;
+    box-shadow: var(--mi-puff), var(--mi-drop-sm);
+    transition: box-shadow var(--mi-duration) var(--mi-ease), background-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  /* A large button is a larger cushion, so its corner grows with it. */
+  :where([data-theme="clay"]) .mi-button[data-size="lg"] { border-radius: var(--mi-radius-md); }
+  :where([data-theme="clay"]) .mi-button[data-variant="secondary"] { background: var(--mi-glass-tint); }
+  :where([data-theme="clay"]) .mi-button[data-variant="primary"] { background: var(--mi-accent); color: var(--mi-accent-fg); }
+  /* Both modes are built so the accent ink reads on the red as well, which is
+     why danger borrows it instead of naming a colour of its own. */
+  :where([data-theme="clay"]) .mi-button[data-variant="danger"] { background: var(--mi-danger); color: var(--mi-accent-fg); }
+  /* A ghost is the absence of a cushion, so it has nothing to swap. It gets a
+     hollow on the way down instead. */
+  :where([data-theme="clay"]) .mi-button[data-variant="ghost"] {
+    background: transparent;
+    color: var(--mi-fg-muted);
+    box-shadow: none;
+  }
+  :where([data-theme="clay"]) .mi-button:active:not(:disabled) { box-shadow: var(--mi-dent); }
+  :where([data-theme="clay"]) .mi-button[data-variant="ghost"]:active:not(:disabled) { box-shadow: var(--mi-dent-sm); }
+  :where([data-theme="clay"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-puff), var(--mi-ring); }
+  :where([data-theme="clay"]) .mi-button[data-variant="ghost"]:focus-visible { box-shadow: var(--mi-ring); }
+
+  /* ---------- Surfaces: the same cushion at panel size ---------- */
+  :where([data-theme="clay"])
+    :is(
+      [data-slot="card"],
+      [data-slot="dialog-panel"],
+      [data-slot="popover-content"],
+      [data-slot="toast"],
+      [data-slot="select-content"],
+      [data-slot="menu-content"]
+    ) {
+    border: 0;
+    border-radius: var(--mi-radius-lg);
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-puff), var(--mi-drop);
+  }
+  :where([data-theme="clay"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="toast"]) {
+    border-radius: var(--mi-radius-md);
+  }
+  /* A twenty pixel corner needs more room inside it than the shared default, or
+     the first row's own corner ends up outside the panel's curve. */
+  :where([data-theme="clay"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { padding: var(--mi-space-2); }
+  /* A wash rather than a scrim, so the dialog looks lifted off the page instead
+     of cut out of it. */
+  :where([data-theme="clay"]) [data-slot="dialog"]::backdrop {
+    background: color-mix(in oklab, var(--mi-fg) 34%, transparent);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  :where([data-theme="clay"]) [data-slot="dialog-close-icon"] {
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint);
+    color: var(--mi-fg-muted);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="dialog-close-icon"]:active { box-shadow: var(--mi-dent-sm); }
+  :where([data-theme="clay"]) [data-slot="dialog-close-icon"]:focus-visible { outline: none; box-shadow: var(--mi-puff-sm), var(--mi-ring); }
+
+  /* Overlays arrive by swelling into place, which is the same spring the
+     controls use. */
+  :where([data-theme="clay"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
+    opacity: 0;
+    scale: 0.94;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), scale var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
+  }
+  :where([data-theme="clay"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]):popover-open {
+    opacity: 1;
+    scale: 1;
+    @starting-style {
+      opacity: 0;
+      scale: 0.94;
+    }
+  }
+  :where([data-theme="clay"]) [data-slot="dialog"] {
+    opacity: 0;
+    scale: 0.92;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), scale var(--mi-duration) var(--mi-ease),
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
+  }
+  :where([data-theme="clay"]) [data-slot="dialog"][open] {
+    opacity: 1;
+    scale: 1;
+    @starting-style {
+      opacity: 0;
+      scale: 0.92;
+    }
+  }
+
+  /* ---------- Items: the row you are on is pressed in ---------- */
+  :where([data-theme="clay"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
+    border-radius: var(--mi-radius-sm);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease), background-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: color-mix(in oklab, var(--mi-accent) 10%, var(--mi-glass-tint));
+    color: var(--mi-accent);
+    box-shadow: var(--mi-dent-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="clay"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: color-mix(in oklab, var(--mi-danger) 12%, var(--mi-glass-tint));
+    color: var(--mi-danger);
+  }
+  /* A groove rather than a rule: a dark hairline with a light one under it. */
+  :where([data-theme="clay"]) [data-slot="menu-separator"] {
+    background: var(--mi-glass-edge);
+    box-shadow: 0 1px 0 var(--mi-glass-highlight);
+  }
+  :where([data-theme="clay"]) [data-slot="select-item-check"] { color: var(--mi-accent); opacity: 1; }
+
+  /* ---------- Inputs: hollows in the same material ---------- */
+  :where([data-theme="clay"]) [data-slot="field-input"] {
+    border: 0;
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-dent);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  :where([data-theme="clay"]) [data-slot="field-input"]:focus-visible { outline: none; box-shadow: var(--mi-dent), var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
+    box-shadow: var(--mi-dent), 0 0 0 3px var(--mi-bg), 0 0 10px 4px var(--mi-danger);
+  }
+  /* The icon sits inside the hollow, so it takes the quiet ink and lets the
+     value it belongs to hold the full one. */
+  :where([data-theme="clay"]) [data-slot="field-icon"] { color: var(--mi-fg-muted); }
+  :where([data-theme="clay"]) [data-slot="field-error"] { font-weight: 600; }
+  /* A select opens something, so it is a cushion and not a hollow. */
+  :where([data-theme="clay"]) [data-slot="select-trigger"] {
+    border: 0;
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint);
+    box-shadow: var(--mi-puff), var(--mi-drop-sm);
+    transition: box-shadow var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="select-trigger"]:active:not(:disabled) { box-shadow: var(--mi-dent); }
+  :where([data-theme="clay"]) [data-slot="select-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-puff), var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox and switch ---------- */
+  /* Fourteen pixels of radius on an eighteen pixel box is a circle, and a
+     circle reads as a radio, so the box keeps a corner of its own. */
+  :where([data-theme="clay"]) [data-slot="checkbox-box"] {
+    border: 0;
+    border-radius: 7px;
+    background: var(--mi-glass-tint-strong);
+    color: var(--mi-accent-fg);
+    box-shadow: var(--mi-dent-sm);
+    transition: box-shadow var(--mi-duration) var(--mi-ease), background-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  /* Empty is a hollow and checked is a filled cushion, so the state is legible
+     from the modelling before the tick is read. */
+  :where([data-theme="clay"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: var(--mi-accent);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+  }
+  /* Two focus rules, because one would flatten a checked box back into a hollow:
+     the filled state has to keep its cushion while it wears the ring. */
+  :where([data-theme="clay"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-dent-sm), var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate):focus-visible + [data-slot="checkbox-box"] {
+    box-shadow: var(--mi-puff-sm), var(--mi-ring);
+  }
+
+  :where([data-theme="clay"]) [data-slot="switch-track"] {
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-dent);
+    transition: background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="switch-thumb"] {
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-knob);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+    transition: transform var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
+  :where([data-theme="clay"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-dent), var(--mi-ring); }
+
+  /* ---------- Slider: a deep groove and a puffy knob ---------- */
+  :where([data-theme="clay"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint-strong) var(--mi-slider-fill));
+    box-shadow: var(--mi-dent-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    border-radius: var(--mi-radius-full);
+    background: linear-gradient(90deg, var(--mi-accent) var(--mi-slider-fill), var(--mi-glass-tint-strong) var(--mi-slider-fill));
+    box-shadow: var(--mi-dent-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="slider"]::-webkit-slider-thumb {
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-knob);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="slider"]::-moz-range-thumb {
+    border: 0;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-knob);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="slider"]:focus-visible { outline: none; }
+  :where([data-theme="clay"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-puff-sm), var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-puff-sm), var(--mi-ring); }
+
+  /* ---------- Tabs: a tray with one cushion sitting in it ---------- */
+  :where([data-theme="clay"]) [data-slot="tabs-list"] {
+    border-radius: var(--mi-radius-md);
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-dent);
+  }
+  :where([data-theme="clay"]) [data-slot="tabs-trigger"] {
+    border-radius: var(--mi-radius-sm);
+    background: transparent;
+    color: var(--mi-fg-muted);
+    font-weight: 600;
+    transition: box-shadow var(--mi-duration) var(--mi-ease), background-color var(--mi-duration-fast) var(--mi-ease),
+      color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="tabs-trigger"][data-state="active"] {
+    background: var(--mi-glass-tint);
+    color: var(--mi-fg);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Tooltip and toast ---------- */
+  /* The one dark cushion in the theme, moulded the same way. */
+  :where([data-theme="clay"]) [data-slot="tooltip"] {
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-fg);
+    color: var(--mi-bg);
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+  }
+  :where([data-theme="clay"]) [data-slot="toast"] { animation: mi-clay-swell var(--mi-duration) var(--mi-ease); }
+  :where([data-theme="clay"]) [data-slot="toast-title"] { font-weight: 650; }
+  :where([data-theme="clay"]) [data-slot="toast-action"] {
+    border: 0;
+    border-radius: var(--mi-radius-sm);
+    background: var(--mi-glass-tint);
+    color: var(--mi-fg);
+    font-weight: 600;
+    box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="toast-action"]:active { box-shadow: var(--mi-dent-sm); }
+  :where([data-theme="clay"]) [data-slot="toast-action"]:focus-visible { outline: none; box-shadow: var(--mi-puff-sm), var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="toast-close"] {
+    border-radius: var(--mi-radius-full);
+    background: transparent;
+    color: var(--mi-fg-muted);
+    transition: box-shadow var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="clay"]) [data-slot="toast-close"]:active { box-shadow: var(--mi-dent-sm); }
+  :where([data-theme="clay"]) [data-slot="toast-close"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+  :where([data-theme="clay"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: var(--mi-accent); }
+  :where([data-theme="clay"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="clay"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="clay"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+
+  /* ---------- Hover (real pointers only) ---------- */
+  /* Hovering inflates the cushion a little further off the ground. The lift is
+     in the shadow rather than a transform, so a popover anchored to the control
+     does not move under the pointer. */
+  @media (hover: hover) {
+    :where([data-theme="clay"]) :is(.mi-button, [data-slot="select-trigger"]):hover:not(:disabled) {
+      box-shadow: var(--mi-puff), var(--mi-drop-lift);
+    }
+    :where([data-theme="clay"]) :is([data-slot="toast-action"], [data-slot="dialog-close-icon"]):hover:not(:disabled) {
+      box-shadow: var(--mi-puff-sm), var(--mi-drop-lift);
+    }
+    :where([data-theme="clay"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--mi-fg) 6%, transparent);
+      color: var(--mi-fg);
+      box-shadow: none;
+    }
+    :where([data-theme="clay"]) [data-slot="tabs-trigger"]:not([data-state="active"]):hover:not(:disabled) { color: var(--mi-fg); }
+    :where([data-theme="clay"]) [data-slot="toast-close"]:hover { color: var(--mi-fg); }
+  }
+
+  @keyframes mi-clay-swell {
+    from {
+      opacity: 0;
+      scale: 0.94;
+    }
   }
 }

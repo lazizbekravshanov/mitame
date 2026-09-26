@@ -1,8 +1,458 @@
-/* mitame theme: styles / blueprint. Placeholder, being written. */
+/*
+ * mitame theme: Styles / blueprint
+ *
+ * An interface that was drafted rather than designed. Four decisions carry it:
+ *
+ *   - The ground is ruled. One line every eight pixels and a heavier one every
+ *     fifth, drawn as a single repeating gradient per axis, so the whole grid is
+ *     two paint layers and no markup. Every sheet carries the same ruling,
+ *     because a sheet pinned to a board has its own, and because the page under
+ *     a component is not always the theme's to paint.
+ *   - Everything is line work. Hairlines do the drawing, and a fill means
+ *     something is chosen: the button that matters, the tab you are on, the row
+ *     under the cursor, the box you ticked. Nothing else is filled.
+ *   - The focused control is dimensioned. A thin box sits off its edge and a
+ *     tick stands at each end, the way a span is measured on a drawing.
+ *   - Annotations are lettered and content is set. Labels, buttons, tabs and
+ *     errors take the mono token, uppercase and widely tracked. Prose keeps the
+ *     sans, which is what makes the lettered parts read as notes on a drawing.
+ *
+ * Dark is the reversed print, cyan lines on deep navy. Light is the drafting
+ * sheet, graphite lines on pale blue. Both are drawn for themselves, and the
+ * ruling changes ink between them because a white line on paper is nothing.
+ * Tokens come from Figma (blueprint.tokens.css).
+ */
 @import "./blueprint.tokens.css";
 
 @layer components {
   :where([data-theme="blueprint"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    --mi-slider-track-h: 14px;
+    /* A plotter draws at one speed, so nothing here accelerates. */
+    --mi-ease: linear;
+    --mi-hair: 1px solid var(--mi-border);
+    --mi-frame: 1px solid var(--mi-glass-edge);
+    /* The ruling. Graphite in light mode, cyan in dark, always faint enough
+       that a glyph landing on a line still reads. */
+    --mi-line: color-mix(in oklab, var(--mi-fg) 7%, transparent);
+    --mi-line-major: color-mix(in oklab, var(--mi-fg) 13%, transparent);
+    /* Five divisions of eight pixels, the first one heavier. A stop position
+       smaller than the one before it clamps, so `0` means "where we are". */
+    --mi-division:
+      var(--mi-line-major) 0 1px, #0000 0 8px,
+      var(--mi-line) 0 9px, #0000 0 16px,
+      var(--mi-line) 0 17px, #0000 0 24px,
+      var(--mi-line) 0 25px, #0000 0 32px,
+      var(--mi-line) 0 33px, #0000 0 40px;
+    --mi-grid: repeating-linear-gradient(90deg, var(--mi-division)), repeating-linear-gradient(0deg, var(--mi-division));
+    /* The two marks that dimension a focused control, and how far they reach
+       past its ends. */
+    --mi-dim-reach: 7px;
+    --mi-dim:
+      linear-gradient(var(--mi-accent), var(--mi-accent)) 0 50% / 1px 100% no-repeat,
+      linear-gradient(var(--mi-accent), var(--mi-accent)) 100% 50% / 1px 100% no-repeat;
+  }
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="blueprint"]:not([data-mode="light"])) {
+      --mi-line: color-mix(in oklab, var(--mi-accent) 9%, transparent);
+      --mi-line-major: color-mix(in oklab, var(--mi-accent) 17%, transparent);
+    }
+  }
+  :where([data-theme="blueprint"][data-mode="dark"]) {
+    --mi-line: color-mix(in oklab, var(--mi-accent) 9%, transparent);
+    --mi-line-major: color-mix(in oklab, var(--mi-accent) 17%, transparent);
+  }
+
+  /* The board. The ruling is a background image over the ground colour, so a
+     page that paints its own background keeps its colour and loses only lines
+     it can draw back with the same variable. */
+  :where([data-theme="blueprint"]) {
+    background-color: var(--mi-bg);
+    background-image: var(--mi-grid);
+  }
+
+  /* ---------- Lettering ---------- */
+  /* Controls are lettered at their own size. */
+  :where([data-theme="blueprint"])
+    :is(.mi-button, [data-slot="tabs-trigger"], [data-slot="toast-action"], [data-slot="dialog-title"]) {
+    font-family: var(--mi-font-mono);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  /* Annotations are smaller and tracked further, the way a note is lettered. */
+  :where([data-theme="blueprint"])
+    :is(
+      [data-slot="card-title"],
+      [data-slot="field-label"],
+      [data-slot="field-error"],
+      [data-slot="menu-label"],
+      [data-slot="tooltip"]
+    ) {
+    font-family: var(--mi-font-mono);
+    font-size: var(--mi-text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Buttons: drawn boxes, and one of them is filled ---------- */
+  :where([data-theme="blueprint"]) .mi-button {
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg);
+    font-size: var(--mi-text-sm);
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="blueprint"]) .mi-button[data-variant="primary"] {
+    border-color: var(--mi-accent);
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="blueprint"]) .mi-button[data-variant="danger"] {
+    border-color: var(--mi-danger);
+    color: var(--mi-danger);
+  }
+  :where([data-theme="blueprint"]) .mi-button[data-variant="ghost"] {
+    border-color: transparent;
+    color: var(--mi-fg-muted);
+  }
+
+  /* ---------- The focus dimension ---------- */
+  :where([data-theme="blueprint"])
+    :is(
+      .mi-button,
+      [data-slot="field-input"],
+      [data-slot="select-trigger"],
+      [data-slot="tabs-trigger"],
+      [data-slot="toast-action"],
+      [data-slot="slider"]
+    ):focus-visible {
+    outline: 1px solid var(--mi-accent);
+    outline-offset: 3px;
+  }
+  :where([data-theme="blueprint"])
+    :is(.mi-button, [data-slot="select-trigger"], [data-slot="tabs-trigger"], [data-slot="toast-action"]):focus-visible::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--mi-dim-reach)) -1px;
+    background: var(--mi-dim);
+    pointer-events: none;
+  }
+  /* An input cannot carry a pseudo element, so the wrapper around it draws the
+     ticks instead. */
+  :where([data-theme="blueprint"]) [data-slot="field-control"]:has([data-slot="field-input"]:focus-visible)::after {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--mi-dim-reach)) -1px;
+    background: var(--mi-dim);
+    pointer-events: none;
+  }
+  /* Small controls are measured by the box alone: ticks around a sixteen pixel
+     square would be longer than the thing they measure. */
+  :where([data-theme="blueprint"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"],
+  :where([data-theme="blueprint"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] {
+    outline: 1px solid var(--mi-accent);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Sheets ---------- */
+  /* A card is a sheet on the board: ruled, framed with a hairline, no shadow,
+     because a drawing has no light in it. */
+  :where([data-theme="blueprint"]) [data-slot="card"] {
+    position: relative;
+    padding-top: var(--mi-space-7);
+    border: var(--mi-hair);
+    border-radius: 0;
+    background-color: var(--mi-glass-tint);
+    background-image: var(--mi-grid);
+    box-shadow: none;
+  }
+  /* The title block: a drawing puts its name in a boxed cell at the corner of
+     the sheet, so the heading is drawn there and the body clears it. */
+  :where([data-theme="blueprint"]) [data-slot="card-title"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: calc(100% - var(--mi-space-6));
+    padding: 6px var(--mi-space-3);
+    border-right: var(--mi-hair);
+    border-bottom: var(--mi-hair);
+    color: var(--mi-fg);
+  }
+  /* The sheets that float get a harder frame and a trim gap, which separates
+     them from the ruling underneath without inventing a shadow. */
+  :where([data-theme="blueprint"])
+    :is(
+      [data-slot="select-content"],
+      [data-slot="menu-content"],
+      [data-slot="popover-content"],
+      [data-slot="toast"],
+      [data-slot="tooltip"]
+    ) {
+    border: var(--mi-frame);
+    border-radius: 0;
+    background-color: var(--mi-glass-tint-strong);
+    background-image: var(--mi-grid);
+    box-shadow: 0 0 0 3px var(--mi-bg), 0 0 0 4px var(--mi-border);
+  }
+  :where([data-theme="blueprint"]) [data-slot="dialog-panel"] {
+    border: var(--mi-frame);
+    border-radius: 0;
+    background-color: var(--mi-glass-tint-strong);
+    background-image: var(--mi-grid);
+    box-shadow: none;
+  }
+  /* Crop marks at the trim edge of the sheet being shown. Eight bars, one pair
+     per corner, each drawn as a solid gradient because that is the cheapest
+     rectangle CSS has. */
+  :where([data-theme="blueprint"]) [data-slot="dialog-panel"]::after {
+    --mi-crop: linear-gradient(var(--mi-accent), var(--mi-accent));
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--mi-space-3));
+    background:
+      var(--mi-crop) 0 0 / 14px 1px, var(--mi-crop) 0 0 / 1px 14px,
+      var(--mi-crop) 100% 0 / 14px 1px, var(--mi-crop) 100% 0 / 1px 14px,
+      var(--mi-crop) 0 100% / 14px 1px, var(--mi-crop) 0 100% / 1px 14px,
+      var(--mi-crop) 100% 100% / 14px 1px, var(--mi-crop) 100% 100% / 1px 14px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  /* The sheet header, ruled off from what follows it. */
+  :where([data-theme="blueprint"]) [data-slot="dialog-title"] {
+    padding-bottom: var(--mi-space-2);
+    border-bottom: var(--mi-hair);
+    font-size: var(--mi-text-lg);
+  }
+  :where([data-theme="blueprint"]) [data-slot="dialog-close-icon"] {
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg-muted);
+  }
+  /* The backdrop keeps the ruling at its major division only, in flat ink,
+     because a ::backdrop cannot count on inheriting a custom property. */
+  :where([data-theme="blueprint"]) [data-slot="dialog"]::backdrop {
+    background:
+      repeating-linear-gradient(90deg, rgb(28 42 54 / 0.14) 0 1px, #0000 0 40px),
+      repeating-linear-gradient(0deg, rgb(28 42 54 / 0.14) 0 1px, #0000 0 40px),
+      rgb(231 237 242 / 0.76);
+  }
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="blueprint"]:not([data-mode="light"])) [data-slot="dialog"]::backdrop {
+      background:
+        repeating-linear-gradient(90deg, rgb(87 205 240 / 0.14) 0 1px, #0000 0 40px),
+        repeating-linear-gradient(0deg, rgb(87 205 240 / 0.14) 0 1px, #0000 0 40px),
+        rgb(5 12 20 / 0.74);
+    }
+  }
+  :where([data-theme="blueprint"][data-mode="dark"]) [data-slot="dialog"]::backdrop {
+    background:
+      repeating-linear-gradient(90deg, rgb(87 205 240 / 0.14) 0 1px, #0000 0 40px),
+      repeating-linear-gradient(0deg, rgb(87 205 240 / 0.14) 0 1px, #0000 0 40px),
+      rgb(5 12 20 / 0.74);
+  }
+
+  /* Overlays arrive at one speed and do not slide. */
+  :where([data-theme="blueprint"])
+    :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
+    opacity: 0;
+    transition: opacity var(--mi-duration-fast) var(--mi-ease), display var(--mi-duration-fast) allow-discrete,
+      overlay var(--mi-duration-fast) allow-discrete;
+  }
+  :where([data-theme="blueprint"])
+    :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]):popover-open {
+    opacity: 1;
+    @starting-style {
+      opacity: 0;
+    }
+  }
+
+  /* ---------- Rows: the one under the cursor is the one that is filled ---------- */
+  :where([data-theme="blueprint"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
+  :where([data-theme="blueprint"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="blueprint"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="blueprint"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: var(--mi-danger);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="blueprint"]) [data-slot="menu-separator"] {
+    margin-inline: 0;
+    background: var(--mi-border);
+  }
+  :where([data-theme="blueprint"]) [data-slot="menu-label"] { color: var(--mi-fg-muted); }
+  :where([data-theme="blueprint"]) [data-slot="select-item-check"] { color: var(--mi-accent-fg); }
+
+  /* ---------- Fields: empty boxes, and a leader out to the edge ---------- */
+  :where([data-theme="blueprint"]) [data-slot="field-label"] {
+    display: flex;
+    align-items: center;
+    gap: var(--mi-space-2);
+    color: var(--mi-fg-muted);
+  }
+  /* The leader points at what the note names, and it is dashed so it never
+     reads as another edge of the control. */
+  :where([data-theme="blueprint"]) [data-slot="field-label"]::after {
+    content: "";
+    flex: 1;
+    height: 0;
+    border-top: 1px dashed var(--mi-border);
+  }
+  :where([data-theme="blueprint"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
+    position: relative;
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    transition: border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="blueprint"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):focus-visible {
+    border-color: var(--mi-accent);
+  }
+  :where([data-theme="blueprint"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  :where([data-theme="blueprint"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-color: var(--mi-danger); }
+  :where([data-theme="blueprint"]) [data-slot="field-error"] { color: var(--mi-danger); }
+  :where([data-theme="blueprint"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox: an empty square, and a cross drawn into it ---------- */
+  /* A hand marks a box with two strokes, not with a tick, so the glyph base
+     ships is put away and the strokes are gradients. */
+  :where([data-theme="blueprint"]) [data-slot="checkbox-box"] {
+    width: 16px;
+    height: 16px;
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+  }
+  :where([data-theme="blueprint"]) [data-slot="checkbox-box"] > svg { display: none; }
+  :where([data-theme="blueprint"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    border-color: var(--mi-accent);
+  }
+  :where([data-theme="blueprint"]) [data-slot="checkbox-input"]:checked:not(:indeterminate) + [data-slot="checkbox-box"] {
+    background-image:
+      linear-gradient(to top right, #0000 42%, var(--mi-accent) 45%, var(--mi-accent) 55%, #0000 58%),
+      linear-gradient(to bottom right, #0000 42%, var(--mi-accent) 45%, var(--mi-accent) 55%, #0000 58%);
+  }
+  /* Part way is one stroke, the way a table cell is ruled out. */
+  :where([data-theme="blueprint"]) [data-slot="checkbox-input"]:indeterminate + [data-slot="checkbox-box"] {
+    background-image: linear-gradient(#0000 44%, var(--mi-accent) 45%, var(--mi-accent) 55%, #0000 56%);
+  }
+
+  /* ---------- Switch: a rail that fills when it is on ---------- */
+  :where([data-theme="blueprint"]) [data-slot="switch-track"] {
+    width: 44px;
+    height: 20px;
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    transition: background-color var(--mi-duration) var(--mi-ease), border-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="blueprint"]) [data-slot="switch-thumb"] {
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 0;
+    background: var(--mi-fg-muted);
+    box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease), background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="blueprint"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    border-color: var(--mi-accent);
+    background: var(--mi-accent);
+  }
+  :where([data-theme="blueprint"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(24px);
+    background: var(--mi-accent-fg);
+  }
+
+  /* ---------- Slider: a ruled scale ---------- */
+  /* A baseline across the middle of the track, the measured part of it in the
+     accent, and a tick every tenth hanging below the line. */
+  :where([data-theme="blueprint"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    border: 0;
+    background:
+      repeating-linear-gradient(90deg, var(--mi-border) 0 1px, #0000 0 10%) 0 8px / 100% 5px no-repeat,
+      linear-gradient(90deg, var(--mi-accent) 0 var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill)) 0 7px / 100% 1px no-repeat;
+  }
+  :where([data-theme="blueprint"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    border: 0;
+    background:
+      repeating-linear-gradient(90deg, var(--mi-border) 0 1px, #0000 0 10%) 0 8px / 100% 5px no-repeat,
+      linear-gradient(90deg, var(--mi-accent) 0 var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill)) 0 7px / 100% 1px no-repeat;
+  }
+  /* The handle is the index that reads the scale, so it is a narrow block
+       standing on the line rather than a knob. */
+  :where([data-theme="blueprint"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 5px;
+    height: 18px;
+    margin-top: calc((var(--mi-slider-track-h) - 18px) / 2);
+    border: 0;
+    border-radius: 0;
+    background: var(--mi-fg);
+  }
+  :where([data-theme="blueprint"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 5px;
+    height: 18px;
+    border: 0;
+    border-radius: 0;
+    background: var(--mi-fg);
+  }
+
+  /* ---------- Tabs: divisions of one strip, the open one filled ---------- */
+  :where([data-theme="blueprint"]) [data-slot="tabs-list"] {
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  :where([data-theme="blueprint"]) [data-slot="tabs-trigger"] {
+    position: relative;
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg-muted);
+    font-size: var(--mi-text-xs);
+  }
+  :where([data-theme="blueprint"]) [data-slot="tabs-trigger"] + [data-slot="tabs-trigger"] { border-left: var(--mi-hair); }
+  :where([data-theme="blueprint"]) [data-slot="tabs-trigger"][data-state="active"] {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+    box-shadow: none;
+  }
+
+  /* ---------- Tooltip and toast: notes in the margin ---------- */
+  :where([data-theme="blueprint"]) [data-slot="tooltip"] { color: var(--mi-fg); }
+  :where([data-theme="blueprint"]) [data-slot="toast-title"] { font-weight: 600; }
+  :where([data-theme="blueprint"]) [data-slot="toast-action"] {
+    border: var(--mi-hair);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg);
+    font-size: var(--mi-text-xs);
+  }
+  :where([data-theme="blueprint"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="blueprint"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="blueprint"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+
+  @media (hover: hover) {
+    /* Hover wets the line rather than filling the shape. */
+    :where([data-theme="blueprint"]) .mi-button:hover:not(:disabled) { border-color: var(--mi-fg); }
+    :where([data-theme="blueprint"]) .mi-button[data-variant="primary"]:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--mi-accent) 88%, var(--mi-fg));
+      border-color: color-mix(in oklab, var(--mi-accent) 88%, var(--mi-fg));
+    }
+    :where([data-theme="blueprint"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-fg); }
+    :where([data-theme="blueprint"]) :is([data-slot="field-input"], [data-slot="select-trigger"]):hover:not(:disabled) {
+      border-color: var(--mi-fg-muted);
+    }
+    :where([data-theme="blueprint"]) [data-slot="tabs-trigger"]:hover:not(:disabled):not([data-state="active"]) { color: var(--mi-fg); }
   }
 }

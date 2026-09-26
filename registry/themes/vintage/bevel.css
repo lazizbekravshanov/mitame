@@ -1,8 +1,454 @@
-/* mitame theme: vintage / bevel. Placeholder, being written. */
+/*
+ * mitame theme: Vintage / bevel (1992 to 2001)
+ * The beveled desktop of the mid nineties, the PC side of it. Edges do all the
+ * work here: a raised face is lit white along its top and left and shaded grey
+ * along its bottom and right, a sunken one is those two edges swapped, and both
+ * sit inside a one pixel black line. Four decisions carry the look. The bevel is
+ * two pixels and never blurred. Nothing is rounded and nothing eases, so a press
+ * is a swap of edges rather than a transition. The only shadow in the file is the
+ * hard offset a floating panel drops. Focus is a dotted rectangle drawn inside
+ * the edge, in the label's own ink, so it reads on a grey face and a blue one.
+ * Dark mode is the high contrast scheme: a black face, white edges, the same
+ * bevel logic, and no gradient left anywhere.
+ * Tokens come from Figma (bevel.tokens.css).
+ */
 @import "./bevel.tokens.css";
 
 @layer components {
   :where([data-theme="bevel"]) {
-    --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-fg);
+    --mi-slider-track-h: 12px;
+    /* Light from the top left, shade to the bottom right. A press reuses
+       --mi-sunken, because a pushed control is the same surface facing the
+       other way, and that is the whole of the era's depth model. */
+    --mi-raised: inset 2px 2px 0 0 var(--mi-glass-highlight), inset -2px -2px 0 0 var(--mi-glass-edge);
+    --mi-sunken: inset 2px 2px 0 0 var(--mi-glass-edge), inset -2px -2px 0 0 var(--mi-glass-highlight);
+    /* A coloured face cannot borrow the grey edges without looking flat, so it
+       mixes its own out of the fill and stays lit from the same corner. */
+    --mi-tone: var(--mi-glass-tint);
+    --mi-raised-tone: inset 2px 2px 0 0 color-mix(in oklab, var(--mi-tone) 55%, white),
+      inset -2px -2px 0 0 color-mix(in oklab, var(--mi-tone) 55%, black);
+    /* Panels that float drop this and nothing else drops anything. */
+    --mi-drop: 2px 2px 0 0 var(--mi-glass-shadow);
+    --mi-face: var(--mi-glass-tint);
+    --mi-ink: var(--mi-fg);
+    /* The trough a thumb runs in: one pixel checks of the face and the sheet,
+       which is how the era shaded the channel a thumb slides in. Whoever uses it
+       sets the two pixel tile, because a layer next to it may want its own size.
+       In the high contrast scheme both colours are black, so the pattern
+       flattens itself and needs no second rule. */
+    --mi-trough: repeating-conic-gradient(
+      var(--mi-glass-tint) 0%,
+      var(--mi-glass-tint) 25%,
+      var(--mi-glass-tint-strong) 25%,
+      var(--mi-glass-tint-strong) 50%
+    );
+    /* The filled part of a trough is drawn in blocks, the way the era filled a
+       progress bar, and clipped to the value by the layer's own width. */
+    --mi-chunks: repeating-linear-gradient(90deg, var(--mi-accent) 0 6px, transparent 6px 8px);
+    /* A title strip fades left to right, from the saturated blue to a paler one. */
+    --mi-title-fade: #15559c;
+    /* The help tip kept its own pale yellow, whatever the rest of the screen did. */
+    --mi-tip: #ffffe1;
+    --mi-tip-ink: #1a1a1a;
+    /* White under a disabled label, offset a pixel, is how the era embossed grey
+       text: the label is drawn twice and the lighter copy shows through. */
+    --mi-emboss: var(--mi-glass-highlight);
+    /* White reads on the deep light mode red, but the high contrast red is bright
+       enough that it needs black ink instead. */
+    --mi-danger-ink: var(--mi-accent-fg);
+    /* The title strip runs out to the inside of the window frame, so it has to
+       know what padding base gives the panel. */
+    --mi-bleed: calc(var(--mi-space-6) - 3px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="bevel"]:not([data-mode="light"])) {
+      --mi-title-fade: var(--mi-accent);
+      --mi-tip: var(--mi-glass-tint);
+      --mi-tip-ink: var(--mi-fg);
+      --mi-emboss: var(--mi-bg);
+      --mi-danger-ink: var(--mi-bg);
+    }
+  }
+  :where([data-theme="bevel"][data-mode="dark"]) {
+    --mi-title-fade: var(--mi-accent);
+    --mi-tip: var(--mi-glass-tint);
+    --mi-tip-ink: var(--mi-fg);
+    --mi-emboss: var(--mi-bg);
+    --mi-danger-ink: var(--mi-bg);
+  }
+  @media (max-width: 480px) {
+    :where([data-theme="bevel"]) { --mi-bleed: calc(var(--mi-space-5) - 3px); }
+  }
+
+  /* Nothing on this desktop moves. Scoped to mitame's own parts, so a page can
+     still animate its own elements. */
+  :where([data-theme="bevel"]) :is([data-slot], .mi-button) { transition: none; }
+
+  /* The era shipped two weights, regular and bold, so the half steps in base go. */
+  :where([data-theme="bevel"])
+    :is(.mi-button, [data-slot="field-label"], [data-slot="tabs-trigger"], [data-slot="toast-action"]) {
+    font-weight: 400;
+  }
+  :where([data-theme="bevel"])
+    :is(
+      [data-slot="card-title"],
+      [data-slot="dialog-title"],
+      [data-slot="toast-title"],
+      [data-slot="menu-label"],
+      [data-slot="tabs-trigger"][data-state="active"]
+    ) {
+    font-weight: 700;
+  }
+
+  /* ---------- Raised controls ---------- */
+  :where([data-theme="bevel"])
+    :is(
+      .mi-button,
+      [data-slot="tabs-trigger"],
+      [data-slot="toast-action"],
+      [data-slot="dialog-close-icon"],
+      [data-slot="toast-close"]
+    ) {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) .mi-button { color: var(--mi-ink); }
+  /* A press swaps the edges and moves the control one pixel into the page. The
+     frame travels with the label because a one pixel slip between the two would
+     leave a seam of face colour outside the black line. */
+  :where([data-theme="bevel"])
+    :is(.mi-button, [data-slot="toast-action"], [data-slot="dialog-close-icon"], [data-slot="toast-close"]):active:not(
+      :disabled
+    ) {
+    box-shadow: var(--mi-sunken);
+    translate: 1px 1px;
+  }
+  :where([data-theme="bevel"]) .mi-button[data-variant="primary"] {
+    --mi-tone: var(--mi-accent);
+    --mi-ink: var(--mi-accent-fg);
+    background: var(--mi-tone);
+    box-shadow: var(--mi-raised-tone);
+    color: var(--mi-ink);
+  }
+  :where([data-theme="bevel"]) .mi-button[data-variant="danger"] {
+    --mi-tone: var(--mi-danger);
+    --mi-ink: var(--mi-danger-ink);
+    background: var(--mi-tone);
+    box-shadow: var(--mi-raised-tone);
+    color: var(--mi-ink);
+  }
+  /* A flat control has no edges until you touch it, which is the era's hot
+     tracking: the bevel appears under the pointer and inverts on the press. */
+  :where([data-theme="bevel"]) .mi-button[data-variant="ghost"] {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    color: var(--mi-ink);
+  }
+  :where([data-theme="bevel"]) .mi-button[data-variant="ghost"]:active:not(:disabled) {
+    border-color: var(--mi-border);
+    background: var(--mi-face);
+    box-shadow: var(--mi-sunken);
+  }
+
+  /* ---------- Focus: a dotted rectangle inside the edge ---------- */
+  /* Drawn in --mi-ink, which every filled variant redefines along with its own
+     label colour, so the dots follow the label rather than the page. */
+  :where([data-theme="bevel"])
+    :is(
+      .mi-button,
+      [data-slot="tabs-trigger"],
+      [data-slot="toast-action"],
+      [data-slot="field-input"],
+      [data-slot="select-trigger"],
+      [data-slot="dialog-close-icon"],
+      [data-slot="toast-close"]
+    ):focus-visible {
+    outline: 1px dotted var(--mi-ink);
+    outline-offset: -4px;
+  }
+  /* A box this small has no room inside it, so the rectangle goes round the
+     label, which is where the era drew it for a checkbox anyway. */
+  :where([data-theme="bevel"]) :is([data-slot="checkbox"], [data-slot="switch"]):has(:focus-visible) {
+    outline: 1px dotted var(--mi-ink);
+    outline-offset: 2px;
+  }
+  :where([data-theme="bevel"]) [data-slot="slider"]:focus-visible {
+    outline: 1px dotted var(--mi-ink);
+    outline-offset: 1px;
+  }
+
+  /* A disabled label is drawn twice, the light copy a pixel down and right under
+     the dark one. base already fades the control, and the second draw is what
+     turns that fade into the era's embossed grey. */
+  :where([data-theme="bevel"])
+    :is(
+      .mi-button:disabled,
+      [data-slot="field-input"]:disabled,
+      [data-slot="select-trigger"]:disabled,
+      [data-slot="tabs-trigger"]:disabled,
+      [data-slot="checkbox"][data-disabled],
+      [data-slot="switch"][data-disabled],
+      [data-slot="select-item"][aria-disabled="true"],
+      [data-slot="menu-item"][aria-disabled="true"]
+    ) {
+    text-shadow: 1px 1px 0 var(--mi-emboss);
+  }
+
+  /* ---------- Panels ---------- */
+  :where([data-theme="bevel"]) [data-slot="card"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) [data-slot="popover-content"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised), var(--mi-drop);
+  }
+  :where([data-theme="bevel"]) [data-slot="toast"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised), var(--mi-drop);
+  }
+
+  /* ---------- Menus: a flat face that floats, with one solid blue row ---------- */
+  :where([data-theme="bevel"]) [data-slot="menu-content"] {
+    padding: 2px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised), var(--mi-drop);
+  }
+  /* A list of values was a white sheet rather than a face, and it never had a
+     bevel: it is a piece of paper lying on the desktop. */
+  :where([data-theme="bevel"]) [data-slot="select-content"] {
+    padding: 0;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-drop);
+  }
+  :where([data-theme="bevel"]) :is([data-slot="select-item"], [data-slot="menu-item"]) { border-radius: 0; }
+  :where([data-theme="bevel"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="bevel"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="bevel"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: var(--mi-danger);
+    color: var(--mi-danger-ink);
+  }
+  /* Etched, not drawn: a line of shade with a line of light under it. Height
+     stays at zero so the two borders are the whole two pixels. */
+  :where([data-theme="bevel"]) [data-slot="menu-separator"] {
+    height: 0;
+    margin-inline: 0;
+    border-top: 1px solid var(--mi-glass-edge);
+    border-bottom: 1px solid var(--mi-glass-highlight);
+  }
+  :where([data-theme="bevel"]) [data-slot="menu-label"] { color: var(--mi-fg); }
+
+  /* ---------- Sunken controls ---------- */
+  :where([data-theme="bevel"]) [data-slot="field-input"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="field-input"]::placeholder { color: var(--mi-fg-muted); }
+  /* Colour is not the only cue: base already puts the message in the same red
+     under the field, so the well only has to agree with it. */
+  :where([data-theme="bevel"]) [data-slot="field"][data-invalid] [data-slot="field-input"] {
+    border-color: var(--mi-danger);
+  }
+  :where([data-theme="bevel"]) [data-slot="field-icon"] { color: var(--mi-fg); }
+
+  /* A dropdown was assembled out of two parts, a sunken field and a pushbutton,
+     so the arrow gets its own raised plate instead of floating on the face. */
+  :where([data-theme="bevel"]) [data-slot="select-trigger"] {
+    position: relative;
+    padding-right: 24px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="select-chevron"] { display: none; }
+  :where([data-theme="bevel"]) [data-slot="select-trigger"]::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    bottom: 3px;
+    box-sizing: border-box;
+    width: 17px;
+    border: 1px solid var(--mi-border);
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) [data-slot="select-trigger"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    margin-top: -2px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid var(--mi-fg);
+  }
+  :where([data-theme="bevel"]) [data-slot="select-item-check"] { order: -1; margin-left: -4px; }
+
+  /* ---------- Checkbox: a well with a check drawn in it ---------- */
+  /* The box never fills, because a filled box meant something else here. */
+  :where([data-theme="bevel"]) [data-slot="checkbox-box"] {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-glass-tint-strong);
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="checkbox-box"] > svg { width: 10px; height: 10px; stroke-width: 3; }
+  :where([data-theme="bevel"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    color: var(--mi-fg);
+  }
+
+  /* ---------- Switch: a thumb in a trough, the mechanism this era did have ---------- */
+  :where([data-theme="bevel"]) [data-slot="switch-track"] {
+    width: 40px;
+    height: 20px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-trough);
+    background-size: 2px 2px;
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="switch-thumb"] {
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    background: var(--mi-accent);
+  }
+  :where([data-theme="bevel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(20px);
+  }
+
+  /* ---------- Slider: the progress trough, filled in blocks ---------- */
+  :where([data-theme="bevel"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-chunks), var(--mi-trough);
+    background-repeat: no-repeat, repeat;
+    background-size: var(--mi-slider-fill) 100%, 2px 2px;
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-chunks), var(--mi-trough);
+    background-repeat: no-repeat, repeat;
+    background-size: var(--mi-slider-fill) 100%, 2px 2px;
+    box-shadow: var(--mi-sunken);
+  }
+  :where([data-theme="bevel"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 12px;
+    height: 22px;
+    margin-top: calc((var(--mi-slider-track-h) - 22px) / 2);
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 12px;
+    height: 22px;
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+
+  /* ---------- Tabs: a row of pushbuttons with one held down ---------- */
+  :where([data-theme="bevel"]) [data-slot="tabs-list"] {
+    gap: 2px;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  :where([data-theme="bevel"]) [data-slot="tabs-trigger"] { color: var(--mi-fg); }
+  /* Held down means sunken and latched, and the latch is the checker pattern the
+     era used for a button that stays in. */
+  :where([data-theme="bevel"]) [data-slot="tabs-trigger"][data-state="active"] {
+    background: var(--mi-trough);
+    background-size: 2px 2px;
+    box-shadow: var(--mi-sunken);
+    color: var(--mi-fg);
+  }
+
+  /* ---------- Dialog: a window frame with a title strip across the top ---------- */
+  :where([data-theme="bevel"]) [data-slot="dialog-panel"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-face);
+    box-shadow: var(--mi-raised);
+  }
+  :where([data-theme="bevel"]) [data-slot="dialog"]::backdrop { background: rgb(0 0 0 / 0.35); }
+  :where([data-theme="bevel"]) [data-slot="dialog-title"] {
+    margin: calc(var(--mi-bleed) * -1) calc(var(--mi-bleed) * -1) 0;
+    padding: 3px 24px 3px 5px;
+    background: linear-gradient(90deg, var(--mi-accent) 0%, var(--mi-title-fade) 100%);
+    color: var(--mi-accent-fg);
+    font-size: var(--mi-text-sm);
+  }
+  /* The close box belongs in the strip, and the strip sits outside the padding
+     base gives the panel, so the offsets have to reach back out through it. */
+  :where([data-theme="bevel"]) [data-slot="dialog-close-icon"] {
+    top: calc(var(--mi-bleed) * -1 + 2px);
+    right: calc(var(--mi-bleed) * -1 + 2px);
+    width: 16px;
+    height: 14px;
+    color: var(--mi-fg);
+  }
+  :where([data-theme="bevel"]) [data-slot="dialog-close-icon"] svg { width: 8px; height: 8px; stroke-width: 3; }
+
+  /* ---------- Help tip ---------- */
+  :where([data-theme="bevel"]) [data-slot="tooltip"] {
+    border: 1px solid var(--mi-border);
+    border-radius: 0;
+    background: var(--mi-tip);
+    color: var(--mi-tip-ink);
+    box-shadow: var(--mi-drop);
+  }
+
+  /* ---------- Toast ---------- */
+  :where([data-theme="bevel"]) [data-slot="toast"][data-variant="default"] [data-slot="toast-icon"] { color: var(--mi-accent); }
+  :where([data-theme="bevel"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="bevel"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="bevel"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+  :where([data-theme="bevel"]) :is([data-slot="toast-close"], [data-slot="dialog-close-icon"]) { color: var(--mi-fg); }
+  :where([data-theme="bevel"]) [data-slot="toast-close"] svg { width: 10px; height: 10px; stroke-width: 3; }
+
+  @media (hover: hover) {
+    :where([data-theme="bevel"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) {
+      border-color: var(--mi-border);
+      background: var(--mi-face);
+      box-shadow: var(--mi-raised);
+    }
   }
 }
