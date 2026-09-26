@@ -1,0 +1,335 @@
+/*
+ * mitame theme: Styles / sumi (墨, ink)
+ *
+ * Japanese spatial minimalism, which is not Swiss minimalism. Swiss space is
+ * what is left when you remove things. Ma (間) is the interval itself, placed
+ * like a material, and yohaku no bi (余白の美) is the idea that the unpainted
+ * paper is part of the painting.
+ *
+ * What that means here, against mitame's own minimal and paper themes:
+ *   - The space scale has a hole in it: 4, 8, 12, 16, 24, then 64, 112, 192.
+ *     Every gap on screen is either joinery fine or room sized, never between.
+ *   - Emphasis sits off centre and high, like a tokonoma alcove, so a card's
+ *     largest gutter is at its inline end and the content starts at the top.
+ *   - Every corner is cut square, except the slider thumb, which is a circle.
+ *     One round thing in a square theme is the signature.
+ *   - One vermilion mark, once, like a seal on a scroll. Everything else is
+ *     ink, ground and indigo.
+ *   - The pause is part of the gesture: overlays wait, then arrive slowly.
+ *   - Quiet text is quiet by size and tracking, not by fading. The muted ink
+ *     still reads at 7.9:1, where minimal and paper both drop below 5.
+ *
+ * Colours are traditional (dentou-iro), named in the tokens file: shironeri
+ * ground, sumi ink, ai indigo, suoh, chitosemidori, mirucha, and ginshu for
+ * the seal. Tokens come from Figma (sumi.tokens.css).
+ */
+@import "./sumi.tokens.css";
+
+@layer components {
+  :where([data-theme="sumi"]) {
+    --mi-slider-track-h: 1px;
+    --mi-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    /* 銀朱 ginshu, the seal ink. Used once per component, never as body text. */
+    --mi-shu: #c73e3a;
+    /* 利休鼠 rikyu-nezumi, for lines and fills only: 4.17:1 is not a text colour. */
+    --mi-nezumi: #707c74;
+    --mi-rule: 1px solid var(--mi-border);
+    --mi-ring: 0 0 0 1px var(--mi-bg), 0 0 0 2px var(--mi-fg);
+  }
+
+  /* 洗朱 araishu, the washed vermilion: the seal has to sit on the dark ground
+     as clearly as ginshu sits on the cream one. */
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="sumi"]:not([data-mode="light"])) {
+      --mi-shu: #fb966e;
+      --mi-nezumi: #91989f;
+    }
+  }
+  :where([data-theme="sumi"][data-mode="dark"]) {
+    --mi-shu: #fb966e;
+    --mi-nezumi: #91989f;
+  }
+
+  :where([data-theme="sumi"]) {
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  :where([data-theme="sumi"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+  }
+  /* Labels are quiet by size and tracking, not by fading out. */
+  :where([data-theme="sumi"]) :is([data-slot="field-label"], [data-slot="menu-label"]) {
+    font-size: var(--mi-text-xs);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mi-fg-muted);
+  }
+
+  /* ---------- Buttons: a cut edge and a hairline ---------- */
+  :where([data-theme="sumi"]) .mi-button {
+    border: var(--mi-rule);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding-inline: var(--mi-space-5);
+    transition: background-color var(--mi-duration-fast) var(--mi-ease), color var(--mi-duration-fast) var(--mi-ease),
+      border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="sumi"]) .mi-button[data-variant="primary"] {
+    background: var(--mi-accent);
+    border-color: var(--mi-accent);
+    color: var(--mi-accent-fg);
+  }
+  :where([data-theme="sumi"]) .mi-button[data-variant="danger"] {
+    background: transparent;
+    border-color: var(--mi-danger);
+    color: var(--mi-danger);
+  }
+  :where([data-theme="sumi"]) .mi-button[data-variant="ghost"] { border-color: transparent; color: var(--mi-fg-muted); }
+  :where([data-theme="sumi"]) .mi-button:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Surfaces: ground, a hairline, no shadow ---------- */
+  :where([data-theme="sumi"])
+    :is([data-slot="card"], [data-slot="dialog-panel"], [data-slot="popover-content"], [data-slot="toast"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    border: var(--mi-rule);
+    border-radius: 0;
+    background: var(--mi-glass-tint);
+    box-shadow: none;
+  }
+  /* The content sits high and the room is below it, the way a hanging scroll
+     leaves its lower paper empty. Putting that room at the inline end instead
+     reads well on a wide card and squeezes a narrow form until its controls
+     wrap, and a component library does not get to know which one it is in. */
+  :where([data-theme="sumi"]) [data-slot="card"] {
+    padding: var(--mi-space-5) var(--mi-space-5) var(--mi-space-6);
+    gap: var(--mi-space-5);
+  }
+  :where([data-theme="sumi"]) [data-slot="card-header"] { gap: var(--mi-space-2); }
+  :where([data-theme="sumi"]) [data-slot="dialog-panel"] {
+    padding: var(--mi-space-5) var(--mi-space-6) var(--mi-space-6);
+    width: min(520px, calc(100vw - 32px));
+  }
+  :where([data-theme="sumi"]) [data-slot="dialog-title"] { font-size: var(--mi-text-lg); }
+  /* Seigaiha (青海波), drawn here rather than borrowed: two fans of hairlines,
+     the second offset by half a tile so the scallops interlock. It sits on the
+     backdrop, the one surface in the theme nobody is reading. A ::backdrop
+     cannot count on inheriting custom properties, so it declares its own. */
+  :where([data-theme="sumi"]) [data-slot="dialog"]::backdrop {
+    --fan: radial-gradient(
+      circle at 50% 100%,
+      #0000 0 15px,
+      rgb(252 250 242 / 0.09) 0 16px,
+      #0000 0 25px,
+      rgb(252 250 242 / 0.09) 0 26px,
+      #0000 0 35px,
+      rgb(252 250 242 / 0.09) 0 36px,
+      #0000 0
+    );
+    background: var(--fan) 0 0 / 80px 40px, var(--fan) 40px 20px / 80px 40px, rgb(11 16 19 / 0.52);
+  }
+  :where([data-theme="sumi"]) [data-slot="dialog-close-icon"] {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg-muted);
+  }
+  :where([data-theme="sumi"]) :is([data-slot="popover-content"], [data-slot="select-content"], [data-slot="menu-content"]) {
+    padding: var(--mi-space-2);
+  }
+
+  /* The pause is the gesture: a beat, then a slow arrival with almost no travel. */
+  :where([data-theme="sumi"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]) {
+    opacity: 0;
+    translate: 0 -2px;
+    transition: opacity var(--mi-duration) var(--mi-ease) 60ms, translate var(--mi-duration) var(--mi-ease) 60ms,
+      display var(--mi-duration) allow-discrete, overlay var(--mi-duration) allow-discrete;
+  }
+  :where([data-theme="sumi"]) :is([data-slot="select-content"], [data-slot="menu-content"], [data-slot="popover-content"], [data-slot="tooltip"]):popover-open {
+    opacity: 1;
+    translate: 0 0;
+    @starting-style {
+      opacity: 0;
+      translate: 0 -2px;
+    }
+  }
+
+  /* ---------- Items: the seal marks the row you are on ---------- */
+  :where([data-theme="sumi"]) :is([data-slot="select-item"], [data-slot="menu-item"]) {
+    border-radius: 0;
+    padding-inline: var(--mi-space-4);
+  }
+  :where([data-theme="sumi"]) :is([data-slot="select-item"], [data-slot="menu-item"]):focus:not([aria-disabled="true"]) {
+    background: color-mix(in oklab, var(--mi-fg) 5%, transparent);
+    color: var(--mi-fg);
+    box-shadow: inset 3px 0 0 0 var(--mi-shu);
+  }
+  :where([data-theme="sumi"]) [data-slot="menu-item"][data-variant="danger"]:not(:focus) { color: var(--mi-danger); }
+  :where([data-theme="sumi"]) [data-slot="menu-item"][data-variant="danger"]:focus {
+    background: color-mix(in oklab, var(--mi-danger) 8%, transparent);
+    color: var(--mi-danger);
+  }
+  :where([data-theme="sumi"]) [data-slot="menu-separator"] { background: var(--mi-border); margin-inline: var(--mi-space-4); }
+  :where([data-theme="sumi"]) [data-slot="select-item-check"] { color: var(--mi-shu); opacity: 1; }
+
+  /* ---------- Inputs: a single line, like a ruled page ---------- */
+  :where([data-theme="sumi"]) [data-slot="field"] { gap: var(--mi-space-2); }
+  :where([data-theme="sumi"]) [data-slot="field-input"] {
+    border: 0;
+    border-bottom: var(--mi-rule);
+    border-radius: 0;
+    padding-inline: 0;
+    background: transparent;
+    transition: border-color var(--mi-duration-fast) var(--mi-ease);
+  }
+  :where([data-theme="sumi"]) [data-slot="field-icon"] { left: 0; }
+  :where([data-theme="sumi"]) [data-slot="field-icon"] + [data-slot="field-input"] { padding-left: 26px; }
+  :where([data-theme="sumi"]) [data-slot="field-input"]:focus-visible { outline: none; border-bottom-color: var(--mi-fg); box-shadow: 0 1px 0 0 var(--mi-fg); }
+  :where([data-theme="sumi"]) [data-slot="field"][data-invalid] [data-slot="field-input"] { border-bottom-color: var(--mi-danger); }
+  :where([data-theme="sumi"]) [data-slot="field-error"] { letter-spacing: 0.04em; }
+  :where([data-theme="sumi"]) [data-slot="select-trigger"] {
+    border: 0;
+    border-bottom: var(--mi-rule);
+    border-radius: 0;
+    padding-inline: 0;
+    background: transparent;
+  }
+  :where([data-theme="sumi"]) [data-slot="select-trigger"]:focus-visible { outline: none; border-bottom-color: var(--mi-fg); box-shadow: 0 1px 0 0 var(--mi-fg); }
+  :where([data-theme="sumi"]) [data-slot="select-chevron"] { color: var(--mi-fg-muted); }
+
+  /* ---------- Checkbox and switch: cut square, and the check is the seal ---------- */
+  :where([data-theme="sumi"]) [data-slot="checkbox-box"] {
+    width: 16px;
+    height: 16px;
+    border: var(--mi-rule);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-shu);
+  }
+  :where([data-theme="sumi"]) [data-slot="checkbox-box"] > svg { width: 12px; height: 12px; }
+  :where([data-theme="sumi"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
+    background: transparent;
+    border-color: var(--mi-fg);
+  }
+  :where([data-theme="sumi"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
+
+  :where([data-theme="sumi"]) [data-slot="switch-track"] {
+    width: 44px;
+    height: 20px;
+    border: var(--mi-rule);
+    border-radius: 0;
+    background: transparent;
+    transition: border-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="sumi"]) [data-slot="switch-thumb"] {
+    top: 3px;
+    left: 3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 0;
+    background: var(--mi-fg-muted);
+    box-shadow: none;
+    transition: transform var(--mi-duration) var(--mi-ease), background-color var(--mi-duration) var(--mi-ease);
+  }
+  :where([data-theme="sumi"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { border-color: var(--mi-fg); }
+  :where([data-theme="sumi"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(24px);
+    background: var(--mi-shu);
+  }
+  :where([data-theme="sumi"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
+
+  /* ---------- Slider: a ruled line, and the one circle in the theme ---------- */
+  :where([data-theme="sumi"]) [data-slot="slider"]::-webkit-slider-runnable-track {
+    height: var(--mi-slider-track-h);
+    background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  :where([data-theme="sumi"]) [data-slot="slider"]::-moz-range-track {
+    height: var(--mi-slider-track-h);
+    background: linear-gradient(90deg, var(--mi-fg) var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill));
+  }
+  /* An ensō: a ring, open in the middle, the only curve in the theme. */
+  :where([data-theme="sumi"]) [data-slot="slider"]::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    margin-top: calc((var(--mi-slider-track-h) - 14px) / 2);
+    border: 1.5px solid var(--mi-fg);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-bg);
+  }
+  :where([data-theme="sumi"]) [data-slot="slider"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--mi-fg);
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-bg);
+  }
+  :where([data-theme="sumi"]) [data-slot="slider"]:focus-visible { outline: none; }
+  :where([data-theme="sumi"]) [data-slot="slider"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--mi-ring); }
+  :where([data-theme="sumi"]) [data-slot="slider"]:focus-visible::-moz-range-thumb { box-shadow: var(--mi-ring); }
+
+  /* ---------- Tabs: separate objects with ma between them ---------- */
+  :where([data-theme="sumi"]) [data-slot="tabs"] { gap: var(--mi-space-5); }
+  :where([data-theme="sumi"]) [data-slot="tabs-list"] {
+    gap: var(--mi-space-6);
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  :where([data-theme="sumi"]) [data-slot="tabs-trigger"] {
+    position: relative;
+    padding: 0;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg-muted);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  :where([data-theme="sumi"]) [data-slot="tabs-trigger"][data-state="active"] { color: var(--mi-fg); background: transparent; box-shadow: none; }
+  /* The seal, once: a small square under the tab you are on. */
+  :where([data-theme="sumi"]) [data-slot="tabs-trigger"][data-state="active"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 6px;
+    height: 6px;
+    background: var(--mi-shu);
+  }
+  :where([data-theme="sumi"]) [data-slot="tabs-trigger"]:focus-visible { outline: none; box-shadow: var(--mi-ring); }
+
+  /* ---------- Tooltip and toast ---------- */
+  :where([data-theme="sumi"]) [data-slot="tooltip"] {
+    border-radius: 0;
+    background: var(--mi-fg);
+    color: var(--mi-bg);
+    letter-spacing: 0.04em;
+  }
+  :where([data-theme="sumi"]) [data-slot="toast"] { padding: var(--mi-space-4) var(--mi-space-5); gap: var(--mi-space-4); }
+  :where([data-theme="sumi"]) [data-slot="toast-title"] { font-weight: 500; letter-spacing: 0.02em; }
+  :where([data-theme="sumi"]) [data-slot="toast-action"] {
+    border: var(--mi-rule);
+    border-radius: 0;
+    background: transparent;
+    color: var(--mi-fg);
+    font-weight: 500;
+  }
+  :where([data-theme="sumi"]) [data-slot="toast"][data-variant="error"] [data-slot="toast-icon"] { color: var(--mi-danger); }
+  :where([data-theme="sumi"]) [data-slot="toast"][data-variant="success"] [data-slot="toast-icon"] { color: var(--mi-success); }
+  :where([data-theme="sumi"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
+
+  @media (hover: hover) {
+    :where([data-theme="sumi"]) .mi-button:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-fg) 5%, transparent); }
+    :where([data-theme="sumi"]) .mi-button[data-variant="primary"]:hover:not(:disabled) {
+      background: color-mix(in oklab, var(--mi-accent) 86%, var(--mi-fg));
+    }
+    :where([data-theme="sumi"]) .mi-button[data-variant="danger"]:hover:not(:disabled) { background: color-mix(in oklab, var(--mi-danger) 8%, transparent); }
+    :where([data-theme="sumi"]) .mi-button[data-variant="ghost"]:hover:not(:disabled) { color: var(--mi-fg); }
+  }
+}

@@ -14,6 +14,7 @@ export const THEMES: Record<string, string> = {
   paper: "styles/paper",
   terminal: "styles/terminal",
   neon: "styles/neon",
+  sumi: "styles/sumi",
   system: "vintage/system",
   aero: "y2k/aero",
 };

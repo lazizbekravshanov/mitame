@@ -1,5 +1,6 @@
 ---
 import ThemeSwitcher from "../components/ThemeSwitcher";
+import { THEMES } from "../lib/theme";
 import "../styles/site.css";
 
 interface Props {
@@ -14,6 +15,8 @@ const fullTitle = title === "mitame" ? "mitame 見た目 · old UI, brought back
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const ogImage = Astro.site ? new URL(image, Astro.site).href : image;
 const path = Astro.url.pathname;
+// The pre-paint script validates against this, so a new theme cannot be left out.
+const themeIds = JSON.stringify(THEMES.map((t) => t.id));
 const nav = [
   { href: "/docs", label: "Docs" },
   { href: "/docs/components", label: "Components", match: "/docs/components" },
@@ -44,12 +47,12 @@ const nav = [
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;700&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap" />
-    <script is:inline>
+    <script is:inline define:vars={{ themeIds }}>
       // Apply the saved era and mode before first paint (no flash).
       try {
         const t = localStorage.getItem("mitame-theme");
         const m = localStorage.getItem("mitame-mode");
-        if (["system", "platinum", "aqua", "aero", "liquid", "brutalist", "minimal", "urban", "paper", "terminal", "neon"].includes(t)) document.documentElement.dataset.theme = t;
+        if (themeIds.includes(t)) document.documentElement.dataset.theme = t;
         if (m === "light" || m === "dark") document.documentElement.dataset.mode = m;
       } catch {}
     </script>

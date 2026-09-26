@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { checkAll, contrast, expandSelector, mergeRules, parseRules } from "../scripts/contrast";
+import { THEMES } from "../scripts/build-tokens";
 
 describe("contrast maths", () => {
   it("matches the WCAG reference ratios", () => {
@@ -54,6 +55,6 @@ describe("every theme", () => {
   it("checks a real number of pairs, so a parser regression cannot pass by finding nothing", () => {
     const enforced = checks.filter((c) => !c.advisory);
     expect(enforced.length).toBeGreaterThan(300);
-    expect(new Set(enforced.map((c) => c.theme)).size).toBe(11);
+    expect(new Set(enforced.map((c) => c.theme)).size).toBe(Object.keys(THEMES).length);
   });
 });

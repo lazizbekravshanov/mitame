@@ -14,6 +14,7 @@ export const THEMES = [
   { id: "paper", group: "Styles", era: "Paper", year: "printed", ready: true },
   { id: "terminal", group: "Styles", era: "Terminal", year: "phosphor", ready: true },
   { id: "neon", group: "Styles", era: "Neon", year: "city", ready: true },
+  { id: "sumi", group: "Styles", era: "Sumi", year: "ink", ready: true },
 ] as const;
 export const ERAS = THEMES.filter((t) => t.group === "Eras");
 export const STYLES = THEMES.filter((t) => t.group === "Styles");

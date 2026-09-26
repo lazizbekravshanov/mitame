@@ -976,6 +976,40 @@
       ]
     },
     {
+      "name": "theme-sumi",
+      "type": "registry:theme",
+      "title": "mitame sumi",
+      "description": "The sumi look: one CSS file of tokens and component styling, keyed by data-theme=\"sumi\".",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "theme"
+      ],
+      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/sumi.css\";\nThen set the theme on the page: <html data-theme=\"sumi\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
+      "files": [
+        {
+          "path": "registry/themes/base.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/base.css"
+        },
+        {
+          "path": "registry/themes/styles/sumi.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/sumi.css"
+        },
+        {
+          "path": "registry/themes/styles/sumi.tokens.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/styles/sumi.tokens.css"
+        },
+        {
+          "path": "registry/themes/tailwind.css",
+          "type": "registry:file",
+          "target": "@components/mitame/themes/tailwind.css"
+        }
+      ]
+    },
+    {
       "name": "theme-system",
       "type": "registry:theme",
       "title": "mitame system",
