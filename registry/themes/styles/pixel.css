@@ -207,13 +207,16 @@
     border-radius: 0;
     background: var(--mi-box), var(--mi-groove);
   }
+  /* The handle is the same block as the slider handle, framed rather than
+     filled, so it stays a handle once the slot lights up behind it. */
   :where([data-theme="pixel"]) [data-slot="switch-thumb"] {
     top: 2px;
     left: 2px;
     width: 18px;
     height: 18px;
+    border: 2px solid var(--mi-border);
     border-radius: 0;
-    background: var(--mi-fg);
+    background: var(--mi-lip), var(--mi-face);
     transition: transform var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="pixel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {

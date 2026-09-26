@@ -561,6 +561,417 @@
       ]
     },
     {
+      "name": "settings",
+      "type": "registry:block",
+      "title": "Settings",
+      "description": "Sections down the side, grouped fields, switches with help text, and a danger zone whose confirm button waits until you type the account name.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/settings.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/settings.tsx"
+        },
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/chevron-down.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/chevron-down.tsx"
+        },
+        {
+          "path": "registry/icons/close.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/close.tsx"
+        },
+        {
+          "path": "registry/icons/warning.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/warning.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/pointer-focus.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/pointer-focus.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/dialog.tsx"
+        },
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/select.tsx"
+        },
+        {
+          "path": "registry/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/switch.tsx"
+        },
+        {
+          "path": "registry/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/tabs.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data table",
+      "description": "Search and filters, sortable columns, row selection with a bulk action bar, and pagination over the filtered set.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/data-table.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/data-table.tsx"
+        },
+        {
+          "path": "registry/hooks/use-anchor-position.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-anchor-position.ts"
+        },
+        {
+          "path": "registry/hooks/use-controllable.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-controllable.ts"
+        },
+        {
+          "path": "registry/hooks/use-list-navigation.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-list-navigation.ts"
+        },
+        {
+          "path": "registry/hooks/use-mounted.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-mounted.ts"
+        },
+        {
+          "path": "registry/hooks/use-popover.ts",
+          "type": "registry:hook",
+          "target": "@components/mitame/hooks/use-popover.ts"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/chevron-down.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/chevron-down.tsx"
+        },
+        {
+          "path": "registry/icons/chevron-up.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/chevron-up.tsx"
+        },
+        {
+          "path": "registry/icons/minus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/minus.tsx"
+        },
+        {
+          "path": "registry/icons/more.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/more.tsx"
+        },
+        {
+          "path": "registry/icons/search.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/search.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/pointer-focus.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/pointer-focus.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/checkbox.tsx"
+        },
+        {
+          "path": "registry/ui/menu.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/menu.tsx"
+        },
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/select.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "landing",
+      "type": "registry:block",
+      "title": "Landing",
+      "description": "Hero, feature grid, logo strip, quote, statistics and a closing call to action, with a sign up dialog on the header button.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/landing.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/landing.tsx"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/close.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/close.tsx"
+        },
+        {
+          "path": "registry/icons/minus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/minus.tsx"
+        },
+        {
+          "path": "registry/icons/search.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/search.tsx"
+        },
+        {
+          "path": "registry/icons/success.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/success.tsx"
+        },
+        {
+          "path": "registry/icons/warning.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/warning.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/lib/refs.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/refs.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/checkbox.tsx"
+        },
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/dialog.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
+      "name": "empty-states",
+      "type": "registry:block",
+      "title": "Empty states",
+      "description": "The five states most libraries skip: nothing yet, no results, an error, offline and permission denied.",
+      "author": "Lazizbek Ravshanov <https://mitame.dev>",
+      "categories": [
+        "mitame",
+        "block"
+      ],
+      "docs": "Needs a mitame theme. If you have not added one yet: npx shadcn@latest add lazizbekravshanov/mitame/theme-aqua\nStyle it with the data-slot, data-variant and data-size attributes, or with the --mi-* custom properties. mitame's own CSS sits in @layer components, so your classes and Tailwind utilities already win without tailwind-merge.\nThis block also needs its layout CSS: @import \"./components/mitame/blocks/blocks.css\";",
+      "files": [
+        {
+          "path": "registry/blocks/blocks.css",
+          "type": "registry:file",
+          "target": "@components/mitame/blocks/blocks.css"
+        },
+        {
+          "path": "registry/blocks/empty-states.tsx",
+          "type": "registry:block",
+          "target": "@components/mitame/blocks/empty-states.tsx"
+        },
+        {
+          "path": "registry/icons/check.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/check.tsx"
+        },
+        {
+          "path": "registry/icons/close.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/close.tsx"
+        },
+        {
+          "path": "registry/icons/dot.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/dot.tsx"
+        },
+        {
+          "path": "registry/icons/error.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/error.tsx"
+        },
+        {
+          "path": "registry/icons/minus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/minus.tsx"
+        },
+        {
+          "path": "registry/icons/plus.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/plus.tsx"
+        },
+        {
+          "path": "registry/icons/search.tsx",
+          "type": "registry:component",
+          "target": "@components/mitame/icons/search.tsx"
+        },
+        {
+          "path": "registry/lib/cn.ts",
+          "type": "registry:lib",
+          "target": "@components/mitame/lib/cn.ts"
+        },
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/button.tsx"
+        },
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/card.tsx"
+        },
+        {
+          "path": "registry/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/dialog.tsx"
+        },
+        {
+          "path": "registry/ui/text-field.tsx",
+          "type": "registry:ui",
+          "target": "@components/mitame/ui/text-field.tsx"
+        }
+      ]
+    },
+    {
       "name": "dashboard",
       "type": "registry:block",
       "title": "Dashboard",

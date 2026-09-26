@@ -416,11 +416,12 @@
     color: var(--mi-accent-fg);
     font-size: var(--mi-text-sm);
   }
-  /* The close box belongs in the strip, and the strip sits outside the padding
-     base gives the panel, so the offsets have to reach back out through it. */
+  /* The close box belongs in the strip, so it moves up out of base's corner and
+     shrinks to the height of the strip. These offsets are from the panel frame
+     rather than from its padding, so they hold at any panel size. */
   :where([data-theme="bevel"]) [data-slot="dialog-close-icon"] {
-    top: calc(var(--mi-bleed) * -1 + 2px);
-    right: calc(var(--mi-bleed) * -1 + 2px);
+    top: 6px;
+    right: 5px;
     width: 16px;
     height: 14px;
     color: var(--mi-fg);

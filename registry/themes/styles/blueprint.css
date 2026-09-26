@@ -18,8 +18,8 @@
  *     sans, which is what makes the lettered parts read as notes on a drawing.
  *
  * Dark is the reversed print, cyan lines on deep navy. Light is the drafting
- * sheet, graphite lines on pale blue. Both are drawn for themselves, and the
- * ruling changes ink between them because a white line on paper is nothing.
+ * sheet, graphite lines on pale blue. The ruling changes ink with the mode and
+ * not just the ground, because that is what reversing a print does.
  * Tokens come from Figma (blueprint.tokens.css).
  */
 @import "./blueprint.tokens.css";
@@ -101,7 +101,6 @@
     border-radius: 0;
     background: transparent;
     color: var(--mi-fg);
-    font-size: var(--mi-text-sm);
     transition: background-color var(--mi-duration-fast) var(--mi-ease), border-color var(--mi-duration-fast) var(--mi-ease);
   }
   :where([data-theme="blueprint"]) .mi-button[data-variant="primary"] {
@@ -151,7 +150,8 @@
   /* Small controls are measured by the box alone: ticks around a sixteen pixel
      square would be longer than the thing they measure. */
   :where([data-theme="blueprint"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"],
-  :where([data-theme="blueprint"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] {
+  :where([data-theme="blueprint"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"],
+  :where([data-theme="blueprint"]) :is([data-slot="dialog-close-icon"], [data-slot="toast-close"]):focus-visible {
     outline: 1px solid var(--mi-accent);
     outline-offset: 3px;
   }
@@ -161,7 +161,6 @@
      because a drawing has no light in it. */
   :where([data-theme="blueprint"]) [data-slot="card"] {
     position: relative;
-    padding-top: var(--mi-space-7);
     border: var(--mi-hair);
     border-radius: 0;
     background-color: var(--mi-glass-tint);
@@ -169,11 +168,16 @@
     box-shadow: none;
   }
   /* The title block: a drawing puts its name in a boxed cell at the corner of
-     the sheet, so the heading is drawn there and the body clears it. */
+     the sheet, so the heading is drawn there instead and the body clears the
+     strip. A card with no title has nothing to clear, so it keeps its padding. */
+  :where([data-theme="blueprint"]) [data-slot="card"]:has([data-slot="card-title"]) { padding-top: var(--mi-space-7); }
   :where([data-theme="blueprint"]) [data-slot="card-title"] {
     position: absolute;
     top: 0;
     left: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--mi-space-2);
     max-width: calc(100% - var(--mi-space-6));
     padding: 6px var(--mi-space-3);
     border-right: var(--mi-hair);
@@ -387,7 +391,7 @@
       linear-gradient(90deg, var(--mi-accent) 0 var(--mi-slider-fill), var(--mi-border) var(--mi-slider-fill)) 0 7px / 100% 1px no-repeat;
   }
   /* The handle is the index that reads the scale, so it is a narrow block
-       standing on the line rather than a knob. */
+     standing on the line rather than a knob. */
   :where([data-theme="blueprint"]) [data-slot="slider"]::-webkit-slider-thumb {
     width: 5px;
     height: 18px;
@@ -432,6 +436,7 @@
   :where([data-theme="blueprint"]) [data-slot="tooltip"] { color: var(--mi-fg); }
   :where([data-theme="blueprint"]) [data-slot="toast-title"] { font-weight: 600; }
   :where([data-theme="blueprint"]) [data-slot="toast-action"] {
+    position: relative;
     border: var(--mi-hair);
     border-radius: 0;
     background: transparent;
@@ -443,7 +448,7 @@
   :where([data-theme="blueprint"]) [data-slot="toast"][data-variant="warning"] [data-slot="toast-icon"] { color: var(--mi-warning); }
 
   @media (hover: hover) {
-    /* Hover wets the line rather than filling the shape. */
+    /* Hover puts the line in full ink rather than filling the shape. */
     :where([data-theme="blueprint"]) .mi-button:hover:not(:disabled) { border-color: var(--mi-fg); }
     :where([data-theme="blueprint"]) .mi-button[data-variant="primary"]:hover:not(:disabled) {
       background: color-mix(in oklab, var(--mi-accent) 88%, var(--mi-fg));

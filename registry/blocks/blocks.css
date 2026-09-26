@@ -75,6 +75,321 @@
     .mi-dash-side { border-right: 0; border-bottom: 1px solid var(--mi-border); }
     .mi-dash-nav { flex-direction: row; overflow-x: auto; }
   }
+  /* ---------- settings ---------- */
+  .mi-settings { max-width: 960px; margin: 0 auto; padding: var(--mi-space-8) var(--mi-space-6); }
+  .mi-settings-head { margin-bottom: var(--mi-space-6); }
+  .mi-settings-h1 { margin: 0 0 var(--mi-space-1); font-size: calc(var(--mi-text-xl) * 1.3); font-weight: 700; letter-spacing: -0.02em; }
+  .mi-settings-head p { margin: 0; }
+  .mi-settings-body { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--mi-space-6); align-items: start; }
+  .mi-settings-panel { min-width: 0; }
+
+  .mi-settings-nav { display: flex; flex-direction: column; gap: 2px; }
+  .mi-settings-nav-item {
+    display: flex; align-items: center; width: 100%; min-height: 36px;
+    padding: 8px var(--mi-space-3); border: 0; border-radius: var(--mi-radius-sm);
+    background: none; font: inherit; font-size: var(--mi-text-md); color: var(--mi-fg-muted);
+    text-align: left; white-space: nowrap; cursor: pointer;
+  }
+  /* aria-current is only on the open section, so the attribute is the state. */
+  .mi-settings-nav-item[aria-current] { background: var(--mi-accent); color: var(--mi-accent-fg); font-weight: 600; }
+  .mi-settings-nav-item:focus-visible { outline: 2px solid var(--mi-fg); outline-offset: 2px; }
+
+  /* Save and Discard sit right, the save state sits left. */
+  [data-slot="card-footer"].mi-settings-foot { justify-content: space-between; align-items: center; flex-wrap: wrap; }
+  .mi-settings-status { display: flex; align-items: center; gap: var(--mi-space-2); margin: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-settings-status svg { flex: none; }
+
+  /* base sizes a field input as one line, and the coarse-pointer rule raises it
+     with two attribute selectors, so the bio has to outrank both to stay tall.
+     Only the block padding is ours: the themes that rule an input instead of
+     boxing it set padding-inline to 0, and the bio has to line up with them. */
+  textarea[data-slot="field-input"].mi-settings-bio {
+    height: auto; min-height: 76px; padding-block: var(--mi-space-2);
+    line-height: 1.5; resize: vertical;
+  }
+
+  .mi-settings-rows { display: flex; flex-direction: column; }
+  .mi-settings-row { display: flex; align-items: center; justify-content: space-between; gap: var(--mi-space-4); padding: var(--mi-space-3) 0; }
+  .mi-settings-row + .mi-settings-row { border-top: 1px solid var(--mi-border); }
+  .mi-settings-row > div { min-width: 0; }
+  .mi-settings-row [data-slot="switch"] { flex: none; }
+  .mi-settings-row-label { margin: 0; font-size: var(--mi-text-md); font-weight: 550; }
+  .mi-settings-row-help { margin: 2px 0 0; max-width: 46ch; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+
+  /* Matches the field slots, because a Select with a plain label beside it
+     should not look different from a TextField with a real one. */
+  .mi-settings-field { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .mi-settings-label { font-size: var(--mi-text-sm); font-weight: 550; }
+  .mi-settings-help { margin: 0; max-width: 52ch; font-size: var(--mi-text-xs); color: var(--mi-fg-muted); }
+
+  .mi-settings-preview { list-style: none; max-width: 420px; margin: var(--mi-space-3) 0 0; padding: 0; border: 1px solid var(--mi-border); border-radius: var(--mi-radius-md); font-size: var(--mi-text-sm); }
+  .mi-settings-preview li { padding: var(--mi-space-3) var(--mi-space-4); }
+  .mi-settings-preview li + li { border-top: 1px solid var(--mi-border); }
+  .mi-settings-preview[data-density="compact"] li { padding: var(--mi-space-2) var(--mi-space-4); }
+  .mi-settings-preview[data-density="roomy"] li { padding: var(--mi-space-5) var(--mi-space-4); }
+
+  .mi-settings-facts { display: flex; flex-wrap: wrap; gap: var(--mi-space-4) var(--mi-space-7); margin: 0; }
+  .mi-settings-facts dt { font-size: var(--mi-text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--mi-fg-muted); }
+  .mi-settings-facts dd { margin: 4px 0 0; font-size: var(--mi-text-md); font-weight: 600; }
+  .mi-settings-code { padding: 1px 5px; border-radius: var(--mi-radius-sm); background: color-mix(in oklab, var(--mi-fg) 10%, transparent); font-family: var(--mi-font-mono); font-size: 0.95em; }
+
+  /* Themes own how thick a card edge is, so the danger card only recolours it. */
+  .mi-settings-danger[data-slot="card"] { border-color: var(--mi-danger); }
+  .mi-settings-danger-title { display: flex; align-items: center; gap: var(--mi-space-2); }
+  /* The icon inherits the title ink. Danger as small text drops under 4.5:1 in
+     the themes that paint status colours as flat fills, and the red edge plus
+     the word already carry the warning. */
+  .mi-settings-danger-title svg { flex: none; color: inherit; }
+  [data-slot="card-footer"].mi-settings-danger-foot { align-items: center; flex-wrap: wrap; padding-top: var(--mi-space-4); border-top: 1px solid var(--mi-danger); }
+  /* Keeps the button right whether or not the scheduled notice is there. */
+  .mi-settings-danger-foot .mi-settings-status { margin-right: auto; }
+
+  @media (max-width: 760px) {
+    .mi-settings { padding: var(--mi-space-6) var(--mi-space-4); }
+    .mi-settings-body { grid-template-columns: 1fr; gap: var(--mi-space-4); }
+    .mi-settings-nav { flex-direction: row; overflow-x: auto; padding-bottom: var(--mi-space-2); border-bottom: 1px solid var(--mi-border); }
+    .mi-settings-nav-item { flex: none; width: auto; }
+    .mi-settings-row { align-items: flex-start; }
+    [data-slot="card-footer"].mi-settings-foot { flex-direction: column; align-items: stretch; }
+    [data-slot="card-footer"].mi-settings-foot .mi-block-row { justify-content: flex-end; }
+  }
+  /* ---------- landing ---------- */
+  .mi-landing {
+    display: flex;
+    flex-direction: column;
+    /* Most themes put space-7 at 32px to 40px, sumi puts it at 112px and
+       space-8 at 192px. A landing page stacks seven bands, so each one caps
+       what it takes from the scale instead of leaving a screen of empty page. */
+    --mi-landing-band: clamp(var(--mi-space-6), var(--mi-space-7), 88px);
+    --mi-landing-band-lg: clamp(var(--mi-space-7), var(--mi-space-8), 112px);
+    --mi-landing-gap: clamp(var(--mi-space-5), var(--mi-space-6), 40px);
+  }
+  /* Each band runs the full width so its border or tint reaches both edges, and
+     the inner column keeps every band lined up on the same measure. No width
+     here on purpose: a block box already fills its band, and width: 100% would
+     push the padding outside it in a project with no box-sizing reset. */
+  .mi-landing-inner { max-width: 1120px; margin: 0 auto; padding: var(--mi-landing-band) var(--mi-space-6); }
+
+  .mi-landing-header { border-bottom: 1px solid var(--mi-border); }
+  .mi-landing-header .mi-landing-inner {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: var(--mi-space-4); padding-top: var(--mi-space-4); padding-bottom: var(--mi-space-4);
+  }
+  .mi-landing-brand { display: flex; align-items: center; gap: var(--mi-space-3); margin: 0; font-size: var(--mi-text-lg); font-weight: 700; letter-spacing: -0.01em; }
+  .mi-landing-nav { display: flex; align-items: center; gap: var(--mi-space-5); }
+  .mi-landing-nav a { color: var(--mi-fg-muted); font-size: var(--mi-text-md); text-decoration: none; }
+  .mi-landing-nav a:hover { color: var(--mi-fg); text-decoration: underline; text-underline-offset: 3px; }
+
+  .mi-landing-hero .mi-landing-inner {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--mi-space-5);
+    padding-top: var(--mi-landing-band-lg); padding-bottom: var(--mi-landing-band-lg);
+  }
+  .mi-landing-eyebrow { margin: 0; padding: 3px 12px; border-radius: var(--mi-radius-full); background: var(--mi-accent); color: var(--mi-accent-fg); font-size: var(--mi-text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  /* sumi sets --mi-text-xl to 40px, so the viewport gets the last word rather
+     than one theme deciding the headline overflows on a phone. */
+  .mi-landing-headline { margin: 0; max-width: 24ch; font-size: min(calc(var(--mi-text-xl) * 2.1), 11vw); font-weight: 800; line-height: 1.04; letter-spacing: -0.035em; }
+  .mi-landing-sub { margin: 0; max-width: 56ch; font-size: var(--mi-text-lg); color: var(--mi-fg-muted); }
+  .mi-landing-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--mi-space-3); }
+  .mi-landing-proof { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--mi-space-3); list-style: none; margin: 0; padding: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-landing-proof li { display: flex; align-items: center; gap: var(--mi-space-3); }
+  /* The separator is drawn rather than typed, so no screen reader reads it out. */
+  .mi-landing-proof li + li::before { content: ""; width: 3px; height: 3px; border-radius: var(--mi-radius-full); background: currentColor; }
+
+  .mi-landing-logos .mi-landing-inner {
+    display: flex; flex-direction: column; align-items: center; gap: var(--mi-space-4);
+    padding-top: var(--mi-space-5); padding-bottom: var(--mi-landing-band);
+  }
+  .mi-landing-logos-label { margin: 0; font-size: var(--mi-text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mi-fg-muted); }
+  .mi-landing-logos ul { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--mi-space-4) var(--mi-landing-gap); list-style: none; margin: 0; padding: 0; }
+  /* Names set in type instead of invented logos. Muted is the whole point here. */
+  .mi-landing-logos li { font-size: var(--mi-text-lg); font-weight: 650; letter-spacing: -0.01em; color: var(--mi-fg-muted); }
+
+  .mi-landing-head { text-align: center; margin-bottom: var(--mi-landing-gap); }
+  .mi-landing-grid { display: grid; gap: var(--mi-space-5); grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); align-items: start; }
+  .mi-landing-feature-icon { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--mi-border); border-radius: var(--mi-radius-md); }
+
+  .mi-landing-quote { border-top: 1px solid var(--mi-border); border-bottom: 1px solid var(--mi-border); }
+  .mi-landing-quote .mi-landing-inner { padding-top: var(--mi-landing-band-lg); padding-bottom: var(--mi-landing-band-lg); }
+  .mi-landing-quote-figure { display: flex; flex-direction: column; align-items: center; gap: var(--mi-space-4); margin: 0; text-align: center; }
+  .mi-landing-quote-text { margin: 0; max-width: 48ch; font-size: min(calc(var(--mi-text-xl) * 1.25), 6vw); font-weight: 600; line-height: 1.3; letter-spacing: -0.02em; }
+  /* The mark is decoration, so it stays in a pseudo element and out of the copy.
+     Muted rather than accent: brutalist and notebook paint accent as a pale
+     yellow, and a glyph this size would disappear in both. */
+  .mi-landing-quote-text::before { content: "\201C"; display: block; font-size: 2.2em; line-height: 0.7; color: var(--mi-fg-muted); }
+  .mi-landing-quote-by { display: flex; flex-direction: column; gap: 2px; font-size: var(--mi-text-sm); }
+  .mi-landing-quote-by span { color: var(--mi-fg-muted); }
+
+  .mi-landing-results .mi-landing-inner { display: flex; flex-direction: column; align-items: center; gap: var(--mi-landing-gap); }
+  .mi-landing-results-label { margin: 0; font-size: var(--mi-text-xs); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mi-fg-muted); }
+  .mi-landing-stats { display: grid; gap: var(--mi-landing-gap); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); width: 100%; margin: 0; text-align: center; }
+  .mi-landing-stat { display: flex; flex-direction: column; gap: var(--mi-space-1); }
+  /* A description list names the term before the value, and the design wants the
+     number first, so the value moves instead of the markup bending. */
+  .mi-landing-stat-value { order: -1; margin: 0; font-size: calc(var(--mi-text-xl) * 1.7); font-weight: 800; line-height: 1; letter-spacing: -0.03em; }
+  .mi-landing-stat-label { margin: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+
+  .mi-landing-cta-panel {
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--mi-space-4);
+    padding: var(--mi-landing-band-lg) var(--mi-space-6);
+    border: 1px solid var(--mi-border); border-radius: var(--mi-radius-lg);
+    /* The tint is mixed into the page rather than laid over it, so the panel takes
+       the theme's accent without putting text on a colour no theme has checked. */
+    background: color-mix(in oklab, var(--mi-accent) 8%, var(--mi-bg));
+  }
+  .mi-landing-cta-title { margin: 0; max-width: 28ch; font-size: calc(var(--mi-text-xl) * 1.4); font-weight: 750; line-height: 1.1; letter-spacing: -0.025em; }
+  /* Full strength ink, not muted: on the tint, muted drops to 3.9:1 in minimal. */
+  .mi-landing-cta-sub { margin: 0; max-width: 52ch; }
+  /* Same trade as the sign in footer: accent as the underline, not as the ink.
+     Half mixed into the ink, because a straight accent underline is 2.4:1 in
+     notebook and the underline is the only thing marking this as a link. */
+  .mi-landing-cta-link {
+    font-size: var(--mi-text-sm);
+    color: var(--mi-fg);
+    text-decoration-color: color-mix(in oklab, var(--mi-accent) 50%, var(--mi-fg));
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 760px) {
+    .mi-landing-inner { padding-left: var(--mi-space-5); padding-right: var(--mi-space-5); }
+    /* Brand and button keep the first row, the links take a row of their own. */
+    .mi-landing-nav { order: 1; width: 100%; justify-content: center; gap: var(--mi-space-4); }
+    .mi-landing-cta-panel { padding-left: var(--mi-space-5); padding-right: var(--mi-space-5); }
+  }
+  /* ---------- empty states ---------- */
+  .mi-emptystates-tools { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: var(--mi-space-3); }
+  .mi-emptystates-search { width: min(300px, 100%); }
+  .mi-emptystates-count { margin: var(--mi-space-3) 0 var(--mi-space-5); text-align: center; font-size: var(--mi-text-xs); color: var(--mi-fg-muted); }
+  /* Five cards divide badly into a grid, so they wrap and the short last row
+     centres itself instead of hanging off the left edge. */
+  .mi-emptystates-gallery { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--mi-space-5); }
+  .mi-emptystates-card { flex: 1 1 260px; max-width: 330px; --mi-emptystates-tone: var(--mi-accent); text-align: center; }
+  /* The one card left standing gets the room it needs to echo a long query. */
+  .mi-emptystates-gallery[data-solo] .mi-emptystates-card { flex-basis: 420px; max-width: 420px; }
+  .mi-emptystates-card[data-tone="neutral"] { --mi-emptystates-tone: var(--mi-fg); }
+  .mi-emptystates-card[data-tone="danger"] { --mi-emptystates-tone: var(--mi-danger); }
+  .mi-emptystates-card[data-tone="warning"] { --mi-emptystates-tone: var(--mi-warning); }
+  .mi-emptystates-head { align-items: center; gap: var(--mi-space-2); }
+  .mi-emptystates-badge {
+    width: 48px; height: 48px; display: grid; place-items: center;
+    border-radius: var(--mi-radius-lg);
+    border: 1px solid color-mix(in oklab, var(--mi-emptystates-tone) 32%, transparent);
+    background: color-mix(in oklab, var(--mi-emptystates-tone) 14%, transparent);
+    /* Mixing the tone into the page ink keeps the glyph readable in the themes
+       that paint their status colours as flat fills meant for black text. */
+    color: color-mix(in oklab, var(--mi-emptystates-tone) 60%, var(--mi-fg));
+  }
+  .mi-emptystates-badge svg { width: 22px; height: 22px; }
+  .mi-emptystates-kind { margin: 0; font-size: var(--mi-text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mi-fg-muted); }
+  .mi-emptystates-copy { margin-inline: auto; max-width: 34ch; }
+  .mi-emptystates-echo { overflow-wrap: anywhere; }
+  /* Cards in a row are the same height, so the actions line up across them. */
+  .mi-emptystates-foot { margin-top: auto; flex-direction: column; align-items: center; justify-content: center; gap: var(--mi-space-3); }
+  .mi-emptystates-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--mi-space-2); }
+  /* Flowing text, not a flex row: a sentence next to an icon should wrap under
+     itself rather than push the icon onto a line of its own. */
+  .mi-emptystates-note {
+    width: 100%; margin: 0; padding-top: var(--mi-space-3); line-height: 1.7;
+    border-top: 1px solid color-mix(in oklab, var(--mi-fg) 12%, transparent);
+    font-size: var(--mi-text-xs); color: var(--mi-fg-muted);
+  }
+  .mi-emptystates-note svg { vertical-align: middle; margin-right: 4px; }
+  .mi-emptystates-note [data-slot="button"] { margin-left: var(--mi-space-2); }
+  .mi-emptystates-dot { color: color-mix(in oklab, var(--mi-danger) 60%, var(--mi-fg)); }
+  .mi-emptystates-dot[data-online] { color: color-mix(in oklab, var(--mi-success) 60%, var(--mi-fg)); }
+  /* Accent as link text fails 4.5:1 in several themes, so the accent goes in
+     the underline, the same way the sign in block does it. The button height
+     keeps the target big enough to hit with a thumb. */
+  .mi-emptystates-link {
+    display: inline-flex; align-items: center; min-height: 36px;
+    font-size: var(--mi-text-sm); color: var(--mi-fg);
+    text-decoration-color: var(--mi-accent); text-decoration-thickness: 2px; text-underline-offset: 3px;
+  }
+  .mi-emptystates-link:focus-visible { outline: 2px solid var(--mi-fg); outline-offset: 3px; }
+  .mi-emptystates-form { display: flex; flex-direction: column; gap: var(--mi-space-5); }
+  /* ---------- data table ---------- */
+  /* The toolbar and the bulk bar trade places, so they share a shape. */
+  .mi-datatable-toolbar,
+  .mi-datatable-bulk { display: flex; align-items: center; flex-wrap: wrap; gap: var(--mi-space-3); }
+  .mi-datatable-bulk { justify-content: space-between; }
+  .mi-datatable-bulk-count { margin: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-datatable-bulk-count strong { font-size: var(--mi-text-md); color: var(--mi-fg); }
+  .mi-datatable-search { flex: 1 1 200px; }
+  /* Two selects and a menu have to fit a phone, so the base minimum gives way. */
+  .mi-datatable-toolbar [data-slot="select"] { min-width: 0; flex: 1 1 148px; }
+  .mi-datatable-columns { margin-left: auto; }
+
+  /* A table too wide for the card scrolls, and a scroll container only reaches
+     the keyboard when it can hold focus, which needs a ring of its own. */
+  .mi-datatable-scroll { overflow-x: auto; }
+  .mi-datatable-scroll:focus-visible { outline: 2px solid var(--mi-fg); outline-offset: 2px; }
+
+  .mi-datatable-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: var(--mi-text-sm); }
+  .mi-datatable-caption { caption-side: top; text-align: left; padding-bottom: var(--mi-space-2); font-size: var(--mi-text-xs); color: var(--mi-fg-muted); }
+  .mi-datatable-table thead th {
+    padding: 0 var(--mi-space-3) var(--mi-space-2);
+    font-size: var(--mi-text-xs); font-weight: 600; text-align: left; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--mi-fg-muted); white-space: nowrap;
+  }
+  .mi-datatable-table tbody th,
+  .mi-datatable-table td { padding: var(--mi-space-3); border-top: 1px solid var(--mi-border); vertical-align: middle; }
+  .mi-datatable-table tbody th { text-align: left; font-weight: 600; white-space: nowrap; }
+  .mi-datatable-table tbody tr:hover { background: color-mix(in oklab, var(--mi-fg) 5%, transparent); }
+  /* Selection outranks hover, so it comes after it. */
+  .mi-datatable-table tbody tr[data-selected] { background: color-mix(in oklab, var(--mi-accent) 12%, transparent); }
+  .mi-datatable-table .mi-datatable-pick { width: 1%; padding-right: 0; }
+  .mi-datatable-table .mi-datatable-end { width: 1%; text-align: right; }
+  .mi-datatable-figure { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* The negative margin lets the button's own padding sit inside the cell's,
+     so a sortable label lines up with the plain ones. */
+  .mi-datatable-sort {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin: 0 calc(var(--mi-space-2) * -1); padding: 4px var(--mi-space-2);
+    border: 0; border-radius: var(--mi-radius-sm); background: none;
+    font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; cursor: pointer;
+  }
+  .mi-datatable-sort:hover { color: var(--mi-fg); background: color-mix(in oklab, var(--mi-fg) 8%, transparent); }
+  .mi-datatable-sort:focus-visible { outline: 2px solid var(--mi-fg); outline-offset: 1px; }
+  .mi-datatable-sort[data-on] { color: var(--mi-fg); }
+  .mi-datatable-sort svg { flex: none; width: 14px; height: 14px; }
+  /* A faded arrow offers the sort; a solid one reports it. */
+  .mi-datatable-sort:not([data-on]) svg { opacity: 0.4; }
+
+  .mi-datatable-status { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  /* The dot is a decoration next to a word, so it is drawn rather than written.
+     The hairline ring keeps it visible in a theme whose status fill is pale. */
+  .mi-datatable-status::before {
+    content: ""; flex: none; width: 9px; height: 9px;
+    border-radius: var(--mi-radius-full);
+    background: var(--mi-fg-muted);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--mi-fg) 30%, transparent);
+  }
+  .mi-datatable-status[data-status="live"]::before { background: var(--mi-success); }
+  .mi-datatable-status[data-status="building"]::before { background: var(--mi-warning); }
+  .mi-datatable-status[data-status="failed"]::before { background: var(--mi-danger); }
+
+  .mi-datatable-table .mi-datatable-empty { padding: var(--mi-space-7) var(--mi-space-3); text-align: center; }
+  .mi-datatable-empty p { margin: 0 0 var(--mi-space-3); color: var(--mi-fg-muted); }
+
+  .mi-datatable .mi-datatable-foot { justify-content: space-between; flex-wrap: wrap; align-items: center; }
+  .mi-datatable-tally { margin: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-datatable-pager { display: flex; align-items: center; gap: var(--mi-space-2); }
+  .mi-datatable-page { font-size: var(--mi-text-sm); color: var(--mi-fg-muted); white-space: nowrap; }
+
+  /* The check keeps its box when it is hidden, so the column labels stay aligned. */
+  .mi-datatable-unchecked { visibility: hidden; }
+
+  /* A screen reader reads the next status message only if the region was already
+     there, so the empty line stays in the DOM and swallows the card's gap instead. */
+  .mi-datatable-live { margin: 0; font-size: var(--mi-text-sm); color: var(--mi-fg-muted); }
+  .mi-datatable-live:empty { margin-top: calc(var(--mi-space-4) * -1); }
+
+  .mi-datatable-sr {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+
   /* brutalist paints its status colours as flat fills, so as small text they
      drop to 1.3:1. Same information, drawn the way that theme draws things. */
   :where([data-theme="brutalist"]) .mi-price-list svg { color: var(--mi-fg); }
