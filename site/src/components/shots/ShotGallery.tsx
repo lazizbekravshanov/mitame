@@ -12,7 +12,6 @@ const LABEL: Record<string, string> = {
   liquid: "Now · liquid · 2026",
   platinum: "Vintage · platinum · 1997",
   brutalist: "Style · brutalist",
-  minimal: "Style · minimal",
   urban: "Style · urban",
   system: "Vintage · system · 1984",
   aero: "Y2K · aero · 2009",

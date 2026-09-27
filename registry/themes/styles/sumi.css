@@ -6,7 +6,7 @@
  * like a material, and yohaku no bi (余白の美) is the idea that the unpainted
  * paper is part of the painting.
  *
- * What that means here, against mitame's own minimal and paper themes:
+ * What that means here, against mitame's own paper theme:
  *   - The space scale has a hole in it: 4, 8, 12, 16, 24, then 64, 112, 192.
  *     Every gap on screen is either joinery fine or room sized, never between.
  *   - Emphasis sits off centre and high, like a tokonoma alcove, so a card's
@@ -17,7 +17,7 @@
  *     ink, ground and indigo.
  *   - The pause is part of the gesture: overlays wait, then arrive slowly.
  *   - Quiet text is quiet by size and tracking, not by fading. The muted ink
- *     still reads at 7.9:1, where minimal and paper both drop below 5.
+ *     still reads at 7.9:1, where paper drops below 5.
  *
  * Colours are traditional (dentou-iro), named in the tokens file: shironeri
  * ground, sumi ink, ai indigo, suoh, chitosemidori, mirucha, and ginshu for

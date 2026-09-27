@@ -1,6 +1,6 @@
 ---
 name: mitame
-description: Use when adding, styling or theming UI with mitame (見た目), the copy-paste React component library, or when a project contains mitame.json or a components/mitame directory. Covers installing components, the CSS import order, the data-slot styling contract and the 18 themes.
+description: Use when adding, styling or theming UI with mitame (見た目), the copy-paste React component library, or when a project contains mitame.json or a components/mitame directory. Covers installing components, the CSS import order, the data-slot styling contract and the 17 themes.
 ---
 
 # mitame
@@ -53,7 +53,7 @@ To restyle one component everywhere, write a rule against its slot. To restyle o
 
 ## Themes
 
-18 of them, in two shelves. Eras are looks that existed: `system` (1984), `bevel` (1995), `platinum` (1997), `aqua` (2001), `aero` (2009), `linen` (2012), `liquid` (2026). Styles are looks that are just looks: `brutalist`, `minimal`, `urban`, `paper`, `terminal`, `neon`, `sumi`, `pixel`, `clay`, `blueprint`, `notebook`.
+17 of them, in two shelves. Eras are looks that existed: `system` (1984), `bevel` (1995), `platinum` (1997), `aqua` (2001), `aero` (2009), `linen` (2012), `liquid` (2026). Styles are looks that are just looks: `brutalist`, `urban`, `paper`, `terminal`, `neon`, `sumi`, `pixel`, `clay`, `blueprint`, `notebook`.
 
 Switching is one attribute plus one import. Every component works in every theme, because a theme only supplies material and never structure.
 

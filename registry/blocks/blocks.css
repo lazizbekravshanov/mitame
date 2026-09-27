@@ -237,7 +237,8 @@
     background: color-mix(in oklab, var(--mi-accent) 8%, var(--mi-bg));
   }
   .mi-landing-cta-title { margin: 0; max-width: 28ch; font-size: calc(var(--mi-text-xl) * 1.4); font-weight: 750; line-height: 1.1; letter-spacing: -0.025em; }
-  /* Full strength ink, not muted: on the tint, muted drops to 3.9:1 in minimal. */
+  /* Full strength ink, not muted: on the tint, muted drops under 4.5:1 in the
+     quieter themes. */
   .mi-landing-cta-sub { margin: 0; max-width: 52ch; }
   /* Same trade as the sign in footer: accent as the underline, not as the ink.
      Half mixed into the ink, because a straight accent underline is 2.4:1 in

@@ -19,7 +19,7 @@ const SHOTS = [
   { url: "/og/card/platinum/", file: "og-platinum.png", w: 1200, h: 630 },
   { url: "/og/card/terminal/", file: "og-terminal.png", w: 1200, h: 630 },
   { url: "/og/card/paper/", file: "og-paper.png", w: 1200, h: 630 },
-  ...themes.map((name, i) => ({ url: `/og/gallery/${name}/`, file: `gallery-${i + 1}-${name}.png`, w: 1270, h: 760 })),
+  ...themes.map((name) => ({ url: `/og/gallery/${name}/`, file: `gallery-${name}.png`, w: 1270, h: 760 })),
   { url: "/og/block/urban/", file: "block-dashboard-urban.png", w: 1270, h: 760 },
   { url: "/og/block/brutalist/", file: "block-dashboard-brutalist.png", w: 1270, h: 760 },
   { url: "/og/block/aqua/", file: "block-dashboard-aqua.png", w: 1270, h: 760 },

@@ -567,8 +567,8 @@ function varMap(file: TokenFile, mode: "light" | "dark"): Map<string, string> {
 /**
  * Whether a focus state also repaints its text. If it does, the fill is not the
  * only thing telling a user where they are, so it does not have to carry the
- * 3:1 on its own. Aqua's selected row turns white on blue; minimal's just gets
- * a slightly paler grey, and that one is the problem.
+ * 3:1 on its own. Aqua's selected row turns white on blue, which is a second
+ * cue; a row that only gets a slightly paler grey is the case this catches.
  */
 function changesInk(merged: Map<string, Merged>, entry: Merged, slot: string): boolean {
   const focusInk = entry.color?.value;

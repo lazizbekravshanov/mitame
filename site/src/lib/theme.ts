@@ -9,7 +9,6 @@ export const THEMES = [
   { id: "aero", group: "Eras", era: "Y2K", year: "2009", ready: true },
   { id: "liquid", group: "Eras", era: "Now", year: "2026", ready: true },
   { id: "brutalist", group: "Styles", era: "Brutalist", year: "loud", ready: true },
-  { id: "minimal", group: "Styles", era: "Minimal", year: "quiet", ready: true },
   { id: "urban", group: "Styles", era: "Urban", year: "night", ready: true },
   { id: "paper", group: "Styles", era: "Paper", year: "printed", ready: true },
   { id: "terminal", group: "Styles", era: "Terminal", year: "phosphor", ready: true },

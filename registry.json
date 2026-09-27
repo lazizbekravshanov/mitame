@@ -1217,40 +1217,6 @@
       ]
     },
     {
-      "name": "theme-minimal",
-      "type": "registry:theme",
-      "title": "mitame minimal",
-      "description": "The minimal look: one CSS file of tokens and component styling, keyed by data-theme=\"minimal\".",
-      "author": "Lazizbek Ravshanov <https://mitame.dev>",
-      "categories": [
-        "mitame",
-        "theme"
-      ],
-      "docs": "Import the CSS once in your global stylesheet, in this order:\n  @import \"./components/mitame/themes/base.css\";\n  @import \"./components/mitame/themes/styles/minimal.css\";\nThen set the theme on the page: <html data-theme=\"minimal\">.\nTailwind users: add @import \"./components/mitame/themes/tailwind.css\" after tailwindcss.\nPaths are relative to the stylesheet you import them from, so adjust the depth if yours is nested.",
-      "files": [
-        {
-          "path": "registry/themes/base.css",
-          "type": "registry:file",
-          "target": "@components/mitame/themes/base.css"
-        },
-        {
-          "path": "registry/themes/styles/minimal.css",
-          "type": "registry:file",
-          "target": "@components/mitame/themes/styles/minimal.css"
-        },
-        {
-          "path": "registry/themes/styles/minimal.tokens.css",
-          "type": "registry:file",
-          "target": "@components/mitame/themes/styles/minimal.tokens.css"
-        },
-        {
-          "path": "registry/themes/tailwind.css",
-          "type": "registry:file",
-          "target": "@components/mitame/themes/tailwind.css"
-        }
-      ]
-    },
-    {
       "name": "theme-urban",
       "type": "registry:theme",
       "title": "mitame urban",

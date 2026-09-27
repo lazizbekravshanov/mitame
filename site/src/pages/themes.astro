@@ -1,75 +1,94 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const shelves = [
-  {
-    name: "Eras",
-    blurb: "Looks that actually existed, rebuilt from memory and screenshots.",
-    themes: [
-      { id: "platinum", title: "Vintage · 1997", live: true, text: "Mac OS 8 and 9 Platinum: flat gray, 1px black outlines, raised and sunken bevels, hard drop shadows, square corners and no animation. Dark mode is graphite." },
-      { id: "aqua", title: "Y2K · 2000 to 2012", live: true, text: "Lickable gel buttons, pinstripes, the blue ⇅ popup button, yellow help tags and smoky notifications. Midnight dark mode included." },
-      { id: "liquid", title: "Now · 2025 and later", live: true, text: "Frosted liquid glass with a bright rim light, deep soft shadows and one Aqua style shine on the primary button." },
-      { id: "system", title: "Vintage · 1984", live: true, text: "The original Macintosh: 1-bit black and white, no gray anywhere. Depth comes from dither patterns, selection inverts, nothing animates." },
-      { id: "aero", title: "Y2K · 2006 to 2012", live: true, text: "Frutiger Aero: glossy glass, saturated sky blues, wet highlights on every control. Vista and Windows 7 by way of a stock photo." },
-      { id: "bevel", title: "Vintage · 1995", live: true, text: "The beveled desktop: gray chrome, raised and sunken 2px borders, a gradient title bar and a dotted focus rectangle. Every edge tells you whether it is up or down." },
-      { id: "linen", title: "Y2K · 2012", live: true, text: "Skeuomorphic: woven linen behind the glass, stitched edges, glossy pill controls, letterpress labels and switches that look like they were sewn on." },
-    ],
-  },
-  {
-    name: "Styles",
-    blurb: "Looks that are just looks. No nostalgia required.",
-    themes: [
-      { id: "brutalist", title: "Loud", live: true, text: "Thick black outlines, hard offset shadows, zero radius and flat color. Press a button and it slams into its own shadow." },
-      { id: "minimal", title: "Quiet", live: true, text: "Swiss: hairline borders, no shadows, generous space and one ink color doing all the work. Tabs are an underline, inputs are a rule." },
-      { id: "urban", title: "Night", live: true, text: "Streetwear: near black with a scanline grain, acid green accent, heavy uppercase type and monospace sticker tags." },
-      { id: "paper", title: "Printed", live: true, text: "Warm off-white stock, serif headings over a quiet sans, clay accent and ink hairlines. The look of a well set document." },
-      { id: "terminal", title: "Phosphor", live: true, text: "Monospace everything, bracketed buttons, inverted selection, scanlines and a blinking caret. Light mode is amber on paper." },
-      { id: "neon", title: "City", live: true, text: "Deep violet black with magenta and cyan glow, blurred halos and lit controls. The switch actually glows when it is on." },
-      { id: "pixel", title: "Arcade", live: true, text: "8 bit: hard pixel borders, no antialiasing, a four colour ramp and controls that push down by two pixels when you press them." },
-      { id: "clay", title: "Soft", live: true, text: "Claymorphism: puffy rounded shapes, pastel ground, soft double shadows inside and out. Everything looks pressable because everything is a cushion." },
-      { id: "blueprint", title: "Drafted", live: true, text: "Technical drawing: cyan lines on navy, a millimetre grid behind everything, monospace annotations and dimension ticks on the focused control." },
-      { id: "notebook", title: "Drawn", live: true, text: "Hand drawn: wobbling borders, a ruled page, marker highlights and controls that look sketched in pencil rather than rendered." },
-      { id: "sumi", title: "Ink", live: true, text: "Japanese spatial minimalism: a space scale with a hole in it, so every gap is either hairline fine or room sized. Cut square corners, traditional colours, and one vermilion seal per component." },
-    ],
-  },
+// Eras carry a year because the shelf is a timeline: the gap between two of
+// them on the page is drawn from the gap between them in years.
+const eras = [
+  { id: "system", year: 1984, title: "The first one", text: "The original Macintosh: 1-bit black and white, no gray anywhere. Depth comes from dither patterns, selection inverts, nothing animates." },
+  { id: "bevel", year: 1995, title: "The beveled desktop", text: "Gray chrome, raised and sunken 2px borders, a gradient title strip and a dotted focus rectangle. Every edge tells you whether it is up or down." },
+  { id: "platinum", year: 1997, title: "Platinum", text: "Mac OS 8 and 9: flat gray, 1px black outlines, raised and sunken bevels, hard drop shadows, square corners and no animation. Dark mode is graphite." },
+  { id: "aqua", year: 2001, title: "Aqua", text: "Lickable gel buttons, pinstripes, the blue ⇅ popup button, yellow help tags and smoky notifications. Midnight dark mode included." },
+  { id: "aero", year: 2009, title: "Frutiger Aero", text: "Glossy glass, saturated sky blues, wet highlights on every control. Vista and Windows 7 by way of a stock photo." },
+  { id: "linen", year: 2012, title: "Skeuomorphic", text: "Woven linen behind the glass, stitched edges, glossy pill controls, letterpress labels and switches that look like they were sewn on." },
+  { id: "liquid", year: 2026, title: "Liquid glass", text: "Frosted glass with a bright rim light, deep soft shadows and one Aqua style shine on the primary button." },
 ];
+
+const styles = [
+  { id: "brutalist", title: "Loud", text: "Thick black outlines, hard offset shadows, zero radius and flat color. Press a button and it slams into its own shadow." },
+  { id: "urban", title: "Night", text: "Streetwear: near black with a scanline grain, acid green accent, heavy uppercase type and monospace sticker tags." },
+  { id: "paper", title: "Printed", text: "Warm off-white stock, serif headings over a quiet sans, clay accent and ink hairlines. The look of a well set document." },
+  { id: "terminal", title: "Phosphor", text: "Monospace everything, bracketed buttons, inverted selection, scanlines and a blinking caret. Light mode is amber on paper." },
+  { id: "neon", title: "City", text: "Deep violet black with magenta and cyan glow, blurred halos and lit controls. The switch actually glows when it is on." },
+  { id: "sumi", title: "Ink", text: "Japanese spatial minimalism: a space scale with a hole in it, so every gap is either hairline fine or room sized. Cut square corners and one vermilion seal per component." },
+  { id: "pixel", title: "Arcade", text: "8 bit: hard pixel borders, no antialiasing, a four colour ramp and controls that push down by two pixels when you press them." },
+  { id: "clay", title: "Soft", text: "Claymorphism: puffy rounded shapes, pastel ground, soft double shadows inside and out. Everything looks pressable because everything is a cushion." },
+  { id: "blueprint", title: "Drafted", text: "Technical drawing: cyan lines on navy, a millimetre grid behind everything, monospace annotations and dimension ticks on the focused control." },
+  { id: "notebook", title: "Drawn", text: "Hand drawn: uneven borders, a ruled page, marker highlights and controls that look sketched in pencil rather than rendered." },
+];
+
+/** The years since the previous era, turned into space on the page. */
+const spacing = (i: number) => (i === 0 ? 0 : Math.round(Math.min(132, Math.max(28, (eras[i]!.year - eras[i - 1]!.year) * 7))));
 ---
 
-<Base image="/social/og-platinum.png" title="Themes" description="mitame themes: Vintage platinum, Y2K aqua, Now liquid glass, plus brutalist, minimal and urban styles. One set of React components, many looks.">
+<Base
+  image="/social/og-platinum.png"
+  title="Themes"
+  description="mitame themes: an era timeline from 1984 to 2026, plus ten styles. One set of React components, seventeen looks."
+>
   <section class="mx-auto max-w-6xl px-4 py-12">
     <h1 class="m-0 text-4xl font-bold tracking-tight">Themes</h1>
     <p class="lede mt-3 max-w-2xl">
       Every component works in every theme. A theme is one CSS file keyed by <code class="inline-code">data-theme</code>, and the tokens behind it are designed in Figma.
     </p>
 
-    {
-      shelves.map((shelf) => (
-        <div class="mt-12">
-          <h2 class="m-0 text-2xl font-bold">{shelf.name}</h2>
-          <p class="mt-1 mb-6 text-mi-fg-muted">{shelf.blurb}</p>
-          <div class="grid gap-5 md:grid-cols-2">
-            {shelf.themes.map((t) => (
-              <div data-theme={t.live ? t.id : undefined} class="rounded-mi-lg overflow-hidden">
-                <div class="wallpaper p-5">
-                  <div class="panel p-6">
-                    <p class="m-0 text-sm font-semibold text-mi-fg-muted">{t.title}</p>
-                    <h3 class="mt-1 mb-2 text-2xl font-bold">{t.id}</h3>
-                    <p class="m-0 text-mi-fg-muted">{t.text}</p>
-                    <p class="mt-4 mb-0 text-sm font-semibold">{t.live ? "Available" : "Coming next"}</p>
-                    {t.live && (
-                      <div class="mt-4 flex flex-wrap items-center gap-2">
-                        <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
-                        <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
-                        <code class="inline-code">data-theme="{t.id}"</code>
-                      </div>
-                    )}
+    <h2 class="mt-12 mb-1 text-2xl font-bold">Eras</h2>
+    <p class="m-0 text-mi-fg-muted">Looks that actually existed, rebuilt from memory and screenshots. The gaps down the page are the gaps in years.</p>
+
+    <ol class="era-line mt-8">
+      {
+        eras.map((t, i) => (
+          <li class="era-stop" style={`--era-gap:${spacing(i)}px`}>
+            <p class="era-year">{t.year}</p>
+            <div data-theme={t.id} class="era-card rounded-mi-lg overflow-hidden">
+              <div class="wallpaper p-5">
+                <div class="panel p-6">
+                  <p class="m-0 text-sm font-semibold text-mi-fg-muted">{t.title}</p>
+                  <h3 class="mt-1 mb-2 text-2xl font-bold">{t.id}</h3>
+                  <p class="m-0 max-w-2xl text-mi-fg-muted">{t.text}</p>
+                  <div class="mt-4 flex flex-wrap items-center gap-2">
+                    <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
+                    <span class="mi-button" data-slot="button" data-variant="secondary" data-size="sm">Secondary</span>
+                    <code class="inline-code">data-theme="{t.id}"</code>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <h2 class="mt-16 mb-1 text-2xl font-bold">Styles</h2>
+    <p class="m-0 mb-6 text-mi-fg-muted">Looks that are just looks. No nostalgia required.</p>
+
+    <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {
+        styles.map((t) => (
+          <div data-theme={t.id} class="rounded-mi-lg overflow-hidden">
+            <div class="wallpaper p-4">
+              <div class="panel p-5">
+                <p class="m-0 text-sm font-semibold text-mi-fg-muted">{t.title}</p>
+                <h3 class="mt-1 mb-2 text-xl font-bold">{t.id}</h3>
+                <p class="m-0 text-sm text-mi-fg-muted">{t.text}</p>
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                  <span class="mi-button" data-slot="button" data-variant="primary" data-size="sm">Primary</span>
+                  <code class="inline-code">data-theme="{t.id}"</code>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      ))
-    }
+        ))
+      }
+    </div>
   </section>
 </Base>

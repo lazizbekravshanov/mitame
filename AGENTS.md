@@ -4,7 +4,7 @@ mitame (見た目, "the way it looks") is a copy-paste React component library. 
 
 ## What the project is
 
-- 13 components in `registry/ui`, 7 page blocks in `registry/blocks`, 18 themes in `registry/themes`.
+- 13 components in `registry/ui`, 7 page blocks in `registry/blocks`, 17 themes in `registry/themes`.
 - No runtime dependencies besides React. Dialogs use the native `<dialog>`, menus and popovers use the Popover API, form controls are real form controls. If a feature needs a dependency, that is a reason to think harder, not to add one.
 - The code a user copies is the documentation. Write it the way you would want to read it in someone else's repository.
 

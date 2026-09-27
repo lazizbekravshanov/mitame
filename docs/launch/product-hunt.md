@@ -18,11 +18,11 @@ mitame (見た目, "the way it looks") is a copy-paste React library where one c
 
 ## Gallery order
 
-1. `gallery-1-aqua.png` (Y2K aqua, the most recognizable)
-2. `gallery-4-brutalist.png` (loudest, stops the scroll)
-3. `gallery-3-platinum.png` (Vintage platinum, the biggest contrast)
-4. `gallery-5-urban.png` (dark, current)
-5. `gallery-2-liquid.png` (Now liquid glass, the trend)
+1. `gallery-aqua.png` (Y2K aqua, the most recognizable)
+2. `gallery-brutalist.png` (loudest, stops the scroll)
+3. `gallery-platinum.png` (Vintage platinum, the biggest contrast)
+4. `gallery-urban.png` (dark, current)
+5. `gallery-liquid.png` (Now liquid glass, the trend)
 6. `eras.gif` (the switch in motion), or an mp4 if you made one
 
 ## Topics

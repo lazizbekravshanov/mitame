@@ -653,14 +653,6 @@
       "css": "themes/styles/brutalist.css"
     },
     {
-      "name": "minimal",
-      "add": "minimal",
-      "group": "Styles",
-      "era": "Minimal",
-      "year": "quiet",
-      "css": "themes/styles/minimal.css"
-    },
-    {
       "name": "urban",
       "add": "urban",
       "group": "Styles",

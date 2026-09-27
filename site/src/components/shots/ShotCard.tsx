@@ -9,7 +9,6 @@ const ERA: Record<string, string> = {
   liquid: "Now · 2026",
   platinum: "Vintage · 1997",
   brutalist: "Style · brutalist",
-  minimal: "Style · minimal",
   urban: "Style · urban",
   system: "Vintage · 1984",
   aero: "Y2K · 2009",

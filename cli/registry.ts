@@ -9,7 +9,6 @@ export const THEMES: Record<string, string> = {
   liquid: "now/liquid",
   platinum: "vintage/platinum",
   brutalist: "styles/brutalist",
-  minimal: "styles/minimal",
   urban: "styles/urban",
   paper: "styles/paper",
   terminal: "styles/terminal",
