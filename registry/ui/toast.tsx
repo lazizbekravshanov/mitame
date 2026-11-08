@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { CloseIcon } from "../icons/close";
+import { modalHost, subscribeModalHost } from "../lib/modal-host";
 import { ErrorIcon } from "../icons/error";
 import { InfoIcon } from "../icons/info";
 import { SuccessIcon } from "../icons/success";
@@ -57,8 +58,38 @@ export interface ToasterProps {
 /** Render once near the root. Sits in the top layer so it shows above dialogs too. */
 export function Toaster({ position = "bottom-right" }: ToasterProps) {
   const list = useSyncExternalStore(subscribe, snapshot, snapshot);
+  // Painting above a modal dialog is not enough: everything outside the dialog's
+  // subtree is inert, clicks fall through and Tab never arrives. So the region
+  // moves inside the open dialog and comes home when the last one closes. The
+  // popover still paints in the top layer from either place.
+  const host = useSyncExternalStore(subscribeModalHost, modalHost, () => null);
   const ref = useRef<HTMLElement>(null);
+  const home = useRef<HTMLDivElement>(null);
   const paused = useRef(false);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const target = host ?? home.current;
+    if (!el || !target || el.parentNode === target) return;
+    // Moving a node closes its popover and drops focus, so put both back.
+    const focused = el.contains(document.activeElement) ? (document.activeElement as HTMLElement) : null;
+    target.appendChild(el);
+    try {
+      if (items.length) el.showPopover();
+    } catch {
+      // popover API missing or already shown
+    }
+    focused?.focus();
+  }, [host]);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const h = home.current;
+    // React tears down from home, so the region must be back there by unmount.
+    return () => {
+      if (el && h && el.parentNode !== h) h.appendChild(el);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -75,20 +106,23 @@ export function Toaster({ position = "bottom-right" }: ToasterProps) {
   }, [list]);
 
   return (
-    <section
-      ref={ref}
-      popover="manual"
-      aria-label="Notifications"
-      aria-live="polite"
-      data-slot="toaster"
-      data-position={position}
-      onPointerEnter={() => (paused.current = true)}
-      onPointerLeave={() => (paused.current = false)}
-    >
-      {list.map((t) => (
-        <ToastView key={t.id} item={t} paused={paused} />
-      ))}
-    </section>
+    // The wrapper never moves, so React keeps a stable anchor while the section travels.
+    <div ref={home} style={{ display: "contents" }}>
+      <section
+        ref={ref}
+        popover="manual"
+        aria-label="Notifications"
+        aria-live="polite"
+        data-slot="toaster"
+        data-position={position}
+        onPointerEnter={() => (paused.current = true)}
+        onPointerLeave={() => (paused.current = false)}
+      >
+        {list.map((t) => (
+          <ToastView key={t.id} item={t} paused={paused} />
+        ))}
+      </section>
+    </div>
   );
 }
 

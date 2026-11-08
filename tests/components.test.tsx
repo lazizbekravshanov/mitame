@@ -619,6 +619,99 @@ describe("Toast", () => {
   });
 });
 
+describe("Toast with a modal dialog", () => {
+  // A modal dialog makes everything outside its subtree inert, so the region
+  // has to live inside the open dialog or its toasts cannot be clicked or tabbed to.
+  it("moves the region into the open dialog and back out when it closes", async () => {
+    render(
+      <>
+        <Toaster />
+        <Dialog>
+          <DialogTrigger>Open</DialogTrigger>
+          <DialogContent>
+            <DialogTitle>Delete file?</DialogTitle>
+            <DialogClose>Cancel</DialogClose>
+          </DialogContent>
+        </Dialog>
+      </>,
+    );
+    act(() => {
+      toast({ title: "Saved", duration: Infinity });
+    });
+    const region = document.querySelector('[data-slot="toaster"]') as HTMLElement;
+    const dialog = document.querySelector("dialog")!;
+    const home = region.parentElement;
+    expect(dialog.contains(region)).toBe(false);
+
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(region.parentElement).toBe(dialog);
+    expect(isOpen(region)).toBe(true);
+
+    await userEvent.click(screen.getByRole("button", { name: "Cancel", hidden: true }));
+    expect(region.parentElement).toBe(home);
+    expect(isOpen(region)).toBe(true);
+    expect(screen.getByText("Saved")).toBeTruthy();
+    act(() => toast.dismiss());
+  });
+
+  it("follows the topmost of stacked dialogs and survives an unmount", () => {
+    const ui = (first: boolean, second: boolean) => (
+      <>
+        <Toaster />
+        <Dialog open={first}>
+          <DialogContent aria-label="First">one</DialogContent>
+        </Dialog>
+        {second && (
+          <Dialog defaultOpen>
+            <DialogContent aria-label="Second">two</DialogContent>
+          </Dialog>
+        )}
+      </>
+    );
+    const { rerender } = render(ui(true, true));
+    act(() => {
+      toast({ title: "Stacked", duration: Infinity });
+    });
+    const region = document.querySelector('[data-slot="toaster"]') as HTMLElement;
+    expect(region.parentElement).toBe(document.querySelector('dialog[aria-label="Second"]'));
+
+    // The second dialog unmounts while open: the region must escape before its node goes away.
+    rerender(ui(true, false));
+    expect(region.isConnected).toBe(true);
+    expect(region.parentElement).toBe(document.querySelector('dialog[aria-label="First"]'));
+
+    rerender(ui(false, false));
+    expect(region.parentElement?.closest("dialog")).toBeNull();
+    expect(screen.getByText("Stacked")).toBeTruthy();
+    act(() => toast.dismiss());
+  });
+
+  it("keeps focus on a toast action while the region moves", () => {
+    const ui = (open: boolean) => (
+      <>
+        <Toaster />
+        <Dialog open={open}>
+          <DialogContent>
+            <DialogTitle>Delete file?</DialogTitle>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+    const { rerender } = render(ui(false));
+    act(() => {
+      toast({ title: "Deleted", duration: Infinity, action: { label: "Undo", onClick: () => {} } });
+    });
+    const undo = screen.getByRole("button", { name: "Undo", hidden: true });
+    act(() => undo.focus());
+    rerender(ui(true));
+    expect(document.querySelector("dialog")!.contains(undo)).toBe(true);
+    expect(document.activeElement).toBe(undo);
+    rerender(ui(false));
+    expect(document.activeElement).toBe(undo);
+    act(() => toast.dismiss());
+  });
+});
+
 describe("Slider in a form", () => {
   it("resets with the form when uncontrolled", () => {
     const onValueChange = vi.fn();

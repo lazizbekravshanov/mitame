@@ -11,6 +11,7 @@ import {
 } from "react";
 import { CloseIcon } from "../icons/close";
 import { cn } from "../lib/cn";
+import { registerModalHost } from "../lib/modal-host";
 
 interface DialogContext {
   open: boolean;
@@ -91,7 +92,12 @@ export function DialogContent({
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (open && !el.open) el.showModal();
+    if (open && !el.open) {
+      el.showModal();
+      // Everything outside us is inert now, so tell the Toaster where to live.
+      // The cleanup runs on close and on unmount, before this node goes away.
+      return registerModalHost(el);
+    }
     if (!open && el.open) el.close();
   }, [open]);
 
