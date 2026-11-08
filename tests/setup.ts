@@ -19,12 +19,16 @@ Object.assign(HTMLElement.prototype, {
     if (openPopovers.has(this)) throw new DOMException("already open", "InvalidStateError");
     openPopovers.add(this);
     this.setAttribute("data-test-popover-open", "");
+    // jsdom's UA sheet keeps [popover] at display none and has no :popover-open,
+    // so without this the accessibility tree computes no name for open popovers.
+    this.style.display = "block";
     fireToggle(this, "open");
   },
   hidePopover(this: HTMLElement) {
     if (!openPopovers.has(this)) return;
     openPopovers.delete(this);
     this.removeAttribute("data-test-popover-open");
+    this.style.display = "";
     fireToggle(this, "closed");
   },
 });

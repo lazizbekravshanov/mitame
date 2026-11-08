@@ -112,9 +112,12 @@ export const components: ComponentDoc[] = [
       { name: "placeholder", type: "ReactNode", default: '"Select…"', description: "Shown when nothing is selected." },
       { name: "name", type: "string", description: "Adds a hidden input so the value is sent with forms." },
       { name: "disabled", type: "boolean", default: "false", description: "Disables the button and leaves the value out of forms." },
-      { name: "aria-label / aria-labelledby", type: "string", description: "Give it a name." },
+      { name: "aria-label / aria-labelledby", type: "string", description: "Give it a name. The chosen value stays part of the name either way." },
     ],
     keyboard: [["↓ / ↑ on the button", "Open"], ["↓ ↑ Home End", "Move"], ["Type letters", "Jump to a match"], ["Enter / Space", "Choose"], ["Esc", "Close"]],
+    notes: [
+      'The accessible name of the trigger is the label followed by the chosen value, so aria-label="Era" with Y2K chosen reads as "Era Y2K · 2001". The listbox is named by the label alone. Without a label prop the trigger is named by the value text.',
+    ],
   },
   {
     slug: "tabs",

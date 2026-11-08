@@ -234,7 +234,7 @@
         {
           "name": "aria-label / aria-labelledby",
           "type": "string",
-          "description": "Give it a name."
+          "description": "Give it a name. The chosen value stays part of the name either way."
         }
       ],
       "keyboard": [
@@ -258,6 +258,9 @@
           "Esc",
           "Close"
         ]
+      ],
+      "notes": [
+        "The accessible name of the trigger is the label followed by the chosen value, so aria-label=\"Era\" with Y2K chosen reads as \"Era Y2K · 2001\". The listbox is named by the label alone. Without a label prop the trigger is named by the value text."
       ]
     },
     {

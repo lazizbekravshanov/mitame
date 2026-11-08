@@ -92,7 +92,7 @@ describe("Select", () => {
   it("opens, moves with arrows (skipping disabled), selects with Enter", async () => {
     const onValueChange = vi.fn();
     render(<Select aria-label="Fruit" options={options} onValueChange={onValueChange} name="fruit" />);
-    const trigger = screen.getByRole("button", { name: "Fruit" });
+    const trigger = screen.getByRole("button", { name: /^Fruit/ });
     await userEvent.click(trigger);
     const list = screen.getByRole("listbox", { hidden: true });
     expect(isOpen(list)).toBe(true);
@@ -109,10 +109,36 @@ describe("Select", () => {
 
   it("typeahead jumps to a matching option", async () => {
     render(<Select aria-label="Fruit" options={options} />);
-    await userEvent.click(screen.getByRole("button", { name: "Fruit" }));
+    await userEvent.click(screen.getByRole("button", { name: /^Fruit/ }));
     await waitFor(() => expect(document.activeElement?.textContent).toBe("Apple"));
     await userEvent.keyboard("c");
     expect(document.activeElement?.textContent).toBe("Cherry");
+  });
+
+  it("keeps the chosen value in the accessible name alongside aria-label, and names the listbox", async () => {
+    render(<Select aria-label="Fruit" options={options} defaultValue="apple" />);
+    const trigger = screen.getByRole("button", { name: "Fruit Apple" });
+    await userEvent.click(trigger);
+    expect(screen.getByRole("listbox", { name: "Fruit", hidden: true })).toBeTruthy();
+  });
+
+  it("combines a consumer's aria-labelledby with the chosen value", async () => {
+    render(
+      <>
+        <span id="fruit-label">Fruit</span>
+        <Select aria-labelledby="fruit-label" options={options} defaultValue="cherry" />
+      </>,
+    );
+    const trigger = screen.getByRole("button", { name: "Fruit Cherry" });
+    await userEvent.click(trigger);
+    expect(screen.getByRole("listbox", { name: "Fruit", hidden: true })).toBeTruthy();
+  });
+
+  it("names the trigger by its value alone when no label prop is given", async () => {
+    render(<Select options={options} defaultValue="apple" />);
+    const trigger = screen.getByRole("button", { name: "Apple" });
+    await userEvent.click(trigger);
+    expect(screen.getByRole("listbox", { name: "Apple", hidden: true })).toBeTruthy();
   });
 });
 

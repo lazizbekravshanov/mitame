@@ -41,13 +41,23 @@ export function Select({
   disabled,
   id,
   className,
-  ...aria
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledby,
 }: SelectProps) {
   const [current, setCurrent] = useControllable(value, defaultValue, onValueChange);
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   const list = useRef<HTMLDivElement>(null);
-  const listId = useId();
+  const uid = useId();
+  const listId = `${uid}-list`;
+  const valueId = `${uid}-value`;
+  const triggerId = id ?? `${uid}-trigger`;
+  // aria-label on the button would replace its content in the accessible name
+  // and hide the chosen value from screen readers. So the label, whether the
+  // consumer's aria-label text (rendered as a visually hidden span) or their
+  // aria-labelledby target, is combined with the value span through
+  // aria-labelledby: the trigger reads as "label, chosen value".
+  const labelId = ariaLabelledby ?? (ariaLabel ? `${uid}-label` : undefined);
   const mounted = useMounted();
 
   usePopover(list, open, (next) => {
@@ -97,9 +107,14 @@ export function Select({
 
   return (
     <div data-slot="select" className={cn("mi-select", className)}>
+      {ariaLabel && !ariaLabelledby && (
+        <span id={labelId} data-slot="select-label">
+          {ariaLabel}
+        </span>
+      )}
       <button
         ref={trigger}
-        id={id}
+        id={triggerId}
         type="button"
         data-slot="select-trigger"
         data-placeholder={selected ? undefined : ""}
@@ -107,11 +122,11 @@ export function Select({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
+        aria-labelledby={labelId ? `${labelId} ${valueId}` : undefined}
         popoverTarget={mounted ? listId : undefined}
         onKeyDown={onTriggerKeyDown}
-        {...aria}
       >
-        <span data-slot="select-value">{selected ? selected.label : placeholder}</span>
+        <span id={valueId} data-slot="select-value">{selected ? selected.label : placeholder}</span>
         <ChevronDownIcon data-slot="select-chevron" />
       </button>
       <div
@@ -119,6 +134,7 @@ export function Select({
         id={listId}
         popover="auto"
         role="listbox"
+        aria-labelledby={labelId ?? triggerId}
         tabIndex={-1}
         data-slot="select-content"
         data-mi-floating=""
