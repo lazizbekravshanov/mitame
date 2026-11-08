@@ -24,7 +24,7 @@ npm run site:build      # the docs site
 
 Everything sits in `@layer components`, so a user's own classes and any Tailwind utility win without `!important` and without `tailwind-merge`. A stylesheet that a component can import must declare the layer order itself (`@layer theme, base, components, utilities;`), because it can be injected before `base.css` and whichever stylesheet loads first decides the order. There is a test for that.
 
-Themes use `:where([data-theme="x"])`, which has zero specificity, so base wins ties. Where base has to win outright (touch targets), its selectors are prefixed with `[data-theme]`.
+Themes use `:where([data-theme="x"])`, which has zero specificity, so base wins ties. Where base has to win outright (touch targets, the forced colors block), its selectors are prefixed with `[data-theme]`. A theme written outside `@layer components` or without `:where()` breaks that contract.
 
 ## Generated files
 

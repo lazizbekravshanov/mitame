@@ -55,4 +55,13 @@ describe("base.css forced colors", () => {
     expect(forced).toContain("::-webkit-slider-runnable-track");
     expect(forced).toContain("::-moz-range-thumb");
   });
+
+  it("keeps a focus indicator where themes draw focus as a box-shadow", () => {
+    // Most themes mark focus with box-shadow: var(--mi-ring), which this
+    // mode strips, so without an outline here Tab lands nowhere visible.
+    expect(forced).toMatch(/switch-input"\]:focus-visible \+ \[data-slot="switch-track"\][^{]*\{[^}]*outline: 2px solid/);
+    expect(forced).toMatch(/checkbox-input"\]:focus-visible \+ \[data-slot="checkbox-box"\][^{]*\{[^}]*outline: 2px solid/);
+    expect(forced).toMatch(/slider"\]:focus-visible[^{]*\{[^}]*outline: 2px solid/);
+    expect(forced).toMatch(/tabs-trigger"\]:focus-visible[^{]*\{[^}]*outline: 2px solid/);
+  });
 });

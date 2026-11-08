@@ -299,6 +299,14 @@
     [data-theme] [data-slot="slider"]::-moz-range-thumb { box-sizing: border-box; border: 1px solid ButtonText; background: Canvas; }
     /* Themes mark the active tab with a fill, which this mode erases. */
     [data-theme] [data-slot="tabs-trigger"][data-state="active"] { background: Highlight; color: HighlightText; }
+    /* Most themes draw focus as box-shadow: var(--mi-ring), which this mode
+       also strips, so Tab would land on a control with no visible focus at
+       all. An outline survives, and this rule outranks both a theme's ring
+       and its outline: none on the slider and tab trigger. */
+    [data-theme] [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"],
+    [data-theme] [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"],
+    [data-theme] [data-slot="slider"]:focus-visible,
+    [data-theme] [data-slot="tabs-trigger"]:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
