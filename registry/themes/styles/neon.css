@@ -75,7 +75,7 @@
 
   /* Inputs */
   :where([data-theme="neon"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border: 1px solid var(--mi-glass-edge);
+    border: 1px solid color-mix(in oklab, var(--mi-accent) 80%, transparent);
     border-radius: var(--mi-radius-sm);
     background: color-mix(in oklab, var(--mi-glass-tint) 80%, transparent);
     color: var(--mi-fg);
@@ -87,7 +87,7 @@
 
   /* Toggles glow when on */
   :where([data-theme="neon"]) [data-slot="checkbox-box"] {
-    border: 1px solid var(--mi-glass-edge); border-radius: 6px;
+    border: 1px solid color-mix(in oklab, var(--mi-accent) 80%, transparent); border-radius: 6px;
     background: var(--mi-glass-tint); color: var(--mi-accent-fg);
   }
   :where([data-theme="neon"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] {
@@ -97,7 +97,9 @@
   :where([data-theme="neon"]) [data-slot="switch-track"] {
     border-radius: var(--mi-radius-full);
     background: color-mix(in oklab, var(--mi-fg) 14%, transparent);
-    border: 1px solid var(--mi-glass-edge);
+    /* The glass edge glows too faintly to bound the resting track, so the
+       tube runs at near full charge. */
+    border: 1px solid color-mix(in oklab, var(--mi-accent) 80%, transparent);
   }
   :where([data-theme="neon"]) [data-slot="switch-thumb"] { border-radius: var(--mi-radius-full); background: var(--mi-fg); box-shadow: none; }
   :where([data-theme="neon"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); border-color: transparent; box-shadow: var(--mi-glow); }

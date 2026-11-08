@@ -29,7 +29,9 @@
     --mi-slider-track-h: 14px;
     /* A plotter draws at one speed, so nothing here accelerates. */
     --mi-ease: linear;
-    --mi-hair: 1px solid var(--mi-border);
+    /* The hair is the only boundary the drafted controls get, so the pen
+       presses hard enough to read at 3:1 against the sheet. */
+    --mi-hair: 1px solid color-mix(in oklab, var(--mi-fg) 60%, transparent);
     --mi-frame: 1px solid var(--mi-glass-edge);
     /* The ruling. Graphite in light mode, cyan in dark, always faint enough
        that a glyph landing on a line still reads. */

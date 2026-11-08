@@ -220,7 +220,9 @@
     transition: transform var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="pixel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
-    background: var(--mi-box), var(--mi-lip), var(--mi-accent);
+    /* A step of ink in the lit slot, or the teal sits on the parchment at
+       just under 3:1. The accent ink is dark in both modes. */
+    background: var(--mi-box), var(--mi-lip), color-mix(in oklab, var(--mi-accent) 85%, var(--mi-accent-fg));
   }
   :where([data-theme="pixel"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(22px); }
   :where([data-theme="pixel"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-marquee); outline-offset: 2px; }

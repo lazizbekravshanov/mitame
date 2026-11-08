@@ -245,13 +245,16 @@
   :where([data-theme="clay"]) [data-slot="switch-track"] {
     border: 0;
     border-radius: var(--mi-radius-full);
-    background: var(--mi-glass-tint-strong);
+    /* The hollow was a tone of the page and the shadows do not survive every
+       eye. The groove keeps the clay hue but sinks far enough to read at 3:1,
+       and the knob keeps the page colour so it reads against the groove. */
+    background: color-mix(in oklab, var(--mi-fg) 60%, var(--mi-bg));
     box-shadow: var(--mi-dent);
     transition: background-color var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="clay"]) [data-slot="switch-thumb"] {
     border-radius: var(--mi-radius-full);
-    background: var(--mi-knob);
+    background: var(--mi-bg);
     box-shadow: var(--mi-puff-sm), var(--mi-drop-sm);
     transition: transform var(--mi-duration) var(--mi-ease);
   }

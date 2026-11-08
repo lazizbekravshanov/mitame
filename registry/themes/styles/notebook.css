@@ -291,7 +291,9 @@
   :where([data-theme="notebook"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-marker); }
   :where([data-theme="notebook"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
     transform: translateX(24px);
-    background: var(--mi-fg);
+    /* The ink flips light in dark mode and disappears on the marker. The
+       marker ink stays dark in both modes. */
+    background: var(--mi-accent-fg);
   }
   :where([data-theme="notebook"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
 

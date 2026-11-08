@@ -92,7 +92,9 @@
 
   /* ---------- Inputs ---------- */
   :where([data-theme="urban"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border: 1px solid var(--mi-glass-edge);
+    /* The hairline is these controls' whole boundary, so it runs stronger
+       than the panel edge var(--mi-glass-edge) draws. */
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-sm);
     background: var(--mi-glass-tint-strong);
     color: var(--mi-fg);
@@ -107,7 +109,7 @@
 
   /* ---------- Checkbox and switch ---------- */
   :where([data-theme="urban"]) [data-slot="checkbox-box"] {
-    border: 1px solid var(--mi-glass-edge);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: 6px;
     background: var(--mi-glass-tint-strong);
     color: var(--mi-accent-fg);
@@ -122,7 +124,10 @@
     width: 46px;
     height: 26px;
     border-radius: var(--mi-radius-full);
-    background: color-mix(in oklab, var(--mi-fg) 16%, transparent);
+    /* 16% read as part of the page. The resting track is the whole control,
+       so its grey carries the 3:1 a non text boundary needs, and 52% leaves
+       the pale thumb its own 3:1 on the track in dark mode. */
+    background: color-mix(in oklab, var(--mi-fg) 52%, transparent);
     transition: background-color var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="urban"]) [data-slot="switch-thumb"] {

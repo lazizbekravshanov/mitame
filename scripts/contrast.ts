@@ -10,6 +10,11 @@
 //     panel) and fall back to the page and the panel tints.
 //  3. Anything that cannot be resolved to a flat colour (a gradient, a
 //     color-mix) is reported as unchecked instead of being silently skipped.
+//  4. Controls that carry no ink are measured on their boundaries: the switch
+//     track against what the switch sits on and the thumb against the track,
+//     in both states, and the border of a text field, select trigger or
+//     checkbox box against the surface around it, all at the 3:1 of WCAG
+//     1.4.11. The boundary is the border or the fill, whichever reads better.
 //
 // Doing it this way matters. An earlier version assumed every status token was
 // body text, so it asked brutalist to darken its flat yellow accent, when what
@@ -300,18 +305,27 @@ interface Stop {
 function parseStops(inner: string, vars: Map<string, string>): Stop[] | null {
   const out: Stop[] = [];
   for (const part of topLevelParts(inner)) {
-    const piece = part.trim();
+    let piece = part.trim();
     if (/^(to\s|[\d.-]+deg|[\d.-]+turn|circle|ellipse|at\s|from\s|closest|farthest|in\s)/i.test(piece)) continue;
-    const posMatch = piece.match(/\s(-?[\d.]+)%$/);
-    const colorText = posMatch ? piece.slice(0, posMatch.index).trim() : piece;
-    const c = resolveColor(colorText, vars);
-    if (!c) {
-      // `transparent` is a real stop: it reveals whatever is underneath.
-      if (/transparent/i.test(colorText)) out.push({ color: { r: 0, g: 0, b: 0, a: 0 }, at: posMatch ? Number(posMatch[1]) / 100 : null });
-      continue;
+    // `#fff 0 30%` is one colour with two positions: a band from 0 to 30%.
+    const ats: (number | null)[] = [];
+    for (let i = 0; i < 2; i++) {
+      const posMatch = piece.match(/\s(-?[\d.]+)%$/) ?? piece.match(/\s(0)$/);
+      if (!posMatch) break;
+      ats.unshift(Number(posMatch[1]) / 100);
+      piece = piece.slice(0, posMatch.index).trim();
     }
-    if (!("hex" in c)) return null;
-    out.push({ color: parseHex(c.hex), at: posMatch ? Number(posMatch[1]) / 100 : null });
+    if (!ats.length) ats.push(null);
+    const c = resolveColor(piece, vars);
+    for (const at of ats) {
+      if (!c) {
+        // `transparent` is a real stop: it reveals whatever is underneath.
+        if (/transparent/i.test(piece)) out.push({ color: { r: 0, g: 0, b: 0, a: 0 }, at });
+        continue;
+      }
+      if (!("hex" in c)) return null;
+      out.push({ color: parseHex(c.hex), at });
+    }
   }
   return out.length >= 2 ? out : null;
 }
@@ -364,6 +378,40 @@ function colorInShorthand(value: string, vars: Map<string, string>): Color {
     if (c && "hex" in c) return c;
   }
   return null;
+}
+
+/**
+ * The colour a border value draws, or null when it draws none. Unlike
+ * colorInShorthand this reads through a var that holds the whole shorthand
+ * (`border: var(--mi-rule)`), and it tells "no colour" apart from "a colour
+ * we cannot read", so an unresolvable border stays reported instead of
+ * passing as borderless.
+ */
+function borderPaint(value: string, vars: Map<string, string>): Color {
+  const { text, scope } = expandVars(value, vars);
+  let unresolved: Color = null;
+  // Split on spaces outside parentheses, so a color-mix() stays one piece.
+  const parts: string[] = [];
+  let depth = 0;
+  let cur = "";
+  for (const ch of text) {
+    if (ch === "(") depth++;
+    if (ch === ")") depth--;
+    if (/\s/.test(ch) && depth === 0) {
+      if (cur) parts.push(cur);
+      cur = "";
+    } else cur += ch;
+  }
+  if (cur) parts.push(cur);
+  for (const part of parts) {
+    const c = resolveColor(part, scope);
+    if (!c) continue;
+    if ("hex" in c) return c;
+    // A width or a line style is not a colour, and not a mystery either.
+    if (/^(hidden|solid|dashed|dotted|double|groove|ridge|inset|outset|[\d.]+(px|em|rem|%)?)$/i.test(c.unresolved.trim())) continue;
+    unresolved ??= c;
+  }
+  return unresolved;
 }
 
 /**
@@ -515,6 +563,8 @@ interface Merged {
   color?: { value: string; source: string };
   background?: { value: string; source: string };
   rings: Record<string, { value: string; source: string }>;
+  /** Border declarations, kept per property so `border: 0; border-bottom: ...` still reads the bottom rule. */
+  borders: Record<string, { value: string; source: string }>;
   /** Custom properties this rule sets, e.g. aqua's `--mi-tone: var(--mi-accent)`. */
   props: Record<string, string>;
   /** What a state draws to mark itself, when it is not just a fill. */
@@ -527,12 +577,15 @@ export function mergeRules(rules: Rule[]): Map<string, Merged> {
   const out = new Map<string, Merged>();
   for (const rule of rules) {
     const key = stateKey(rule.selector);
-    const entry = out.get(key) ?? { key, rings: {}, props: {} };
+    const entry = out.get(key) ?? { key, rings: {}, borders: {}, props: {} };
     const source = `${rule.file.replace(/^.*(themes|blocks)\//, "")} ${rule.selector}`.slice(0, 110);
     if (rule.decls["color"]) entry.color = { value: rule.decls["color"]!, source };
     const bg = rule.decls["background-color"] ?? rule.decls["background"];
     if (bg) entry.background = { value: bg, source };
     for (const [prop, value] of Object.entries(rule.decls)) if (prop.startsWith("--")) entry.props[prop] = value;
+    for (const [prop, value] of Object.entries(rule.decls)) {
+      if (/^border(-(top|right|bottom|left))?(-color)?$/.test(prop)) entry.borders[prop] = { value, source };
+    }
     if (rule.decls["outline"] && rule.decls["outline"] !== "none") entry.outline = { value: rule.decls["outline"]!, source };
     if (rule.decls["box-shadow"] && rule.decls["box-shadow"] !== "none") entry.shadow = { value: rule.decls["box-shadow"]!, source };
     if (rule.decls["--mi-ring"]) entry.rings["--mi-ring"] = { value: rule.decls["--mi-ring"]!, source };
@@ -578,9 +631,14 @@ function changesInk(merged: Map<string, Merged>, entry: Merged, slot: string): b
 }
 
 export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
+  // Forced colors repaints everything with the OS palette, so rules inside
+  // that block are not what the theme paints and their system keywords have
+  // no measurable value. Merged in, they bury the theme's own declarations
+  // under unresolvable ones and hide real pairs as "not flat".
+  const measurable = rules.filter((r) => !r.media.some((m) => /forced-colors/i.test(m)));
   const byMode = {
-    light: mergeRules(rules.filter((r) => ruleMode(r) !== "dark")),
-    dark: mergeRules(rules.filter((r) => ruleMode(r) !== "light")),
+    light: mergeRules(measurable.filter((r) => ruleMode(r) !== "dark")),
+    dark: mergeRules(measurable.filter((r) => ruleMode(r) !== "light")),
   };
   const merged = byMode.light;
   const out: Check[] = [];
@@ -745,6 +803,137 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
         else add(`ink over ${fill.unresolved.slice(0, 30)}`, ink.hex, "?", 0, inkDecl.source, true);
       }
     }
+
+    // ------------------------------------------------------ non text boundaries
+    // The loop above pairs inks with surfaces, and some controls have no ink:
+    // a switch is read from its track and thumb fills alone, and a text field
+    // from the border around it. WCAG 1.4.11 gives those boundaries the same
+    // 3:1 a focus ring carries. Before this block the switch produced zero
+    // pairs, which is how real failures shipped.
+
+    // What a form control can sit on. The strong tint is the controls' own
+    // fill, so a boundary is never measured against it.
+    const sitting: (readonly [string, string])[] = [["page", page]];
+    const panel = surfaces.get("panel");
+    if (panel && panel !== page) sitting.push(["panel", panel]);
+
+    /** The vars in force on one element, with each entry's props applied in cascade order. */
+    const scopeOf = (...entries: (Merged | undefined)[]): Map<string, string> => {
+      const props: Record<string, string> = {};
+      for (const e of entries) Object.assign(props, e?.props);
+      if (!Object.keys(props).length) return vars;
+      const local = new Map(vars);
+      for (const [prop, value] of Object.entries(props)) local.set(prop, value);
+      LOCAL.set(local, new Set(Object.keys(props)));
+      THEME_SCOPE.set(local, vars);
+      return local;
+    };
+
+    /** The first border colour the entries draw, most specific entry and property first. */
+    const borderOf = (entries: (Merged | undefined)[], local: Map<string, string>) => {
+      for (const prop of [
+        "border-color", "border", "border-bottom", "border-top", "border-left", "border-right",
+        "border-bottom-color", "border-top-color", "border-left-color", "border-right-color",
+      ]) {
+        for (const e of entries) {
+          const decl = e?.borders[prop];
+          if (!decl) continue;
+          const color = borderPaint(decl.value, local);
+          if (color) return { color, source: decl.source };
+        }
+      }
+      return null;
+    };
+
+    /**
+     * The boundary one element presents against `base`: its border, or its
+     * fill at the weakest sampled point, whichever reads stronger. A quiet
+     * border around a loud fill does not hide the element, and the reverse
+     * holds too, so the cue a user sees is the better of the two. A fill
+     * that cannot be fully resolved contributes nothing except its report.
+     */
+    const boundary = (
+      edge: { color: Color; source: string } | null,
+      bg: { value: string; source: string } | undefined,
+      local: Map<string, string>,
+      base: string,
+    ): { hex: string; source: string } | { unresolved: string; source: string } | null => {
+      const cues: { hex: string; source: string }[] = [];
+      let unresolved: { unresolved: string; source: string } | null = null;
+      if (edge?.color) {
+        if ("hex" in edge.color) cues.push({ hex: edge.color.hex, source: edge.source });
+        else unresolved = { unresolved: edge.color.unresolved, source: edge.source };
+      }
+      if (bg) {
+        const fills = surfaceCandidates(bg.value, local, base);
+        const flat = fills.filter((c): c is { hex: string } => !!c && "hex" in c);
+        if (flat.length && flat.length === fills.length) {
+          const weakest = flat.reduce((a, b) => (contrast(a.hex, base) <= contrast(b.hex, base) ? a : b));
+          cues.push({ hex: weakest.hex, source: bg.source });
+        } else if (fills.length) {
+          const u = fills.find((c) => c && "unresolved" in c);
+          if (u && "unresolved" in u) unresolved ??= { unresolved: u.unresolved, source: bg.source };
+        }
+      }
+      if (!cues.length) return unresolved;
+      return cues.reduce((a, b) => (contrast(a.hex, base) >= contrast(b.hex, base) ? a : b));
+    };
+
+    // The switch, in both states, because the states are the meaning.
+    const trackOff = merged.get('[data-slot="switch-track"]');
+    const trackOn = merged.get('[data-slot="switch-input"]:checked + [data-slot="switch-track"]');
+    const thumbOff = merged.get('[data-slot="switch-thumb"]');
+    const thumbOn = merged.get('[data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"]');
+    const states = [
+      { state: "off", track: [trackOff], thumb: [thumbOff] },
+      { state: "on", track: [trackOn, trackOff], thumb: [thumbOn, thumbOff] },
+    ];
+    for (const { state, track, thumb } of states) {
+      // Cascade order for custom properties: resting first, the state over it.
+      const trackVars = scopeOf(...[...track].reverse());
+      const trackBg = track.find((e) => e?.background)?.background;
+      const trackEdge = borderOf(track, trackVars);
+      const thumbVars = scopeOf(...[...thumb].reverse());
+      const thumbBg = thumb.find((e) => e?.background)?.background;
+      const thumbEdge = borderOf(thumb, thumbVars);
+      for (const [label, base] of sitting) {
+        const mark = boundary(trackEdge, trackBg, trackVars, base);
+        if (mark && "hex" in mark) add(`switch track (${state}) on the ${label}`, mark.hex, base, UI, mark.source);
+        else if (mark) add(`switch track (${state}) over ${mark.unresolved.slice(0, 30)}`, "?", "?", 0, mark.source, true);
+        // The thumb sits on the track fill over this base, or on the base
+        // itself where the track paints nothing.
+        const fills = trackBg ? surfaceCandidates(trackBg.value, trackVars, base) : [];
+        const under = fills.filter((c): c is { hex: string } => !!c && "hex" in c).map((c) => c.hex);
+        for (const on of under.length ? under : [base]) {
+          const tmark = boundary(thumbEdge, thumbBg, thumbVars, on);
+          if (tmark && "hex" in tmark) add(`switch thumb (${state}) on the track`, tmark.hex, on, UI, tmark.source);
+          else if (tmark) add(`switch thumb (${state}) over ${tmark.unresolved.slice(0, 30)}`, "?", "?", 0, tmark.source, true);
+        }
+      }
+    }
+
+    // Form controls whose resting boundary is the affordance. They are
+    // measured where the theme draws a border; a theme that draws none marks
+    // the control with a shadow or its own box art, and judging that needs a
+    // rendering, not the CSS text. The fill still counts as the stronger cue
+    // when it outreads the border, same as the switch above.
+    for (const slot of ["field-input", "select-trigger", "checkbox-box"]) {
+      const entry = merged.get(`[data-slot="${slot}"]`);
+      if (!entry) continue;
+      const local = varsFor(entry);
+      const edge = borderOf([entry], local);
+      if (!edge) continue;
+      const under = surfacesUnder(PARENT[slot] ?? null);
+      const bases =
+        under === "inherit"
+          ? sitting
+          : under.flatMap((u) => (u.color && "hex" in u.color ? [["surface under it", flatten(u.color.hex, page)] as const] : []));
+      for (const [label, base] of bases) {
+        const mark = boundary(edge, entry.background, local, base);
+        if (mark && "hex" in mark) add(`${slot} boundary on the ${label}`, mark.hex, base, UI, mark.source);
+        else if (mark) add(`${slot} boundary over ${mark.unresolved.slice(0, 30)}`, "?", "?", 0, mark.source, true);
+      }
+    }
   }
   return dedupe(out);
 }
@@ -753,7 +942,12 @@ export function checkTheme(file: TokenFile, rules: Rule[]): Check[] {
 function dedupe(checks: Check[]): Check[] {
   const seen = new Map<string, Check>();
   for (const c of checks) {
-    const key = `${c.theme}|${c.mode}|${c.fg}|${c.bg}|${c.min}|${c.advisory}|${c.pair.startsWith("focus") ? "ring" : "ink"}|${c.advisory ? c.source : ""}`;
+    // Inks collapse by colour, because the same ink on the same surface is the
+    // same claim wherever it sits. A ring is a different kind of indicator,
+    // and a control's boundary in a given state is a claim about that control,
+    // so each keeps its own row even when the colours coincide with an ink's.
+    const kind = c.pair.startsWith("focus") ? "ring" : /^switch |boundary/.test(c.pair) ? c.pair.split(" on ")[0] : "ink";
+    const key = `${c.theme}|${c.mode}|${c.fg}|${c.bg}|${c.min}|${c.advisory}|${kind}|${c.advisory ? c.source : ""}`;
     if (!seen.has(key)) seen.set(key, c);
   }
   return [...seen.values()];

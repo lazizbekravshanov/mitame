@@ -232,6 +232,11 @@
     text-shadow: var(--mi-letterpress);
     transition: box-shadow var(--mi-duration-fast) var(--mi-ease), filter var(--mi-duration-fast) var(--mi-ease);
   }
+  /* The buttons are bounded by their labels; the bare select pill is not, so
+     its seam is sewn in darker thread. */
+  :where([data-theme="linen"]) [data-slot="select-trigger"] {
+    border-color: color-mix(in oklab, var(--mi-fg) 55%, transparent);
+  }
   /* ---------- Dyed: everything that carries a colour is painted once here ----------
      The lift stops a quarter of the way down and the bottom darkens instead, so
      the middle, where a label lands, is the tone itself. The gradient is written
@@ -302,7 +307,7 @@
     text-shadow: var(--mi-letterpress);
   }
   :where([data-theme="linen"]) [data-slot="field-input"] {
-    border: 1px solid var(--mi-border);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-sm);
     background: var(--mi-glass-tint-strong);
     box-shadow: var(--mi-pressed);
@@ -321,7 +326,7 @@
 
   /* ---------- Checkbox: pressed paper, dyed once it is ticked ---------- */
   :where([data-theme="linen"]) [data-slot="checkbox-box"] {
-    border: 1px solid var(--mi-border);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-sm);
     background: var(--mi-gloss), var(--mi-glass-tint-strong);
     box-shadow: var(--mi-pressed);
@@ -334,7 +339,9 @@
 
   /* ---------- Switch: a stitched trough and a knob with its own gloss ---------- */
   :where([data-theme="linen"]) [data-slot="switch-track"] {
-    border: 1px solid var(--mi-border);
+    /* The seam is the trough's only boundary on the page, so it is sewn in
+       thread dark enough to read at 3:1. */
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-full);
     background: var(--mi-glass-tint-strong);
     box-shadow: var(--mi-pressed);
@@ -357,7 +364,7 @@
   }
   :where([data-theme="linen"]) [data-slot="switch-thumb"] {
     z-index: 1;
-    border: 1px solid var(--mi-border);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-full);
     background: var(--mi-gloss), var(--mi-face);
     box-shadow: var(--mi-raised);

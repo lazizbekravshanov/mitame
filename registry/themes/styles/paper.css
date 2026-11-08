@@ -14,7 +14,9 @@
     --mi-paper-serif: "Newsreader", "Source Serif 4", Charter, "Iowan Old Style", Georgia, serif;
     --mi-ease: cubic-bezier(0.32, 0.72, 0, 1);
     --mi-ring: 0 0 0 2px var(--mi-bg), 0 0 0 4px var(--mi-accent);
-    --mi-rule: 1px solid var(--mi-border);
+    /* The rule is the only boundary a field or a box gets, so it carries the
+       3:1 a non text indicator needs instead of the faint card hairline. */
+    --mi-rule: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
   }
 
   :where([data-theme="paper"]) :is([data-slot="card-title"], [data-slot="dialog-title"]) {
@@ -96,7 +98,8 @@
   :where([data-theme="paper"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
   :where([data-theme="paper"]) [data-slot="switch-track"] {
     width: 36px; height: 20px; border-radius: var(--mi-radius-full);
-    background: color-mix(in oklab, var(--mi-fg) 16%, transparent);
+    /* 16% read as part of the page; the resting track needs 3:1 of its own. */
+    background: color-mix(in oklab, var(--mi-fg) 55%, transparent);
   }
   :where([data-theme="paper"]) [data-slot="switch-thumb"] {
     top: 3px; left: 3px; width: 14px; height: 14px;

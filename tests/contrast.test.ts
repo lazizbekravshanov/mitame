@@ -55,8 +55,29 @@ describe("every theme", () => {
 
   it("checks a real number of pairs, so a parser regression cannot pass by finding nothing", () => {
     const enforced = checks.filter((c) => !c.advisory);
-    expect(enforced.length).toBeGreaterThan(300);
+    // Pinned on purpose: a drop means the checker stopped seeing something it
+    // used to measure. Raise it when coverage genuinely grows, never to make
+    // a red run green.
+    expect(enforced.length).toBe(1530);
     expect(new Set(enforced.map((c) => c.theme)).size).toBe(Object.keys(THEMES).length);
+  });
+
+  it("measures the switch in every theme: track against its surface, thumb against the track", () => {
+    // The switch has no ink, so before boundaries were measured it produced
+    // zero pairs, and real 1.4.11 failures shipped unseen.
+    const tracks = checks.filter((c) => !c.advisory && c.pair.startsWith("switch track"));
+    const thumbs = checks.filter((c) => !c.advisory && c.pair.startsWith("switch thumb"));
+    expect(new Set(tracks.map((c) => c.theme)).size).toBe(Object.keys(THEMES).length);
+    expect(new Set(thumbs.map((c) => c.theme)).size).toBe(Object.keys(THEMES).length);
+    for (const c of [...tracks, ...thumbs]) expect(c.min).toBe(3);
+  });
+
+  it("measures form control borders as non text boundaries", () => {
+    const borders = checks.filter((c) => !c.advisory && / boundary on /.test(c.pair));
+    for (const slot of ["field-input", "select-trigger", "checkbox-box"]) {
+      expect(borders.some((c) => c.pair.startsWith(slot))).toBe(true);
+    }
+    for (const c of borders) expect(c.min).toBe(3);
   });
 });
 

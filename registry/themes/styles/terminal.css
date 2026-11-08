@@ -74,7 +74,7 @@
 
   /* Inputs */
   :where([data-theme="terminal"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border: 1px solid var(--mi-border);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 60%, transparent);
     border-radius: 0;
     background: var(--mi-glass-tint-strong);
     color: var(--mi-fg);
@@ -91,7 +91,7 @@
   /* Checkbox: [x] and [-] */
   :where([data-theme="terminal"]) [data-slot="checkbox-box"] {
     width: 16px; height: 16px;
-    border: 1px solid var(--mi-border); border-radius: 0;
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 60%, transparent); border-radius: 0;
     background: var(--mi-glass-tint-strong); color: var(--mi-accent-fg);
   }
   :where([data-theme="terminal"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"] { background: var(--mi-accent); border-color: var(--mi-accent); }
@@ -99,7 +99,9 @@
 
   /* Switch: [ON ] / [ OFF] block */
   :where([data-theme="terminal"]) [data-slot="switch-track"] {
-    width: 40px; height: 20px; border: 1px solid var(--mi-border); border-radius: 0;
+    /* The scanline border is too faint to bound a bare track on the page, so
+       the track frame runs at phosphor strength. */
+    width: 40px; height: 20px; border: 1px solid color-mix(in oklab, var(--mi-fg) 60%, transparent); border-radius: 0;
     background: var(--mi-glass-tint-strong);
   }
   :where([data-theme="terminal"]) [data-slot="switch-thumb"] {

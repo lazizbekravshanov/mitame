@@ -159,6 +159,25 @@
     outline: 2px solid var(--mi-accent);
     outline-offset: 1px;
   }
+  /* The black bezel line vanishes on the dark page, and the sunken tint is
+     close to it too, so dark mode draws the track and thumb edges in the
+     muted ink instead. Light mode keeps the printed black. */
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="platinum"]:not([data-mode="light"])) [data-slot="switch-track"],
+    :where([data-theme="platinum"]:not([data-mode="light"])) [data-slot="switch-thumb"],
+    :where([data-theme="platinum"]:not([data-mode="light"])) [data-slot="field-input"],
+    :where([data-theme="platinum"]:not([data-mode="light"])) [data-slot="select-trigger"],
+    :where([data-theme="platinum"]:not([data-mode="light"])) [data-slot="checkbox-box"] {
+      border-color: var(--mi-fg-muted);
+    }
+  }
+  :where([data-theme="platinum"][data-mode="dark"]) [data-slot="switch-track"],
+  :where([data-theme="platinum"][data-mode="dark"]) [data-slot="switch-thumb"],
+  :where([data-theme="platinum"][data-mode="dark"]) [data-slot="field-input"],
+  :where([data-theme="platinum"][data-mode="dark"]) [data-slot="select-trigger"],
+  :where([data-theme="platinum"][data-mode="dark"]) [data-slot="checkbox-box"] {
+    border-color: var(--mi-fg-muted);
+  }
 
   /* ---------- Slider: sunken groove, raised square knob ---------- */
   :where([data-theme="platinum"]) [data-slot="slider"]::-webkit-slider-runnable-track {

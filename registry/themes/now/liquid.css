@@ -95,7 +95,9 @@
   /* ---------- Inputs (field, select trigger) ---------- */
   :where([data-theme="liquid"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
     border-radius: var(--mi-radius-sm);
-    border: 1px solid var(--mi-border);
+    /* The hairline is these controls' whole boundary, so it runs stronger
+       than the card hairline var(--mi-border) draws. */
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     background: var(--mi-glass-tint);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
@@ -132,7 +134,7 @@
   /* ---------- Checkbox ---------- */
   :where([data-theme="liquid"]) [data-slot="checkbox-box"] {
     border-radius: 6px;
-    border: 1px solid var(--mi-border);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     background: var(--mi-glass-tint);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06);
     color: var(--mi-accent-fg);
@@ -147,13 +149,15 @@
   /* ---------- Switch ---------- */
   :where([data-theme="liquid"]) [data-slot="switch-track"] {
     border-radius: var(--mi-radius-full);
-    background: color-mix(in oklab, var(--mi-fg) 14%, transparent);
+    /* 14% read as part of the page. The resting track is the whole control,
+       so its grey carries the 3:1 a non text boundary needs. */
+    background: color-mix(in oklab, var(--mi-fg) 55%, transparent);
     box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.12);
     transition: background-color var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="liquid"]) [data-slot="switch-thumb"] {
     border-radius: var(--mi-radius-full);
-    background: linear-gradient(180deg, #fff, #f1f2f5);
+    background: linear-gradient(180deg, #fff, #f7f9fc);
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.18), 0 3px 8px rgb(0 0 0 / 0.12), inset 0 0 0 0.5px rgb(0 0 0 / 0.04);
     transition: transform var(--mi-duration) var(--mi-ease), width var(--mi-duration) var(--mi-ease);
   }

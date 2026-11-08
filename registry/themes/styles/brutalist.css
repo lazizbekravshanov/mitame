@@ -125,7 +125,12 @@
     transition: transform var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { background: var(--mi-accent); }
-  :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] { transform: translateX(26px); }
+  :where([data-theme="brutalist"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] [data-slot="switch-thumb"] {
+    transform: translateX(26px);
+    /* The border token flips to white in dark mode, and white sits on the
+       yellow fill at nothing. The accent ink is black in both modes. */
+    background: var(--mi-accent-fg);
+  }
   :where([data-theme="brutalist"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { outline: var(--mi-line) solid var(--mi-fg); outline-offset: 3px; }
 
   /* ---------- Slider ---------- */

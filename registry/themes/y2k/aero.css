@@ -63,7 +63,7 @@
 
   /* Inputs: glass wells */
   :where([data-theme="aero"]) :is([data-slot="field-input"], [data-slot="select-trigger"]) {
-    border: 1px solid var(--mi-glass-edge);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-sm);
     background: var(--mi-glass-tint-strong);
     box-shadow: inset 0 2px 4px rgb(10 42 67 / 0.12);
@@ -78,7 +78,7 @@
 
   /* Checkbox and switch: glossy pills */
   :where([data-theme="aero"]) [data-slot="checkbox-box"] {
-    border: 1px solid var(--mi-glass-edge);
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: 5px;
     background: var(--mi-wet), var(--mi-glass-tint-strong);
     color: var(--mi-accent-fg);
@@ -90,18 +90,33 @@
   }
   :where([data-theme="aero"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
   :where([data-theme="aero"]) [data-slot="switch-track"] {
-    border: 1px solid var(--mi-glass-edge);
+    /* The glass edge is a white glint and the rail under it is glass on glass,
+       so the rail's rim is drawn in the deep sea ink to bound it at 3:1. */
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 55%, transparent);
     border-radius: var(--mi-radius-full);
     background: var(--mi-glass-tint);
     box-shadow: inset 0 2px 4px rgb(10 42 67 / 0.18);
   }
   :where([data-theme="aero"]) [data-slot="switch-thumb"] {
     border-radius: var(--mi-radius-full);
+    /* The marble was white glass on white glass. A rim in the page ink keeps
+       it a droplet and makes it readable on the rail. */
+    border-color: var(--mi-fg);
     background: var(--mi-wet), linear-gradient(180deg, #ffffff, #dbe9f5);
     box-shadow: 0 1px 3px rgb(10 42 67 / 0.4);
   }
   :where([data-theme="aero"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
     background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 70%, white), var(--mi-accent));
+  }
+  /* Dark mode's accent is the sky glow, and the white marble drowns in it.
+     The lit rail mixes toward the accent ink so the marble stays readable. */
+  @media (prefers-color-scheme: dark) {
+    :where([data-theme="aero"]:not([data-mode="light"])) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+      background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 58%, var(--mi-accent-fg)), color-mix(in oklab, var(--mi-accent) 70%, var(--mi-accent-fg)));
+    }
+  }
+  :where([data-theme="aero"][data-mode="dark"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    background: var(--mi-wet), linear-gradient(180deg, color-mix(in oklab, var(--mi-accent) 58%, var(--mi-accent-fg)), color-mix(in oklab, var(--mi-accent) 70%, var(--mi-accent-fg)));
   }
   :where([data-theme="aero"]) [data-slot="switch-input"]:focus-visible + [data-slot="switch-track"] { box-shadow: var(--mi-ring); }
 

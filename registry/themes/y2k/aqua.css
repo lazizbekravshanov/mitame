@@ -64,8 +64,7 @@
     :is(
       .mi-button:is([data-variant="primary"], [data-variant="danger"]),
       [data-slot="tabs-trigger"][data-state="active"],
-      [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
-      [data-slot="switch-input"]:checked + [data-slot="switch-track"]
+      [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"]
     ) {
     border-color: color-mix(in oklab, var(--mi-tone) 55%, black);
     color: var(--mi-accent-fg);
@@ -75,7 +74,12 @@
   :where([data-theme="aqua"]) .mi-button[data-variant="primary"],
   :where([data-theme="aqua"]) [data-slot="tabs-trigger"][data-state="active"],
   :where([data-theme="aqua"]) [data-slot="checkbox-input"]:is(:checked, :indeterminate) + [data-slot="checkbox-box"],
-  :where([data-theme="aqua"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] { --mi-tone: var(--mi-accent); }
+  /* The checked track leaves the gel pressed rule above so its edge can mix
+     toward the ink instead of black: black vanishes against the dark page. */
+  :where([data-theme="aqua"]) [data-slot="switch-input"]:checked + [data-slot="switch-track"] {
+    --mi-tone: var(--mi-accent);
+    border-color: color-mix(in oklab, var(--mi-accent) 55%, var(--mi-fg));
+  }
   :where([data-theme="aqua"]) .mi-button[data-variant="danger"] {
     --mi-tone: var(--mi-danger);
     /* White reads on the deep light-mode red but not on the bright dark-mode
@@ -160,7 +164,9 @@
   /* ---------- Text field ---------- */
   :where([data-theme="aqua"]) [data-slot="field-input"] {
     border-radius: 3px;
-    border: 1px solid var(--mi-edge);
+    /* The well's frame is its whole boundary, so it runs stronger than the
+       gel edge var(--mi-edge) draws. */
+    border: 1px solid color-mix(in oklab, var(--mi-fg) 50%, transparent);
     background: var(--mi-glass-tint-strong);
     box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.22);
     transition: box-shadow var(--mi-duration-fast);
@@ -180,6 +186,9 @@
     position: relative;
     padding-right: 34px;
     border-radius: var(--mi-radius-sm);
+    /* Unlike the gel buttons this control has no label of its own to bound
+       it, so its edge runs stronger than the shared gel edge. */
+    border-color: color-mix(in oklab, var(--mi-fg) 50%, transparent);
   }
   :where([data-theme="aqua"]) [data-slot="select-chevron"] { display: none; }
   :where([data-theme="aqua"]) [data-slot="select-trigger"]::before {
@@ -204,17 +213,28 @@
   :where([data-theme="aqua"]) [data-slot="select-item-check"] { order: -1; margin-left: -4px; }
 
   /* ---------- Checkbox ---------- */
-  :where([data-theme="aqua"]) [data-slot="checkbox-box"] { border-radius: 4px; color: var(--mi-accent-fg); }
+  :where([data-theme="aqua"]) [data-slot="checkbox-box"] {
+    border-radius: 4px;
+    /* The bare gel box has no label to bound it, so its edge runs stronger. */
+    border-color: color-mix(in oklab, var(--mi-fg) 50%, transparent);
+    color: var(--mi-accent-fg);
+  }
   :where([data-theme="aqua"]) [data-slot="checkbox-input"]:focus-visible + [data-slot="checkbox-box"] { box-shadow: var(--mi-ring); }
 
   /* ---------- Switch: gel track, glossy marble thumb ---------- */
   :where([data-theme="aqua"]) [data-slot="switch-track"] {
     border-radius: var(--mi-radius-full);
+    /* The gel edge is too faint to bound a bare track on the page, and the
+       track has no label to do it instead, so its edge runs stronger. */
+    border-color: color-mix(in oklab, var(--mi-fg) 50%, transparent);
     transition: filter var(--mi-duration) var(--mi-ease);
   }
   :where([data-theme="aqua"]) [data-slot="switch-thumb"] {
     top: 1px;
     border-radius: var(--mi-radius-full);
+    /* The marble was white glass on the white gel track. A rim in the ink
+       keeps it readable at rest; the shadow alone does not survive every eye. */
+    border-color: color-mix(in oklab, var(--mi-fg) 50%, transparent);
     background: radial-gradient(circle at 50% 30%, #fff 0 30%, #e9e9e9 70%, #cfcfcf 100%);
     box-shadow: 0 0 0 1px rgb(0 0 0 / 0.25), 0 1px 2px rgb(0 0 0 / 0.35);
     transition: transform var(--mi-duration) var(--mi-ease);
