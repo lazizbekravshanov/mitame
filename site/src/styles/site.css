@@ -180,14 +180,14 @@ body {
 /* ---------- Site chrome, built from theme tokens so it follows the era ---------- */
 .site-header {
   background: var(--mi-glass-tint);
-  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
   -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
   border-bottom: 1px solid var(--mi-glass-edge);
 }
 .panel {
   background: var(--mi-glass-tint);
-  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
   -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+  backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
   border: 1px solid var(--mi-glass-edge);
   border-radius: var(--mi-radius-lg);
   box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 12px 32px -12px var(--mi-glass-shadow);
@@ -214,8 +214,8 @@ body {
   color: var(--mi-fg);
   cursor: pointer;
   background: var(--mi-glass-tint);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--mi-glass-edge);
   border-radius: var(--mi-radius-md);
   box-shadow: inset 0 1px 0 var(--mi-glass-highlight);

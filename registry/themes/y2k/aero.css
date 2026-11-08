@@ -21,8 +21,8 @@
     border: 1px solid var(--mi-glass-edge);
     border-radius: var(--mi-radius-lg);
     background: var(--mi-wet), var(--mi-glass-tint);
-    backdrop-filter: var(--mi-frost);
     -webkit-backdrop-filter: var(--mi-frost);
+    backdrop-filter: var(--mi-frost);
     box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 12px 30px -10px var(--mi-glass-shadow);
   }
   :where([data-theme="aero"]) :is([data-slot="select-content"], [data-slot="menu-content"]) { border-radius: var(--mi-radius-md); background: var(--mi-wet), var(--mi-glass-tint-strong); }
@@ -141,7 +141,7 @@
   :where([data-theme="aero"]) [data-slot="tooltip"] {
     border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-sm);
     background: var(--mi-wet), var(--mi-glass-tint-strong); color: var(--mi-fg);
-    backdrop-filter: var(--mi-frost); -webkit-backdrop-filter: var(--mi-frost);
+    -webkit-backdrop-filter: var(--mi-frost); backdrop-filter: var(--mi-frost);
   }
   :where([data-theme="aero"]) [data-slot="toast-action"] {
     border: 1px solid var(--mi-glass-edge); border-radius: var(--mi-radius-full);

@@ -122,8 +122,8 @@
      of cut out of it. */
   :where([data-theme="clay"]) [data-slot="dialog"]::backdrop {
     background: color-mix(in oklab, var(--mi-fg) 34%, transparent);
-    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
   }
   :where([data-theme="clay"]) [data-slot="dialog-close-icon"] {
     border: 0;

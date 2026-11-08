@@ -139,8 +139,8 @@
     border: 1px solid var(--mi-border);
     border-radius: var(--mi-radius-md);
     background: var(--mi-glass-tint);
-    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
     -webkit-backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
+    backdrop-filter: blur(var(--mi-glass-blur)) saturate(var(--mi-glass-saturate));
     box-shadow: inset 0 1px 0 var(--mi-glass-highlight), 0 10px 22px -12px var(--mi-glass-shadow);
   }
   :where([data-theme="linen"])
@@ -428,8 +428,8 @@
   }
   :where([data-theme="linen"]) [data-slot="dialog"]::backdrop {
     background: rgb(18 15 12 / 0.45);
-    backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
   }
   :where([data-theme="linen"]) [data-slot="dialog"] {
     transition: opacity var(--mi-duration) var(--mi-ease), translate var(--mi-duration) var(--mi-ease),
