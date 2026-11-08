@@ -77,4 +77,4 @@ That path needs an existing `components.json` in the target project. `https://mi
 
 `npx @lazizbekio/mitame mcp` runs an MCP server on stdio with five tools: `list_items`, `get_item` (source plus props and keyboard), `add_items`, `init_project` and `get_theme`. It is hand written rather than built on an SDK, because the package promises no dependencies.
 
-`skills/mitame/SKILL.md` and `.claude-plugin/plugin.json` make this repository a Claude Code plugin, and `.mcp.json` wires that server up when it is installed. Every component page also has a markdown twin at `/docs/components/<name>.md`.
+`skills/mitame/SKILL.md` and `.claude-plugin/plugin.json` make this repository a Claude Code plugin, and `.mcp.json` wires that server up when it is installed. Every component page also has a markdown twin at `/docs/components/<name>.md`, and the npm package ships those twins with an llms.txt index in `dist/docs` (`npm run docs` builds them, from the same renderer as the site).

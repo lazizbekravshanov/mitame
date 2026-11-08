@@ -198,7 +198,9 @@ function handle(req: Request, ctx: { root: string; cwd: string }): void {
     return reply({
       protocolVersion: SUPPORTED.has(asked) ? asked : PROTOCOL,
       capabilities: { tools: {} },
-      serverInfo: { name: "mitame", version: "0.1.1" },
+      // meta.json carries the package version and a test keeps it current,
+      // so the server cannot keep announcing an old release.
+      serverInfo: { name: "mitame", version: meta(ctx.root).version },
       instructions: HOUSE_RULES,
     });
   }

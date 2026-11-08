@@ -34,6 +34,11 @@ describe("the MCP server speaks the protocol", () => {
     expect(init!.id).toBe(1);
     expect(init!.result!.protocolVersion).toBe("2025-06-18");
     expect((init!.result!.serverInfo as { name: string }).name).toBe("mitame");
+    // The version comes from meta.json, which has its own drift test against
+    // package.json, so a release bump cannot leave the server announcing the
+    // old number the way 0.1.1 stayed hardcoded here.
+    const pkg = JSON.parse(readFileSync(join(repo, "package.json"), "utf8")) as { version: string };
+    expect((init!.result!.serverInfo as { version: string }).version).toBe(pkg.version);
     // The notification carried no id, so it must not have produced a reply.
     expect(list!.id).toBe(2);
     expect((list!.result!.tools as { name: string }[]).map((t) => t.name)).toContain("get_item");

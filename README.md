@@ -106,7 +106,7 @@ Pin a version with `...mitame/button#v0.1.1`. That path needs an existing `compo
 npx @lazizbekio/mitame mcp     # an MCP server on stdio: list, read source, install
 ```
 
-There is also a Claude Code plugin in this repository (a skill plus that MCP server wired up), a machine readable index at [mitame.dev/llms.txt](https://mitame.dev/llms.txt), a markdown twin of every component page at `/docs/components/<name>.md`, and every component's props and keyboard map as data in `registry/meta.json`.
+There is also a Claude Code plugin in this repository (a skill plus that MCP server wired up), a machine readable index at [mitame.dev/llms.txt](https://mitame.dev/llms.txt), a markdown twin of every component page at `/docs/components/<name>.md`, and every component's props and keyboard map as data in `registry/meta.json`. The npm package ships those markdown docs too, with their own llms.txt index, in `dist/docs`.
 
 ## Components
 

@@ -1,6 +1,6 @@
 {
   "name": "@lazizbekio/mitame",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Copy-paste React components that bring old UI back to life, from 1984 Mac to 2026 liquid glass.",
   "keywords": [
     "react",
@@ -35,11 +35,13 @@
     ".claude-plugin",
     ".mcp.json",
     "AGENTS.md",
+    "CHANGELOG.md",
     "CREDITS.md"
   ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.cli.json",
+    "docs": "node scripts/build-docs.ts",
     "tokens": "node scripts/build-tokens.ts",
     "registry": "node scripts/build-registry.ts",
     "meta": "node scripts/build-meta.ts",
@@ -47,7 +49,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run typecheck && npm test && npm run build",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run docs",
     "site:dev": "astro dev --root site",
     "site:build": "astro build --root site",
     "site:preview": "astro preview --root site",

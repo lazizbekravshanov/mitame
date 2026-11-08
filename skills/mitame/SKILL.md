@@ -72,4 +72,5 @@ Every component follows the ARIA Authoring Practices pattern for its widget, and
 
 - `https://mitame.dev/llms.txt` is the machine readable index of the docs.
 - `https://mitame.dev/docs/components/<name>.md` is a plain markdown version of any component page.
+- `dist/docs` in the package holds those same markdown docs with an llms.txt index, readable offline from node_modules.
 - `registry/meta.json` in the package holds every component's props and keyboard map as data.
